@@ -25,15 +25,18 @@ dependencies {
     // 스프링 부트 2.3부터 spring-boot-starter-web 에서 제외된 validation 의존성 추가
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    // 테스트 환경을 위한 인메모리 DB 의존성 추가
-    runtimeOnly 'com.h2database:h2'
-
     // MySQL 의존성 추가
     runtimeOnly 'mysql:mysql-connector-java'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // 테스트 환경을 위한 인메모리 DB 의존성 추가
+    testRuntimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.1.4'
+    testImplementation 'io.rest-assured:rest-assured:4.3.3'
+    testImplementation 'io.rest-assured:spring-mock-mvc:4.3.3'
 }
 
 test {
