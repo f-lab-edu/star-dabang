@@ -1,9 +1,7 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://172.17.0.2:3306/yslocaldb
-    username: root
-    password: root
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
   jackson:
     deserialization:
       UNWRAP_ROOT_VALUE: true
@@ -13,3 +11,5 @@ mybatis:
     map-underscore-to-camel-case: true
     use-generated-keys: true
   mapper-locations: mapper/*.xml
+logging.level:
+  dabang.star.cafe.infrastructure.mybatis.mapper: TRACE
