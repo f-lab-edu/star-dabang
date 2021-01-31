@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/star_dabang?serverTimezone=UTC&characterEncoding=utf8&useSSL=false
+    username: root
+    password: 1585901
+    initialization-mode: never
+
+mybatis:
+  mapper-locations: classpath:mybatis-mapper/**/*.xml
+  type-aliases-package: dabang.start.cafe.domain
