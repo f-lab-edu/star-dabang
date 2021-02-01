@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+mybatis:
+  mapper-locations: classpath:mybatis-mapper/**/*.xml
+  type-aliases-package: dabang.start.cafe.domain
