@@ -1,13 +1,13 @@
 package dabang.star.cafe.dto;
 
 import lombok.Data;
-import lombok.NonNull;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Data
-public class MemberForm {
+public class MemberRequestDto {
 
     @NotBlank(message = "blank email")
     @Email(message = "not valid email format")
@@ -20,6 +20,7 @@ public class MemberForm {
     private final String nickname;
 
     @NotBlank(message = "not valid telephone")
+    @Pattern(regexp = "[0-9]{10,11}", message = "not valid telephone")
     private final String telephone;
 
     @NotBlank(message = "not valid birth day")

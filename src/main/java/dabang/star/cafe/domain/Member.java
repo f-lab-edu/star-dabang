@@ -1,6 +1,6 @@
 package dabang.star.cafe.domain;
 
-import dabang.star.cafe.dto.MemberForm;
+import dabang.star.cafe.dto.MemberRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -31,11 +31,11 @@ public class Member {
         this.birth = birth;
     }
 
-    public Member(MemberForm memberForm) {
-        this.email = memberForm.getEmail();
-        this.passwd = memberForm.getPasswd();
-        this.nickname = memberForm.getNickname();
-        this.telephone = memberForm.getTelephone();
-        this.birth = memberForm.getBirth();
+    public Member(MemberRequestDto memberRequestDto) {
+        this.email = memberRequestDto.getEmail();
+        this.passwd = memberRequestDto.getPasswd();
+        this.nickname = memberRequestDto.getNickname();
+        this.telephone = memberRequestDto.getTelephone();
+        this.birth = memberRequestDto.getBirth();
     }
 }
