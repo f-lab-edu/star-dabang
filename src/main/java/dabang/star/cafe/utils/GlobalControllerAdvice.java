@@ -1,16 +1,14 @@
-package dabang.star.cafe.exception;
+package dabang.star.cafe.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
-@RestController
 public class GlobalControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -21,7 +19,7 @@ public class GlobalControllerAdvice {
                 .get(0)
                 .getDefaultMessage();
 
-        log.info(e.getMessage());
+        log.warn(e.getMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
