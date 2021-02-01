@@ -4,8 +4,8 @@ drop table if exists member;
 create table member
 (
     member_id bigint       not null auto_increment,
-    passwd    varchar(25)  not null,
-    email     varchar(255) not null,
+    passwd    varchar(255) not null,
+    email     varchar(255) not null unique,
     phone     varchar(25)  not null,
     nickname  varchar(125) not null,
     birth     varchar(10)  not null,
