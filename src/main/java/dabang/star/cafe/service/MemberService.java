@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class MemberService {
@@ -15,5 +17,12 @@ public class MemberService {
     @Transactional
     public void join(Member member) {
         memberMapper.save(member);
+    }
+
+    public boolean duplicatedEmail(String email) {
+
+        Optional<String> findMemberEmail = memberMapper.findByEmail(email);
+
+        return findMemberEmail.isPresent();
     }
 }

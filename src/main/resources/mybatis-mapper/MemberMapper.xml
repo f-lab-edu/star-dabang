@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dabang.star.cafe.mapper.MemberMapper">
     <insert id="save">
-        insert into member (email, passwd, nickname, phone, birth) values (#{email}, #{passwd}, #{nickname}, #{telephone}, #{birth})
+        insert into member (email, passwd, nickname, phone, birth)
+        values (#{email}, #{passwd}, #{nickname}, #{telephone}, #{birth})
     </insert>
+
+    <select id="findByEmail" resultType="String">
+        select m.email
+        from member m
+        where m.email = #{email}
+    </select>
 </mapper>

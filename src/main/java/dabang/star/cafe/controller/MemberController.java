@@ -17,11 +17,26 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    /**
+     * 멤버 회원가입
+     *
+     * @param memberRequestDto 멤버 회원가입 요청 Form
+     * @return 멤버 회원가입 완료시 HttpStatus.Ok, "success" 반환 / 유효성 검증 에러시 HttpStatus.BAD_REQUEST, error message 반환
+     */
     @PostMapping
-    public ResponseEntity join(@Valid @RequestBody MemberRequestDto memberRequestDto) {
+    public ResponseEntity signUpMember(@Valid @RequestBody MemberRequestDto memberRequestDto) {
+
+        if (validEmail(memberRequestDto.getEmail())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("duplicated email");
+        }
 
         memberService.join(new Member(memberRequestDto));
 
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
+
+    private boolean validEmail(String email) {
+        return memberService.duplicatedEmail(email);
+    }
+
 }
