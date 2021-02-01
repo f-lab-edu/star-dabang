@@ -38,4 +38,8 @@ public class Member {
         this.telephone = memberRequestDto.getTelephone();
         this.birth = memberRequestDto.getBirth();
     }
+
+    public void encryptPassword(String passwd) {
+        this.passwd = passwd;
+    }
 }
