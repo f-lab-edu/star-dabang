@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="dabang.star.cafe.infrastructure.mybatis.mapper.UserMapper">
     <insert id="insert">
-        insert into users (id, email, password, nickname, tel, birthday)
-        values (#{user.id},
+        INSERT INTO users (id, email, password, nickname, tel, birthday)
+        VALUES (#{user.id},
                 #{user.email},
                 #{user.password},
                 #{user.nickname},
@@ -12,19 +12,19 @@
     </insert>
 
     <select id="findById" resultMap="user">
-        select id, email, password, nickname, tel, birthday
-        from users
-        where id = #{id}
+        SELECT id, email, password, nickname, tel, birthday
+        FROM users
+        WHERE id = #{id}
     </select>
 
     <select id="findByEmail" resultMap="user">
-        select id, email, password, nickname, tel, birthday
-        from users
-        where email = #{email}
+        SELECT id, email, password, nickname, tel, birthday
+        FROM users
+        WHERE email = #{email}
     </select>
 
     <update id="update">
-        update users
+        UPDATE users
         <set>
             <if test="user.email !=''">email=#{user.email},</if>
             <if test="user.password !=''">password = #{user.password},</if>
@@ -32,7 +32,7 @@
             <if test="user.tel !=''">tel = #{user.tel},</if>
             <if test="user.birthday != null">birthday = #{user.birthday}</if>
         </set>
-        where id = #{user.id}
+        WHERE id = #{user.id}
     </update>
 
 

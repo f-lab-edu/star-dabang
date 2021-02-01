@@ -10,6 +10,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserQueryService {
+
     private final UserReadService userReadService;
 
     public Optional<UserData> findById(String id) {

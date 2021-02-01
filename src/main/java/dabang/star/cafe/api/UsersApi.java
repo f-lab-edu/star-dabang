@@ -27,6 +27,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 public class UsersApi {
+
     private final UserRepository userRepository;
     private final UserQueryService userQueryService;
     private final EncryptService encryptService;

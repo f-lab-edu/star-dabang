@@ -9,6 +9,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
 public class User {
+
     private String id;
     private String email;
     private String password;

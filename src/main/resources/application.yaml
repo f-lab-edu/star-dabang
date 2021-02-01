@@ -6,9 +6,11 @@ spring:
     password: root
   jackson:
     deserialization:
+      # API 설계에 따라 root value 는 역직렬화 하지 않습니다.
       UNWRAP_ROOT_VALUE: true
 
 mybatis:
   configuration:
+    # Database snake case 와 Java camel case 를 매핑 시킵니다.
     map-underscore-to-camel-case: true
   mapper-locations: mapper/*.xml

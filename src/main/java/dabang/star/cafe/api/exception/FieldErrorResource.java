@@ -8,6 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FieldErrorResource {
+
     private String resource;
     private String field;
     private String code;

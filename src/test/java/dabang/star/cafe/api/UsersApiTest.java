@@ -8,6 +8,7 @@ import dabang.star.cafe.infrastructure.mybatis.readservice.UserReadService;
 import dabang.star.cafe.infrastructure.service.SHA256EncryptService;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -45,7 +46,8 @@ class UsersApiTest {
     }
 
     @Test
-    void 회원가입에_성공하는지_테스트() throws Exception {
+    @DisplayName("회원가입 요청에 성공합니다.")
+    void createUserSuccess() throws Exception {
         String email = "test@test.com";
 
         User user = new User(email, "test", "test", "01000000000", LocalDate.now());
@@ -76,7 +78,8 @@ class UsersApiTest {
     }
 
     @Test
-    void 중복된_이메일_가입시_에러를_보여주는지_테스트() throws Exception {
+    @DisplayName("중복된 이메일로 가입 요청시 에러를 보여줍니다.")
+    void showErrorForDuplicateEmail() throws Exception {
         String email = "test@test.com";
 
         when(userRepository.findByEmail(eq(email))).thenReturn(Optional.of(new User(
@@ -97,7 +100,8 @@ class UsersApiTest {
     }
 
     @Test
-    void 회원가입시_이메일_형식이_아니면_오류를_보여주는지_테스트() throws Exception {
+    @DisplayName("이메일 형식이 아닌 회원가입 요청이면 에러를 보여줍니다.")
+    void showErrorForInvalidEmail() throws Exception {
         String email = "test.com";
 
         Map<String, Object> parameter = prepareRegisterParameter(email);

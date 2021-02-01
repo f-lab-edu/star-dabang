@@ -3,6 +3,7 @@ package dabang.star.cafe.infrastructure.repository;
 import dabang.star.cafe.domain.user.User;
 import dabang.star.cafe.domain.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,8 @@ class MyBatisUserRepositoryTest {
     }
 
     @Test
-    void 유저를_저장하는데_성공하는지_테스트() {
+    @DisplayName("유저 저장에 성공해야 합니다.")
+    void saveUserSuccess() {
         userRepository.save(user);
         Optional<User> byEmail = userRepository.findByEmail("test@test.com");
         assertThat(byEmail.get()).isEqualTo(user);
