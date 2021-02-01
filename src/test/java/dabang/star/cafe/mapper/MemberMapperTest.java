@@ -21,6 +21,7 @@ class MemberMapperTest {
     @DisplayName("멤버 저장 및 이메일로 멤버 찾기")
     @Test
     public void saveAndFindEmailTest() {
+
         Member member = Member.builder()
                 .email("test@naver.com")
                 .passwd("1234")
