@@ -9,7 +9,6 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
-    use-generated-keys: true
   mapper-locations: mapper/*.xml
 logging.level:
   dabang.star.cafe.infrastructure.mybatis.mapper: TRACE
