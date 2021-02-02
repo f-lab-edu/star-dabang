@@ -1,13 +1,14 @@
-drop table if exists member;
+DROP TABLE IF EXISTS members;
 
-create table member
+CREATE TABLE members
 (
-    member_id bigint       not null auto_increment,
-    passwd    varchar(255)  not null,
-    email     varchar(255) not null unique,
-    phone     varchar(25)  not null,
-    nickname  varchar(125) not null,
-    birth     varchar(10)  not null,
-    primary key (member_id)
+    member_id BIGINT       NOT NULL AUTO_INCREMENT,
+    passwd    VARCHAR(255) NOT NULL,
+    email     VARCHAR(255) NOT NULL UNIQUE,
+    phone     VARCHAR(25)  NOT NULL,
+    nickname  VARCHAR(125) NOT NULL,
+    birth     VARCHAR(10)  NOT NULL,
+    PRIMARY KEY (member_id),
+    UNIQUE INDEX IDX_MEMBERS (email)
 );
 
