@@ -33,8 +33,8 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    private boolean validEmail(String email) {
-        return memberService.duplicatedEmail(email);
+    private void validEmail(String email) {
+        memberService.duplicatedEmail(email);
     }
 
 }
