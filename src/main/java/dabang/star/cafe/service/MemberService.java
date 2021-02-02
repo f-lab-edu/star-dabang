@@ -24,14 +24,12 @@ public class MemberService {
         memberMapper.save(member);
     }
 
-    public boolean duplicatedEmail(String email) {
+    public void duplicatedEmail(String email) {
 
         Optional<String> findMemberEmail = memberMapper.findByEmail(email);
 
         if (findMemberEmail.isPresent()) {
             throw new DuplicatedException("duplicated Email");
         }
-
-        return findMemberEmail.isPresent();
     }
 }
