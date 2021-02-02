@@ -33,7 +33,7 @@ public class UsersApi {
     private final EncryptService encryptService;
 
     @PostMapping("/users")
-    public ResponseEntity createUser(@Valid @RequestBody RegisterParam registerParam,
+    public ResponseEntity<?> createUser(@Valid @RequestBody RegisterParam registerParam,
                                      BindingResult bindingResult) {
         checkInput(registerParam, bindingResult);
         User user = new User(
