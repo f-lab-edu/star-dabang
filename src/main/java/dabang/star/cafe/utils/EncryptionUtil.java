@@ -17,7 +17,7 @@ public class EncryptionUtil {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] encodedhash = md.digest(original.getBytes(StandardCharsets.UTF_8));
 
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < encodedhash.length; i++) {
                 sb.append(Integer.toString((encodedhash[i] & 0xff) + 0x100, 16).substring(1));
             }
