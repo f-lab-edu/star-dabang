@@ -1,7 +1,7 @@
 package dabang.star.cafe.controller;
 
 import dabang.star.cafe.domain.Member;
-import dabang.star.cafe.dto.MemberRequestDto;
+import dabang.star.cafe.dto.request.SignUpRequestDto;
 import dabang.star.cafe.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,19 +20,17 @@ public class MemberController {
     /**
      * 멤버 회원가입
      *
-     * @param memberRequestDto 멤버 회원가입 요청 Form
-     * @return 멤버 회원가입 완료시 HttpStatus.Ok, "success" 반환 / 유효성 검증 에러시 HttpStatus.BAD_REQUEST, error message 반환
+     * @param signUpRequestDto 멤버 회원가입 요청 Form
+     * @return 멤버 회원가입 완료시 HttpStatus.Ok 반환 / 유효성 검증 에러시 HttpStatus.BAD_REQUEST, error message 반환
      */
     @PostMapping
-    public ResponseEntity signUpMember(@Valid @RequestBody MemberRequestDto memberRequestDto) {
+    public ResponseEntity signUpMember(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
 
-        if (validEmail(memberRequestDto.getEmail())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("duplicated email");
-        }
+        validEmail(signUpRequestDto.getEmail());
 
-        memberService.join(new Member(memberRequestDto));
+        memberService.join(new Member(signUpRequestDto));
 
-        return ResponseEntity.status(HttpStatus.OK).body("success");
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     private boolean validEmail(String email) {

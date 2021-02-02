@@ -1,6 +1,6 @@
 package dabang.star.cafe.domain;
 
-import dabang.star.cafe.dto.MemberRequestDto;
+import dabang.star.cafe.dto.request.SignUpRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +16,7 @@ public class Member {
 
     private String email;
 
-    private String passwd;
+    private String password;
 
     private String nickname;
 
@@ -24,15 +24,16 @@ public class Member {
 
     private String birth;
 
-    public Member(MemberRequestDto memberRequestDto) {
-        this.email = memberRequestDto.getEmail();
-        this.passwd = memberRequestDto.getPasswd();
-        this.nickname = memberRequestDto.getNickname();
-        this.telephone = memberRequestDto.getTelephone();
-        this.birth = memberRequestDto.getBirth();
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void encryptPassword(String passwd) {
-        this.passwd = passwd;
+    public Member(SignUpRequestDto signUpRequestDto) {
+        this.email = signUpRequestDto.getEmail();
+        this.password = signUpRequestDto.getPassword();
+        this.nickname = signUpRequestDto.getNickname();
+        this.telephone = signUpRequestDto.getTelephone();
+        this.birth = signUpRequestDto.getBirth();
     }
+
 }
