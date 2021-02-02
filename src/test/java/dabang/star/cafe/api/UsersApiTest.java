@@ -11,9 +11,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -29,6 +32,8 @@ import static org.mockito.Mockito.when;
 
 @WebMvcTest(UsersApi.class)
 @Import({UserQueryService.class, SHA256EncryptService.class})
+@ActiveProfiles("test")
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class UsersApiTest {
 
     @Autowired
@@ -78,7 +83,7 @@ class UsersApiTest {
     }
 
     @Test
-    @DisplayName("중복된 이메일로 가입 요청시 에러를 보여줍니다.")
+    @DisplayName("중복된 이메일로 가입 요청시 'duplicated email' 에러를 보여줍니다.")
     void showErrorForDuplicateEmail() throws Exception {
         String email = "test@test.com";
 
@@ -100,7 +105,7 @@ class UsersApiTest {
     }
 
     @Test
-    @DisplayName("이메일 형식이 아닌 회원가입 요청이면 에러를 보여줍니다.")
+    @DisplayName("이메일 형식이 아닌 회원가입 요청이면 'should be an email' 에러를 보여줍니다.")
     void showErrorForInvalidEmail() throws Exception {
         String email = "test.com";
 

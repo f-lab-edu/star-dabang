@@ -1,9 +1,32 @@
 spring:
+  profiles:
+    active:
+      dev
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://172.17.0.2:3306/yslocaldb
     username: root
     password: root
+  jackson:
+    deserialization:
+      # API 설계에 따라 root value 는 역직렬화 하지 않습니다.
+      UNWRAP_ROOT_VALUE: true
+
+mybatis:
+  configuration:
+    # Database snake case 와 Java camel case 를 매핑 시킵니다.
+    map-underscore-to-camel-case: true
+  mapper-locations: mapper/*.xml
+---
+spring:
+  config:
+    activate:
+      on-profile: test
   jackson:
     deserialization:
       # API 설계에 따라 root value 는 역직렬화 하지 않습니다.

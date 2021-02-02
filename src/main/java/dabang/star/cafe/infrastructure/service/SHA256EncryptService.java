@@ -15,15 +15,15 @@ public class SHA256EncryptService implements EncryptService {
             messageDigest.update(password.getBytes());
             byte[] byteData = messageDigest.digest();
 
-            StringBuffer stringBuffer = new StringBuffer();
+            StringBuilder stringBuilder = new StringBuilder();
             for (byte byteDatum : byteData) {
                 String hex = Integer.toHexString(0xff & byteDatum);
                 if (hex.length() == 1) {
-                    stringBuffer.append('0');
+                    stringBuilder.append('0');
                 }
-                stringBuffer.append(hex);
+                stringBuilder.append(hex);
             }
-            return stringBuffer.toString();
+            return stringBuilder.toString();
         } catch (Exception e) {
             throw new RuntimeException();
         }
