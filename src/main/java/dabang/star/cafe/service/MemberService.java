@@ -24,7 +24,7 @@ public class MemberService {
         memberMapper.save(member);
     }
 
-    public void duplicatedEmail(String email) {
+    public void emailCheck(String email) {
 
         Optional<String> findMemberEmail = memberMapper.findByEmail(email);
 
