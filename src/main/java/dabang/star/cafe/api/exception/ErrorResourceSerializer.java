@@ -19,7 +19,6 @@ public class ErrorResourceSerializer extends JsonSerializer<ErrorResource> {
                           SerializerProvider serializers) throws IOException, JsonProcessingException {
         Map<String, List<String>> json = new HashMap<>();
         gen.writeStartObject();
-        gen.writeObjectFieldStart("errors");
         for (FieldErrorResource fieldErrorResource : value.getFieldErrors()) {
             if (!json.containsKey(fieldErrorResource.getField())) {
                 json.put(fieldErrorResource.getField(), new ArrayList<String>());
@@ -33,7 +32,6 @@ public class ErrorResourceSerializer extends JsonSerializer<ErrorResource> {
             }
             gen.writeEndArray();
         }
-        gen.writeEndObject();
         gen.writeEndObject();
     }
 }

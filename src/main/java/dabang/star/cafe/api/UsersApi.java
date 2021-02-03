@@ -21,8 +21,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,8 +31,8 @@ public class UsersApi {
     private final EncryptService encryptService;
 
     @PostMapping("/users")
-    public ResponseEntity<?> createUser(@Valid @RequestBody RegisterParam registerParam,
-                                     BindingResult bindingResult) {
+    public ResponseEntity<UserData> createUser(@Valid @RequestBody RegisterParam registerParam,
+                                        BindingResult bindingResult) {
         checkInput(registerParam, bindingResult);
         User user = new User(
                 registerParam.getEmail(),
@@ -45,13 +43,7 @@ public class UsersApi {
         );
         userRepository.save(user);
         UserData userData = userQueryService.findById(user.getId()).get();
-        return ResponseEntity.status(201).body(userResponse(userData));
-    }
-
-    private Map<String, Object> userResponse(UserData userData) {
-        return new HashMap<String, Object>() {{
-            put("user", userData);
-        }};
+        return ResponseEntity.status(201).body(userData);
     }
 
     private void checkInput(@Valid @RequestBody RegisterParam registerParam,

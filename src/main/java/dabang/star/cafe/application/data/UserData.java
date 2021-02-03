@@ -1,5 +1,6 @@
 package dabang.star.cafe.application.data;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonRootName("user")
 public class UserData {
     private String id;
     private String email;

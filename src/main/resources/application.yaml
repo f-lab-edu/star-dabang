@@ -16,6 +16,9 @@ spring:
     deserialization:
       # API 설계에 따라 root value 는 역직렬화 하지 않습니다.
       UNWRAP_ROOT_VALUE: true
+      # API 설계에 따라 직렬화시 root value 를 추가해줍니다.
+    serialization:
+      WRAP_ROOT_VALUE: true
 
 mybatis:
   configuration:
@@ -31,6 +34,9 @@ spring:
     deserialization:
       # API 설계에 따라 root value 는 역직렬화 하지 않습니다.
       UNWRAP_ROOT_VALUE: true
+      # API 설계에 따라 직렬화시 root value 를 추가해줍니다.
+    serialization:
+      WRAP_ROOT_VALUE: true
 
 mybatis:
   configuration:
