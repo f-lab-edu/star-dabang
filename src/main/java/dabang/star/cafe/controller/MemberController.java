@@ -34,7 +34,7 @@ public class MemberController {
     }
 
     private void validEmail(String email) {
-        memberService.duplicatedEmail(email);
+        memberService.emailCheck(email);
     }
 
 }

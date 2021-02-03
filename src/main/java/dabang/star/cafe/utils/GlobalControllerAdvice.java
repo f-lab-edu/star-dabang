@@ -12,23 +12,31 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalControllerAdvice {
 
+    /**
+     * 유효하지 않은 요청 값에 대하여 에러가 발생한다
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 
+        String target = e.getBindingResult()
+                .getTarget()
+                .toString();
         String errorMessage = e.getBindingResult()
-                .getAllErrors()
-                .get(0)
+                .getFieldError()
                 .getDefaultMessage();
 
-        log.warn(String.valueOf(e));
+        log.warn("Not Valid Exception : {}", target, e);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
+    /**
+     * 유니크한 값에 대하여 중복된 값으로 요청시에 에러가 발생한다
+     */
     @ExceptionHandler(DuplicatedException.class)
     public ResponseEntity handleDuplicatedException(DuplicatedException e) {
 
-        log.warn(String.valueOf(e));
+        log.warn("Duplicated Exception", e);
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
