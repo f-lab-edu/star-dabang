@@ -23,7 +23,6 @@ public class CustomizeExceptionHandler extends ResponseEntityExceptionHandler {
                 .map(fieldError -> new FieldErrorResource(
                         fieldError.getObjectName(),
                         fieldError.getField(),
-                        fieldError.getCode(),
                         fieldError.getDefaultMessage()
                 )).collect(Collectors.toList());
 
