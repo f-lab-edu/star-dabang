@@ -1,6 +1,6 @@
-package dabang.star.cafe.utils;
+package dabang.star.cafe.api.exception;
 
-import dabang.star.cafe.exception.DuplicatedException;
+import dabang.star.cafe.api.exception.DuplicatedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
-public class GlobalControllerAdvice {
+public class CustomExceptionHandler {
 
     /**
      * 유효하지 않은 요청 값에 대하여 에러가 발생한다

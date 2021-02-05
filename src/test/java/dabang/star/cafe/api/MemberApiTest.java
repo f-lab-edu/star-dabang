@@ -1,8 +1,10 @@
-package dabang.star.cafe.controller;
+package dabang.star.cafe.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dabang.star.cafe.domain.Member;
-import dabang.star.cafe.dto.request.SignUpRequestDto;
+import dabang.star.cafe.domain.member.Member;
+import dabang.star.cafe.api.request.SignUpRequest;
+import dabang.star.cafe.domain.member.MemberRepository;
+import dabang.star.cafe.infrastructure.mapper.read.MemberReadService;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,21 +16,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-
 import static org.hamcrest.Matchers.equalTo;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class MemberControllerTest {
+class MemberApiTest {
 
-    private SignUpRequestDto signUpRequestDto;
+    private SignUpRequest signUpRequest;
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,10 +36,10 @@ class MemberControllerTest {
     public void before() {
         RestAssuredMockMvc.mockMvc(mockMvc);
 
-        signUpRequestDto = new SignUpRequestDto(
-                "test@naver.com",
+        signUpRequest = new SignUpRequest(
+                "test11@naver.com",
                 "1234",
-                "testNickName",
+                "테스트",
                 "01055555555",
                 "19960909");
     }
@@ -53,7 +49,7 @@ class MemberControllerTest {
     @Order(1)
     public void signUpMemberTest() throws Exception {
 
-        Member member = new Member(signUpRequestDto);
+        Member member = new Member(signUpRequest);
         String value = objectMapper.writeValueAsString(member);
 
         RestAssuredMockMvc
@@ -71,7 +67,7 @@ class MemberControllerTest {
     @Order(2)
     public void duplicatedEmailCheckTest() throws Exception {
 
-        Member member = new Member(signUpRequestDto);
+        Member member = new Member(signUpRequest);
         String value = objectMapper.writeValueAsString(member);
 
         RestAssuredMockMvc
@@ -87,10 +83,10 @@ class MemberControllerTest {
 
     @DisplayName("회원가입시 이메일을 입력하지 않으면 상태코드 400을 반환한다")
     @Test
-    public void validatedEmptyEmail() throws Exception {
+    public void validatedEmptyEmailTest() throws Exception {
 
-        signUpRequestDto.setEmail("");
-        Member member = new Member(signUpRequestDto);
+        signUpRequest.setEmail("");
+        Member member = new Member(signUpRequest);
         String value = objectMapper.writeValueAsString(member);
 
         RestAssuredMockMvc
@@ -106,10 +102,10 @@ class MemberControllerTest {
 
     @DisplayName("회원가입시 잘못된 이메일 형식을 입력하면 상태코드 400을 반환한다")
     @Test
-    public void validatedNotEmail() throws Exception {
+    public void validatedNotEmailTest() throws Exception {
 
-        signUpRequestDto.setEmail("test@");
-        Member member = new Member(signUpRequestDto);
+        signUpRequest.setEmail("test@");
+        Member member = new Member(signUpRequest);
         String value = objectMapper.writeValueAsString(member);
 
         RestAssuredMockMvc
@@ -125,10 +121,10 @@ class MemberControllerTest {
 
     @DisplayName("회원가입시 패스워드에 공백을 포함하면 상태코드 400을 반환한다")
     @Test
-    public void validatedEmptyPasswd() throws Exception {
+    public void validatedEmptyPasswdTest() throws Exception {
 
-        signUpRequestDto.setPassword("1 2 34");
-        Member member = new Member(signUpRequestDto);
+        signUpRequest.setPassword("1 2 34");
+        Member member = new Member(signUpRequest);
         String value = objectMapper.writeValueAsString(member);
 
         RestAssuredMockMvc
@@ -144,10 +140,10 @@ class MemberControllerTest {
 
     @DisplayName("회원가입시 닉네임에 공백을 포함하면 상태코드 400을 반환한다")
     @Test
-    public void validatedEmptyNickname() throws Exception {
+    public void validatedEmptyNicknameTest() throws Exception {
 
-        signUpRequestDto.setNickname("nick name");
-        Member member = new Member(signUpRequestDto);
+        signUpRequest.setNickname("nick name");
+        Member member = new Member(signUpRequest);
         String value = objectMapper.writeValueAsString(member);
 
         RestAssuredMockMvc
@@ -163,10 +159,10 @@ class MemberControllerTest {
 
     @DisplayName("회원가입시 핸드폰번호에 공백을 포함하면 상태코드 400을 반환한다")
     @Test
-    public void validatedEmptyPhone() throws Exception {
+    public void validatedEmptyPhoneTest() throws Exception {
 
-        signUpRequestDto.setTelephone("010 1234 5678");
-        Member member = new Member(signUpRequestDto);
+        signUpRequest.setTelephone("010 1234 5678");
+        Member member = new Member(signUpRequest);
         String value = objectMapper.writeValueAsString(member);
 
         RestAssuredMockMvc
@@ -182,10 +178,10 @@ class MemberControllerTest {
 
     @DisplayName("회원가입시 생일에 공백을 포함하면 상태코드 400을 반환한다")
     @Test
-    public void validatedEmptyBirth() throws Exception {
+    public void validatedEmptyBirthTest() throws Exception {
 
-        signUpRequestDto.setBirth("2020 09 03");
-        Member member = new Member(signUpRequestDto);
+        signUpRequest.setBirth("2020 09 03");
+        Member member = new Member(signUpRequest);
         String value = objectMapper.writeValueAsString(member);
 
         RestAssuredMockMvc

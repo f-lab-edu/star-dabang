@@ -1,4 +1,4 @@
-package dabang.star.cafe.dto.request;
+package dabang.star.cafe.api.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import javax.validation.constraints.Pattern;
 
 @Data
 @AllArgsConstructor
-public class SignUpRequestDto {
+public class SignUpRequest {
 
     @NotBlank(message = "blank email")
     @Email(message = "not valid email format")
@@ -20,7 +20,7 @@ public class SignUpRequestDto {
     private String password;
 
     @NotBlank(message = "not valid nickname")
-    @Pattern(regexp = "^[가-힣a-zA-z]{2,12}$", message = "not valid nickname")
+    @Pattern(regexp = "^[가-힣]{2,12}$", message = "not valid nickname")
     private String nickname;
 
     @NotBlank(message = "not valid telephone")
