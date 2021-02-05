@@ -27,7 +27,7 @@ public class UsersApi {
 
         String id = userApplicationService.register(registerParam, bindingResult);
         return ResponseEntity.status(201).body(
-                userApplicationService.findById(id).orElseThrow()
+                userApplicationService.findById(id).get()
         );
     }
 }
