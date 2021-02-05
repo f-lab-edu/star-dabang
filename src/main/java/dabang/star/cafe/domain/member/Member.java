@@ -1,6 +1,6 @@
-package dabang.star.cafe.domain;
+package dabang.star.cafe.domain.member;
 
-import dabang.star.cafe.dto.request.SignUpRequestDto;
+import dabang.star.cafe.api.request.SignUpRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,12 +28,12 @@ public class Member {
         this.password = password;
     }
 
-    public Member(SignUpRequestDto signUpRequestDto) {
-        this.email = signUpRequestDto.getEmail();
-        this.password = signUpRequestDto.getPassword();
-        this.nickname = signUpRequestDto.getNickname();
-        this.telephone = signUpRequestDto.getTelephone();
-        this.birth = signUpRequestDto.getBirth();
+    public Member(SignUpRequest signUpRequest) {
+        this.email = signUpRequest.getEmail();
+        this.password = signUpRequest.getPassword();
+        this.nickname = signUpRequest.getNickname();
+        this.telephone = signUpRequest.getTelephone();
+        this.birth = signUpRequest.getBirth();
     }
 
 }
