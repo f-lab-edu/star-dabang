@@ -4,7 +4,7 @@ import dabang.star.cafe.api.exception.NotAuthenticationException;
 import dabang.star.cafe.api.request.LoginRequest;
 import dabang.star.cafe.application.data.MemberId;
 import dabang.star.cafe.domain.member.EncryptService;
-import dabang.star.cafe.domain.member.LoginService;
+import dabang.star.cafe.domain.login.LoginService;
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.infrastructure.mapper.read.MemberReadService;
 import lombok.RequiredArgsConstructor;
@@ -22,26 +22,25 @@ public class SessionLoginService implements LoginService {
     private final MemberReadService memberReadService;
 
     @Override
-    public MemberId login(LoginRequest loginRequest) {
+    public Long login(String email, String password) {
 
-        String email = loginRequest.getEmail();
-        String password = loginRequest.getPassword();
+        String requestEmail = email;
+        String requestPassword = encryptService.encrypt(password);
 
-        Optional<Member> findMember = memberReadService.findByEmail(email);
+        Optional<Long> findMemberId = memberReadService.findByEmailAndPassword(requestEmail, requestPassword);
 
-        if (findMember.isPresent()) {
-            Member member = findMember.get();
-            String requestPassword = encryptService.encrypt(password);
+        if (findMemberId.isPresent()) {
+            Long memberId = findMemberId.get();
+            httpSession.setAttribute("MEMBER", memberId);
 
-            if (member.getPassword().equals(requestPassword)) {
-                httpSession.setAttribute("memberId", member.getId());
-            } else {
-                throw new NotAuthenticationException("not authentication");
-            }
-
-            return new MemberId(member.getId());
+            return memberId;
         } else {
             throw new NotAuthenticationException("not authentication");
         }
+    }
+
+    @Override
+    public void logout() {
+        httpSession.removeAttribute("MEMBER");
     }
 }

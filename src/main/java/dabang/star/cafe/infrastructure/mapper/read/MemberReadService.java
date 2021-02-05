@@ -11,4 +11,6 @@ public interface MemberReadService {
     boolean exist(String email);
 
     Optional<Member> findByEmail(String email);
+
+    Optional<Long> findByEmailAndPassword(String email, String password);
 }
