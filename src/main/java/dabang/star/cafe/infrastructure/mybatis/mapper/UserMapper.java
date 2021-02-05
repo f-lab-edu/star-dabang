@@ -13,4 +13,6 @@ public interface UserMapper {
     User findByEmail(@Param("email") String email);
 
     void update(@Param("user") User user);
+
+    boolean existsByEmail(@Param("email") String email);
 }

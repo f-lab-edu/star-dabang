@@ -10,6 +10,6 @@ public class UserService {
     private final UserRepository userRepository;
 
     public boolean exists(User user) {
-        return userRepository.findByEmail(user.getEmail()).isPresent();
+        return userRepository.existsByEmail(user.getEmail());
     }
 }

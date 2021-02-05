@@ -37,4 +37,11 @@ class MyBatisUserRepositoryTest {
         Optional<User> byEmail = userRepository.findByEmail("test@test.com");
         assertThat(byEmail.get()).isEqualTo(user);
     }
+
+    @Test
+    @DisplayName("이메일로 저장여부 검색에 성공해야 합니다.")
+    void existsByEmailSuccess() {
+        userRepository.save(user);
+        assertThat(userRepository.existsByEmail("test@test.com")).isTrue();
+    }
 }

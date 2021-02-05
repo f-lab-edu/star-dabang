@@ -35,6 +35,12 @@
         WHERE id = #{user.id}
     </update>
 
+    <select id="existsByEmail" resultType="boolean">
+        SELECT EXISTS(
+                       SELECT 1 FROM users WHERE email = #{email}
+                   )
+    </select>
+
 
     <resultMap id="user" type="dabang.star.cafe.domain.user.User">
         <id column="id" property="id"/>

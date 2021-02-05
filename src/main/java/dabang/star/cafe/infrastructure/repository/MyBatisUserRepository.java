@@ -32,4 +32,9 @@ public class MyBatisUserRepository implements UserRepository {
     public Optional<User> findByEmail(String email) {
         return Optional.ofNullable(userMapper.findByEmail(email));
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userMapper.existsByEmail(email);
+    }
 }
