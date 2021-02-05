@@ -39,7 +39,7 @@ class MyBatisUserRepositoryTest {
     }
 
     @Test
-    @DisplayName("이메일로 저장여부 검색에 성공해야 합니다.")
+    @DisplayName("이메일로 존재 여부 검색에 성공해야 합니다.")
     void existsByEmailSuccess() {
         userRepository.save(user);
         assertThat(userRepository.existsByEmail("test@test.com")).isTrue();
