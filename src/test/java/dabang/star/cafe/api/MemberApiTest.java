@@ -59,7 +59,7 @@ class MemberApiTest {
                 .when()
                 .post("/members")
                 .then()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.CREATED.value());
     }
 
     @DisplayName("회원가입시 중복된 이메일 입력하면 상태코드 409를 반환한다")

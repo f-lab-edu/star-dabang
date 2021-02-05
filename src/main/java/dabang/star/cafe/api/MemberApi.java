@@ -20,15 +20,15 @@ public class MemberApi {
     /**
      * 멤버 회원가입
      *
-     * @param SignUpRequest 멤버 회원가입 요청 Form
+     * @param  signUpRequest 회원가입 요청 폼
      * @return 멤버 회원가입 완료시 HttpStatus.Ok, ID 반환 / 유효성 검증 에러시 HttpStatus.BAD_REQUEST, error message 반환
      */
     @PostMapping()
-    public ResponseEntity signUpMember(@Valid @RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<Long> signUpMember(@Valid @RequestBody SignUpRequest signUpRequest) {
 
         Long id = memberApplicationService.join(new Member(signUpRequest));
 
-        return ResponseEntity.status(HttpStatus.OK).body(id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(id);
     }
 
     /**
