@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="dabang.star.cafe.mapper.MemberMapper">
-    <insert id="save">
+<mapper namespace="dabang.star.cafe.infrastructure.mapper.wirte.MemberMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO members (email, passwd, nickname, phone, birth)
         VALUES (#{email}, #{password}, #{nickname}, #{telephone}, #{birth})
     </insert>
 
-    <select id="findByEmail" resultType="String">
-        SELECT m.email
-        FROM members m
-        WHERE m.email = #{email}
-    </select>
+    <update id="update">
+        UPDATE members
+        <set>
+            <if test="email != null">username=#{email},</if>
+            <if test="passwd != null">password=#{password},</if>
+            <if test="nickname != null">email=#{nickname},</if>
+            <if test="telephone != null">email=#{telephone},</if>
+            <if test="birth != null">email=#{birth}</if>
+        </set>
+        where member_id=#{id}
+    </update>
+
 </mapper>
