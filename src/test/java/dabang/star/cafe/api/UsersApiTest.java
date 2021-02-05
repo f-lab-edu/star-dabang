@@ -1,6 +1,6 @@
 package dabang.star.cafe.api;
 
-import dabang.star.cafe.application.UserQueryService;
+import dabang.star.cafe.application.UserApplicationService;
 import dabang.star.cafe.application.data.UserData;
 import dabang.star.cafe.domain.user.User;
 import dabang.star.cafe.domain.user.UserRepository;
@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
 @WebMvcTest(UsersApi.class)
-@Import({UserQueryService.class, SHA256EncryptService.class})
+@Import({UserApplicationService.class, SHA256EncryptService.class})
 class UsersApiTest {
 
     @Autowired
