@@ -3,7 +3,7 @@ package dabang.star.cafe.application;
 import dabang.star.cafe.api.exception.DuplicatedException;
 import dabang.star.cafe.domain.member.EncryptService;
 import dabang.star.cafe.domain.member.Member;
-import dabang.star.cafe.infrastructure.MybatisMemberRepository;
+import dabang.star.cafe.infrastructure.repository.MybatisMemberRepository;
 import dabang.star.cafe.infrastructure.mapper.read.MemberReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
