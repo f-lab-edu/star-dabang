@@ -39,9 +39,17 @@ class MyBatisUserRepositoryTest {
     }
 
     @Test
-    @DisplayName("이메일로 존재 여부 검색에 성공해야 합니다.")
+    @DisplayName("존재하는 이메일로 검색하면 true가 리턴됩니다.")
     void existsByEmailSuccess() {
         userRepository.save(user);
         assertThat(userRepository.existsByEmail("test@test.com")).isTrue();
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 이메일로 검색하면 false가 리턴됩니다.")
+    void existsByEmailFail() {
+        String email = "tmp@tmp.com";
+        userRepository.save(user);
+        assertThat(userRepository.existsByEmail(email)).isFalse();
     }
 }
