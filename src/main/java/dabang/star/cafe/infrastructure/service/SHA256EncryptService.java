@@ -1,4 +1,4 @@
-package dabang.star.cafe.infrastructure;
+package dabang.star.cafe.infrastructure.service;
 
 import dabang.star.cafe.domain.member.EncryptService;
 import org.springframework.stereotype.Service;

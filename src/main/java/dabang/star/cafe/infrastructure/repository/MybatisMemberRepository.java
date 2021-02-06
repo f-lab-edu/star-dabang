@@ -1,4 +1,4 @@
-package dabang.star.cafe.infrastructure;
+package dabang.star.cafe.infrastructure.repository;
 
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.domain.member.MemberRepository;

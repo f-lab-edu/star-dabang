@@ -1,6 +1,5 @@
 package dabang.star.cafe.api.exception;
 
-import dabang.star.cafe.api.exception.DuplicatedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +35,16 @@ public class CustomExceptionHandler {
     @ExceptionHandler(DuplicatedException.class)
     public ResponseEntity handleDuplicatedException(DuplicatedException e) {
 
-        log.warn("Duplicated Exception", e);
+        log.warn(e.getMessage(), e);
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    }
+
+    @ExceptionHandler(NotAuthenticationException.class)
+    public ResponseEntity handleNotAuthenticationException(NotAuthenticationException e) {
+
+        log.warn(e.getMessage(), e);
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
     }
 }

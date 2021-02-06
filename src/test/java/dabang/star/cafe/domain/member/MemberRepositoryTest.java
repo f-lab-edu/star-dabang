@@ -1,6 +1,6 @@
 package dabang.star.cafe.domain.member;
 
-import dabang.star.cafe.infrastructure.MybatisMemberRepository;
+import dabang.star.cafe.infrastructure.repository.MybatisMemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @MybatisTest
