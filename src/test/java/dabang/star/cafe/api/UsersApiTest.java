@@ -4,6 +4,7 @@ import dabang.star.cafe.application.UserApplicationService;
 import dabang.star.cafe.application.data.UserData;
 import dabang.star.cafe.domain.user.User;
 import dabang.star.cafe.domain.user.UserRepository;
+import dabang.star.cafe.domain.user.UserService;
 import dabang.star.cafe.infrastructure.mybatis.readservice.UserReadService;
 import dabang.star.cafe.infrastructure.service.SHA256EncryptService;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
@@ -30,7 +31,7 @@ import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
 @WebMvcTest(UsersApi.class)
-@Import({UserApplicationService.class, SHA256EncryptService.class})
+@Import({UserApplicationService.class, UserService.class, SHA256EncryptService.class})
 class UsersApiTest {
 
     @Autowired
@@ -84,9 +85,7 @@ class UsersApiTest {
     void showErrorForDuplicateEmail() throws Exception {
         String email = "test@test.com";
 
-        when(userRepository.findByEmail(eq(email))).thenReturn(Optional.of(new User(
-                email, "test", "test", "01000000000", LocalDate.now()
-        )));
+        when(userRepository.existsByEmail(eq(email))).thenReturn(true);
         when(userRepository.findById(any())).thenReturn(Optional.empty());
 
         Map<String, Object> parameter = prepareRegisterParameter(email);
