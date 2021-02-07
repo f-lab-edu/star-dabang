@@ -1,6 +1,7 @@
 package dabang.star.cafe.application;
 
 import dabang.star.cafe.api.exception.DuplicatedException;
+import dabang.star.cafe.application.data.MemberId;
 import dabang.star.cafe.domain.member.EncryptService;
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.infrastructure.MybatisMemberRepository;
@@ -18,12 +19,14 @@ public class MemberApplicationService {
     private final EncryptService encryptService;
 
     @Transactional
-    public Long join(Member member) {
+    public MemberId join(Member member) {
 
         checkDuplicatedMember(member);
         member.setPassword(encryptService.encrypt(member.getPassword()));
 
-        return mybatisMemberRepository.save(member);
+        Long saveId = mybatisMemberRepository.save(member);
+
+        return new MemberId(saveId);
     }
 
     private void checkDuplicatedMember(Member member) {
