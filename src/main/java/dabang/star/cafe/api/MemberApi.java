@@ -1,7 +1,7 @@
 package dabang.star.cafe.api;
 
 import dabang.star.cafe.api.request.LoginRequest;
-import dabang.star.cafe.api.response.IdResponse;
+import dabang.star.cafe.application.data.MemberId;
 import dabang.star.cafe.domain.login.LoginService;
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.api.request.SignUpRequest;
@@ -41,9 +41,9 @@ public class MemberApi {
      * @return 로그인 완료시 HttpsStatus.OK, ID 반환 / 로그인 실패시 HttpsStatus.UNAUTHORIZED, error 반환
      */
     @PostMapping("/login")
-    public ResponseEntity<IdResponse> loginMember(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<MemberId> loginMember(@Valid @RequestBody LoginRequest loginRequest) {
 
-        MemberId memberId = loginService.login(loginRequest);
+        MemberId memberId = loginService.login(loginRequest.getEmail(), loginRequest.getPassword());
 
         return ResponseEntity.status(HttpStatus.OK).body(memberId);
     }
