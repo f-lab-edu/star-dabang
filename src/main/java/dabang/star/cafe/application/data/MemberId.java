@@ -1,10 +1,10 @@
 package dabang.star.cafe.application.data;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 
+@Getter
 @AllArgsConstructor
-@Data
 public class MemberId {
 
     private Long memberId;
