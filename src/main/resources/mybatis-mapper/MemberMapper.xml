@@ -7,7 +7,7 @@
         VALUES (#{email}, #{password}, #{nickname}, #{telephone}, #{birth})
     </insert>
 
-    <update id="update">
+    <update id="update" keyProperty="id">
         UPDATE members
         <set>
             <if test="email != null">username=#{email},</if>
