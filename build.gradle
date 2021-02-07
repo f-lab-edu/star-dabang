@@ -31,6 +31,12 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    // 레디스를 통해 세션 클러스터링을 지원하는 의존성 추가
+    implementation 'org.springframework.session:spring-session-data-redis'
+
+    // 스프링 데이터 레디스 의존성 추가
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
     // 테스트 환경을 위한 인메모리 DB 의존성 추가
     testRuntimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

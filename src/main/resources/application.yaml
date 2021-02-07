@@ -19,6 +19,11 @@ spring:
       # API 설계에 따라 직렬화시 root value 를 추가해줍니다.
     serialization:
       WRAP_ROOT_VALUE: true
+  session:
+    store-type: redis
+  redis:
+    host: 172.18.0.2
+    port: 6379
 
 mybatis:
   configuration:
@@ -37,6 +42,12 @@ spring:
       # API 설계에 따라 직렬화시 root value 를 추가해줍니다.
     serialization:
       WRAP_ROOT_VALUE: true
+  session:
+    store-type: none
+  data:
+    redis:
+      repositories:
+        enabled: false
 
 mybatis:
   configuration:

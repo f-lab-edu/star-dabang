@@ -1,6 +1,7 @@
 package dabang.star.cafe.application;
 
 import dabang.star.cafe.api.exception.InvalidRequestException;
+import dabang.star.cafe.api.request.LoginParam;
 import dabang.star.cafe.api.request.RegisterParam;
 import dabang.star.cafe.application.data.UserData;
 import dabang.star.cafe.domain.user.EncryptService;
@@ -19,8 +20,11 @@ import java.util.Optional;
 public class UserApplicationService {
 
     private final UserReadService userReadService;
+
     private final UserRepository userRepository;
+
     private final UserService userService;
+
     private final EncryptService encryptService;
 
     public Optional<UserData> findById(String id) {
@@ -43,5 +47,17 @@ public class UserApplicationService {
 
         userRepository.save(user);
         return user.getId();
+    }
+
+    public String existsByLoginParam(LoginParam loginParam, BindingResult bindingResult) {
+        Optional<User> userOptional = userRepository.findByEmail(loginParam.getEmail());
+
+        if (userOptional.isEmpty()
+                || !(userOptional.get().getPassword().equals(encryptService.encrypt(loginParam.getPassword())))) {
+            bindingResult.rejectValue("password", "INVALID", "invalid email or password");
+            throw new InvalidRequestException(bindingResult);
+        }
+
+        return userOptional.get().getId();
     }
 }
