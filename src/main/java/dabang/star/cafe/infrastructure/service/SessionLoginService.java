@@ -2,6 +2,7 @@ package dabang.star.cafe.infrastructure.service;
 
 import dabang.star.cafe.api.exception.NotAuthenticationException;
 import dabang.star.cafe.api.request.LoginRequest;
+import dabang.star.cafe.application.data.MemberId;
 import dabang.star.cafe.domain.member.EncryptService;
 import dabang.star.cafe.domain.member.LoginService;
 import dabang.star.cafe.domain.member.Member;
@@ -21,7 +22,7 @@ public class SessionLoginService implements LoginService {
     private final MemberReadService memberReadService;
 
     @Override
-    public Long login(LoginRequest loginRequest) {
+    public MemberId login(LoginRequest loginRequest) {
 
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
@@ -38,7 +39,7 @@ public class SessionLoginService implements LoginService {
                 throw new NotAuthenticationException("not authentication");
             }
 
-            return member.getId();
+            return new MemberId(member.getId());
         } else {
             throw new NotAuthenticationException("not authentication");
         }

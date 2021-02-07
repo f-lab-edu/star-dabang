@@ -1,7 +1,7 @@
 package dabang.star.cafe.api;
 
 import dabang.star.cafe.api.request.LoginRequest;
-import dabang.star.cafe.api.response.IdResponse;
+import dabang.star.cafe.application.data.MemberId;
 import dabang.star.cafe.domain.member.LoginService;
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.api.request.SignUpRequest;
@@ -28,11 +28,11 @@ public class MemberApi {
      * @return 멤버 회원가입 완료시 HttpStatus.Ok, ID 반환 / 유효성 검증 에러시 HttpStatus.BAD_REQUEST, error 반환
      */
     @PostMapping()
-    public ResponseEntity<IdResponse> signUpMember(@Valid @RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<MemberId> signUpMember(@Valid @RequestBody SignUpRequest signUpRequest) {
 
-        Long saveId = memberApplicationService.join(new Member(signUpRequest));
+        MemberId memberId = memberApplicationService.join(new Member(signUpRequest));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(new IdResponse(saveId));
+        return ResponseEntity.status(HttpStatus.OK).body(memberId);
     }
 
     /**
@@ -43,8 +43,8 @@ public class MemberApi {
     @PostMapping("/login")
     public ResponseEntity loginMember(@Valid @RequestBody LoginRequest loginRequest) {
 
-        Long loginId = loginService.login(loginRequest);
+        MemberId memberId = loginService.login(loginRequest);
 
-        return ResponseEntity.status(HttpStatus.OK).body(new IdResponse(loginId));
+        return ResponseEntity.status(HttpStatus.OK).body(memberId);
     }
 }

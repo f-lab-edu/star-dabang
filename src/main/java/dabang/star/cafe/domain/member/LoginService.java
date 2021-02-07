@@ -1,8 +1,9 @@
 package dabang.star.cafe.domain.member;
 
 import dabang.star.cafe.api.request.LoginRequest;
+import dabang.star.cafe.application.data.MemberId;
 
 public interface LoginService {
 
-    Long login(LoginRequest loginRequest);
+    MemberId login(LoginRequest loginRequest);
 }

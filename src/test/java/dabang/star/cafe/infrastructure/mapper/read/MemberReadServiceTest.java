@@ -16,13 +16,19 @@ class MemberReadServiceTest {
     @Autowired
     MemberReadService memberReadService;
 
-    @DisplayName("이메일이 존재하는지 확인하고 Boolean값을 리턴한다")
+    @DisplayName("이메일이 존재한다면 True 반환")
     @Test
     public void existsEmailTest() {
         boolean exist = memberReadService.exist("test1@naver.com");
-        boolean noExist = memberReadService.exist("noEmail@naver.com");
 
         assertThat(exist).isTrue();
+    }
+
+    @DisplayName("이메일이 존재하지 않으면 False 반환")
+    @Test
+    public void notExistsEmailTest() {
+        boolean noExist = memberReadService.exist("noEmail@naver.com");
+
         assertThat(noExist).isFalse();
     }
 }
