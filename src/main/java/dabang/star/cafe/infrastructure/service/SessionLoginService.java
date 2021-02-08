@@ -39,6 +39,10 @@ public class SessionLoginService implements LoginService {
 
     @Override
     public void logout() {
-        httpSession.invalidate();
+        Optional<Object> member = Optional.ofNullable(httpSession.getAttribute("MEMBER"));
+
+        if (member.isPresent()) {
+            httpSession.invalidate();
+        }
     }
 }
