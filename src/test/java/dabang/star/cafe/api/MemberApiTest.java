@@ -35,13 +35,6 @@ class MemberApiTest {
     @BeforeEach
     public void before() {
         RestAssuredMockMvc.mockMvc(mockMvc);
-
-        signUpRequest = new SignUpRequest(
-                "test11@naver.com",
-                "1234",
-                "테스트",
-                "01055555555",
-                "19960909");
     }
 
     @DisplayName("회원가입시 정상적으로 가입이 완료되면 상태코드 200을 반환한다")
@@ -49,7 +42,12 @@ class MemberApiTest {
     @Order(1)
     public void signUpMemberTest() throws Exception {
 
-        Member member = new Member(signUpRequest);
+        Member member = new Member(new SignUpRequest(
+                "test11@naver.com",
+                "1234",
+                "테스트",
+                "01055555555",
+                "19960909"));
         String value = objectMapper.writeValueAsString(member);
 
         RestAssuredMockMvc
@@ -67,7 +65,12 @@ class MemberApiTest {
     @Order(2)
     public void duplicatedEmailCheckTest() throws Exception {
 
-        Member member = new Member(signUpRequest);
+        Member member = new Member(new SignUpRequest(
+                "test11@naver.com",
+                "1234",
+                "테스트",
+                "01055555555",
+                "19960909"));
         String value = objectMapper.writeValueAsString(member);
 
         RestAssuredMockMvc
@@ -85,8 +88,12 @@ class MemberApiTest {
     @Test
     public void validatedEmptyEmailTest() throws Exception {
 
-        signUpRequest.setEmail("");
-        Member member = new Member(signUpRequest);
+        Member member = new Member(new SignUpRequest(
+                "",
+                "1234",
+                "테스트",
+                "01055555555",
+                "19960909"));
         String value = objectMapper.writeValueAsString(member);
 
         RestAssuredMockMvc
@@ -104,8 +111,12 @@ class MemberApiTest {
     @Test
     public void validatedNotEmailTest() throws Exception {
 
-        signUpRequest.setEmail("test@");
-        Member member = new Member(signUpRequest);
+        Member member = new Member(new SignUpRequest(
+                "test@",
+                "1234",
+                "테스트",
+                "01055555555",
+                "19960909"));
         String value = objectMapper.writeValueAsString(member);
 
         RestAssuredMockMvc
@@ -123,8 +134,12 @@ class MemberApiTest {
     @Test
     public void validatedEmptyPasswdTest() throws Exception {
 
-        signUpRequest.setPassword("1 2 34");
-        Member member = new Member(signUpRequest);
+        Member member = new Member(new SignUpRequest(
+                "test11@naver.com",
+                "12 3 4",
+                "테스트",
+                "01055555555",
+                "19960909"));
         String value = objectMapper.writeValueAsString(member);
 
         RestAssuredMockMvc
@@ -142,8 +157,12 @@ class MemberApiTest {
     @Test
     public void validatedEmptyNicknameTest() throws Exception {
 
-        signUpRequest.setNickname("nick name");
-        Member member = new Member(signUpRequest);
+        Member member = new Member(new SignUpRequest(
+                "test11@naver.com",
+                "1234",
+                "테 스 트",
+                "01055555555",
+                "19960909"));
         String value = objectMapper.writeValueAsString(member);
 
         RestAssuredMockMvc
@@ -161,8 +180,12 @@ class MemberApiTest {
     @Test
     public void validatedEmptyPhoneTest() throws Exception {
 
-        signUpRequest.setTelephone("010 1234 5678");
-        Member member = new Member(signUpRequest);
+        Member member = new Member(new SignUpRequest(
+                "test11@naver.com",
+                "1234",
+                "테스트",
+                "010 5555 5555",
+                "19960909"));
         String value = objectMapper.writeValueAsString(member);
 
         RestAssuredMockMvc
@@ -180,8 +203,12 @@ class MemberApiTest {
     @Test
     public void validatedEmptyBirthTest() throws Exception {
 
-        signUpRequest.setBirth("2020 09 03");
-        Member member = new Member(signUpRequest);
+        Member member = new Member(new SignUpRequest(
+                "test11@naver.com",
+                "1234",
+                "테스트",
+                "01055555555",
+                "1996 09 09"));
         String value = objectMapper.writeValueAsString(member);
 
         RestAssuredMockMvc
