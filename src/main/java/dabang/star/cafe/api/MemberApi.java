@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static dabang.star.cafe.utils.Common.RESPONSE_STATUS_OK;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/members")
@@ -59,6 +61,6 @@ public class MemberApi {
 
         loginService.logout();
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return RESPONSE_STATUS_OK;
     }
 }
