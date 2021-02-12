@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
+import static dabang.star.cafe.utils.Common.SESSION_LOGIN_MEMBER;
+
 @RequiredArgsConstructor
 @Service
 public class SessionLoginService implements LoginService {
@@ -30,7 +32,7 @@ public class SessionLoginService implements LoginService {
 
         if (findMember.isPresent()) {
             MemberLogin memberLogin = findMember.get();
-            httpSession.setAttribute("MEMBER", memberLogin.getId());
+            httpSession.setAttribute(SESSION_LOGIN_MEMBER, memberLogin.getId());
 
             return new MemberNickname(memberLogin.getNickname());
         } else {
