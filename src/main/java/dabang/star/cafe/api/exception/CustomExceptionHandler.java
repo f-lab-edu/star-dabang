@@ -35,7 +35,7 @@ public class CustomExceptionHandler {
     @ExceptionHandler(DuplicatedException.class)
     public ResponseEntity handleDuplicatedException(DuplicatedException e) {
 
-        log.warn(e.getMessage(), e);
+        log.warn("The requested value is duplicated", e);
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
@@ -43,7 +43,7 @@ public class CustomExceptionHandler {
     @ExceptionHandler(NotAuthenticationException.class)
     public ResponseEntity handleNotAuthenticationException(NotAuthenticationException e) {
 
-        log.warn(e.getMessage(), e);
+        log.warn("User failed authentication", e);
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
     }
