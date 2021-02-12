@@ -6,20 +6,11 @@
         SELECT EXISTS(SELECT m.member_id FROM members m WHERE m.email = #{email})
     </select>
 
-    <select id="findByEmail" resultMap="memberResultMap">
-        SELECT * FROM members m WHERE m.email = #{email}
+    <select id="getMemberByLogin" resultType="MemberLogin">
+        SELECT m.member_id, m.nickname
+        FROM members m
+        WHERE m.email = #{email}
+          AND m.passwd = #{password}
     </select>
 
-    <select id="findByEmailAndPassword" resultType="Long">
-        SELECT m.member_id FROM members m WHERE m.email = #{email} AND m.passwd = #{password}
-    </select>
-
-    <resultMap id="memberResultMap" type="Member">
-        <id property="id" column="member_id" />
-        <result property="email" column="email"/>
-        <result property="password" column="passwd"/>
-        <result property="nickname" column="nickname"/>
-        <result property="telephone" column="telephone"/>
-        <result property="birth" column="birth"/>
-    </resultMap>
 </mapper>
