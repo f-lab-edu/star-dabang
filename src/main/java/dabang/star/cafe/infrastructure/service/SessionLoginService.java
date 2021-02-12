@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
-import static dabang.star.cafe.utils.Common.SESSION_LOGIN_MEMBER;
+import static dabang.star.cafe.utils.Common.SESSION_MEMBER_KEY;
 
 @RequiredArgsConstructor
 @Service
@@ -32,7 +32,7 @@ public class SessionLoginService implements LoginService {
 
         if (findMember.isPresent()) {
             MemberLogin memberLogin = findMember.get();
-            httpSession.setAttribute(SESSION_LOGIN_MEMBER, memberLogin.getId());
+            httpSession.setAttribute(SESSION_MEMBER_KEY, memberLogin.getId());
 
             return new MemberNickname(memberLogin.getNickname());
         } else {
@@ -42,7 +42,7 @@ public class SessionLoginService implements LoginService {
 
     @Override
     public void logout() {
-        Optional<Object> member = Optional.ofNullable(httpSession.getAttribute("MEMBER"));
+        Optional<Object> member = Optional.ofNullable(httpSession.getAttribute(SESSION_MEMBER_KEY));
 
         if (member.isPresent()) {
             httpSession.invalidate();

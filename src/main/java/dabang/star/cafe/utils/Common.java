@@ -8,7 +8,7 @@ public class Common {
     /**
      * 상수
      */
-    public static final String SESSION_LOGIN_MEMBER = "MEMBER";
+    public static final String SESSION_MEMBER_KEY = "MEMBER";
 
     public static final ResponseEntity RESPONSE_STATUS_OK = ResponseEntity.status(HttpStatus.OK).build();
 }
