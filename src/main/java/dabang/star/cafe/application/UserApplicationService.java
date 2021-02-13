@@ -4,6 +4,7 @@ import dabang.star.cafe.api.exception.InvalidRequestException;
 import dabang.star.cafe.api.request.LoginParam;
 import dabang.star.cafe.api.request.RegisterParam;
 import dabang.star.cafe.application.data.UserData;
+import dabang.star.cafe.application.util.HttpSessionUtils;
 import dabang.star.cafe.domain.user.EncryptService;
 import dabang.star.cafe.domain.user.User;
 import dabang.star.cafe.domain.user.UserRepository;
@@ -52,12 +53,26 @@ public class UserApplicationService {
     public String existsByLoginParam(LoginParam loginParam, BindingResult bindingResult) {
         Optional<User> userOptional = userRepository.findByEmail(loginParam.getEmail());
 
-        if (userOptional.isEmpty()
-                || !(userOptional.get().getPassword().equals(encryptService.encrypt(loginParam.getPassword())))) {
+        if (!identifyUser(userOptional, loginParam)) {
             bindingResult.rejectValue("password", "INVALID", "invalid email or password");
             throw new InvalidRequestException(bindingResult);
         }
 
-        return userOptional.get().getId();
+        return userOptional.map(User::getId).get();
+    }
+
+
+    private boolean identifyUser(Optional<User> userOptional, LoginParam loginParam) {
+        return userOptional.map(User::getPassword)
+                .filter(u -> u.equals(encryptService.encrypt(loginParam.getPassword())))
+                .isPresent();
+    }
+
+    public void authenticate(String email) {
+        HttpSessionUtils.loginUser(email);
+    }
+
+    public void disapprove() {
+        HttpSessionUtils.logoutUser();
     }
 }

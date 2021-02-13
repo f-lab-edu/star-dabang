@@ -3,7 +3,6 @@ package dabang.star.cafe.api;
 import dabang.star.cafe.api.exception.InvalidRequestException;
 import dabang.star.cafe.api.request.LoginParam;
 import dabang.star.cafe.api.request.RegisterParam;
-import dabang.star.cafe.api.utils.HttpSessionUtils;
 import dabang.star.cafe.application.UserApplicationService;
 import dabang.star.cafe.application.data.UserData;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +43,7 @@ public class UsersApi {
         }
 
         String id = userApplicationService.existsByLoginParam(loginParam, bindingResult);
-        HttpSessionUtils.setLoginUserEmail(httpSession, loginParam.getEmail());
+        userApplicationService.authenticate(loginParam.getEmail());
 
         return ResponseEntity.ok(
                 userApplicationService.findById(id).get()
@@ -53,8 +52,7 @@ public class UsersApi {
 
     @GetMapping("/users/logout")
     public ResponseEntity logoutUser(HttpSession httpSession) {
-        HttpSessionUtils.removeLoginUserEmail(httpSession);
-
+        userApplicationService.disapprove();
         return ResponseEntity.status(204).build();
     }
 }
