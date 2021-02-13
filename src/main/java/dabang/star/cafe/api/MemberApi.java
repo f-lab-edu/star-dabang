@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static dabang.star.cafe.utils.Common.RESPONSE_STATUS_OK;
+import static dabang.star.cafe.utils.ResponseStatus.RESPONSE_STATUS_OK;
 
 @RequiredArgsConstructor
 @RestController
