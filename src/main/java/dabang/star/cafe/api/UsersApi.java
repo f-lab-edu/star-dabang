@@ -42,8 +42,7 @@ public class UsersApi {
             throw new InvalidRequestException(bindingResult);
         }
 
-        String id = userApplicationService.existsByLoginParam(loginParam, bindingResult);
-        userApplicationService.authenticate(loginParam.getEmail());
+        String id = userApplicationService.authenticate(loginParam, bindingResult);
 
         return ResponseEntity.ok(
                 userApplicationService.findById(id).get()

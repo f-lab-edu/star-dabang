@@ -50,7 +50,7 @@ public class UserApplicationService {
         return user.getId();
     }
 
-    public String existsByLoginParam(LoginParam loginParam, BindingResult bindingResult) {
+    public String authenticate(LoginParam loginParam, BindingResult bindingResult) {
         Optional<User> userOptional = userRepository.findByEmail(loginParam.getEmail());
 
         if (!identifyUser(userOptional, loginParam)) {
@@ -58,6 +58,7 @@ public class UserApplicationService {
             throw new InvalidRequestException(bindingResult);
         }
 
+        HttpSessionUtils.loginUser(loginParam.getEmail());
         return userOptional.map(User::getId).get();
     }
 
@@ -66,10 +67,6 @@ public class UserApplicationService {
         return userOptional.map(User::getPassword)
                 .filter(u -> u.equals(encryptService.encrypt(loginParam.getPassword())))
                 .isPresent();
-    }
-
-    public void authenticate(String email) {
-        HttpSessionUtils.loginUser(email);
     }
 
     public void disapprove() {
