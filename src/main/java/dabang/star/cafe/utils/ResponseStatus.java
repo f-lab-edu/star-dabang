@@ -5,5 +5,5 @@ import org.springframework.http.ResponseEntity;
 
 public class ResponseStatus {
 
-    public static final ResponseEntity RESPONSE_STATUS_OK = ResponseEntity.status(HttpStatus.OK).build();
+    public static final ResponseEntity OK = ResponseEntity.status(HttpStatus.OK).build();
 }

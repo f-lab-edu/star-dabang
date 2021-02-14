@@ -6,13 +6,12 @@ import dabang.star.cafe.application.data.MemberNickname;
 import dabang.star.cafe.domain.member.EncryptService;
 import dabang.star.cafe.domain.login.LoginService;
 import dabang.star.cafe.infrastructure.mapper.read.MemberReadService;
+import dabang.star.cafe.utils.SessionKey;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
-
-import static dabang.star.cafe.utils.SessionKey.SESSION_KEY_LOGIN_MEMBER_ID;
 
 @RequiredArgsConstructor
 @Service
@@ -32,7 +31,7 @@ public class SessionLoginService implements LoginService {
 
         if (findMember.isPresent()) {
             MemberLogin memberLogin = findMember.get();
-            httpSession.setAttribute(SESSION_KEY_LOGIN_MEMBER_ID, memberLogin.getId());
+            httpSession.setAttribute(SessionKey.LOGIN_MEMBER_ID, memberLogin.getId());
 
             return new MemberNickname(memberLogin.getNickname());
         } else {
@@ -42,7 +41,7 @@ public class SessionLoginService implements LoginService {
 
     @Override
     public void logout() {
-        Optional<Object> member = Optional.ofNullable(httpSession.getAttribute(SESSION_KEY_LOGIN_MEMBER_ID));
+        Optional<Object> member = Optional.ofNullable(httpSession.getAttribute(SessionKey.LOGIN_MEMBER_ID));
 
         if (member.isPresent()) {
             httpSession.invalidate();

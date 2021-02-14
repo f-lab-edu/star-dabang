@@ -7,14 +7,13 @@ import dabang.star.cafe.domain.login.LoginService;
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.api.request.SignUpRequest;
 import dabang.star.cafe.application.MemberApplicationService;
+import dabang.star.cafe.utils.ResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
-import static dabang.star.cafe.utils.ResponseStatus.RESPONSE_STATUS_OK;
 
 @RequiredArgsConstructor
 @RestController
@@ -61,6 +60,6 @@ public class MemberApi {
 
         loginService.logout();
 
-        return RESPONSE_STATUS_OK;
+        return ResponseStatus.OK;
     }
 }
