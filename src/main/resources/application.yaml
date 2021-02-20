@@ -3,8 +3,18 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/star_dabang?serverTimezone=UTC&characterEncoding=utf8&useSSL=false
     username: root
-    password: 1585901
+    password: root
     initialization-mode: never
+
+  session:
+    store-type: redis
+    redis:
+      flush-mode: immediate
+      namespace: star_dabang:session
+
+  redis:
+    host: localhost
+    port: 6379
 
 mybatis:
   mapper-locations: classpath:mybatis-mapper/**/*.xml
