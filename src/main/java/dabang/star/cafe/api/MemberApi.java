@@ -34,7 +34,7 @@ public class MemberApi {
 
         MemberId memberId = memberApplicationService.join(new Member(signUpRequest));
 
-        return ResponseEntity.status(HttpStatus.OK).body(memberId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(memberId);
     }
 
     /**

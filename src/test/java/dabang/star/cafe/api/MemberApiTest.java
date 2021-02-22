@@ -1,6 +1,7 @@
 package dabang.star.cafe.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dabang.star.cafe.api.response.ErrorResponse;
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.api.request.SignUpRequest;
 import dabang.star.cafe.domain.member.MemberRepository;
@@ -73,6 +74,9 @@ class MemberApiTest {
                 "19960909"));
         String value = objectMapper.writeValueAsString(member);
 
+        ErrorResponse errorResponse = ErrorResponse.builder().message("duplicated Email").status(HttpStatus.CONFLICT.value()).build();
+        String error = objectMapper.writeValueAsString(errorResponse);
+
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -81,7 +85,7 @@ class MemberApiTest {
                 .post("/members")
                 .then()
                 .statusCode(HttpStatus.CONFLICT.value())
-                .body(equalTo("duplicated Email"));
+                .body(equalTo(error));
     }
 
     @DisplayName("회원가입시 이메일을 입력하지 않으면 상태코드 400을 반환한다")
@@ -96,6 +100,9 @@ class MemberApiTest {
                 "19960909"));
         String value = objectMapper.writeValueAsString(member);
 
+        ErrorResponse errorResponse = ErrorResponse.builder().message("blank email").status(HttpStatus.BAD_REQUEST.value()).build();
+        String error = objectMapper.writeValueAsString(errorResponse);
+
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -104,7 +111,7 @@ class MemberApiTest {
                 .post("/members")
                 .then()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body(equalTo("blank email"));
+                .body(equalTo(error));
     }
 
     @DisplayName("회원가입시 잘못된 이메일 형식을 입력하면 상태코드 400을 반환한다")
@@ -119,6 +126,9 @@ class MemberApiTest {
                 "19960909"));
         String value = objectMapper.writeValueAsString(member);
 
+        ErrorResponse errorResponse = ErrorResponse.builder().message("not valid email format").status(HttpStatus.BAD_REQUEST.value()).build();
+        String error = objectMapper.writeValueAsString(errorResponse);
+
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -127,7 +137,7 @@ class MemberApiTest {
                 .post("/members")
                 .then()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body(equalTo("not valid email format"));
+                .body(equalTo(error));
     }
 
     @DisplayName("회원가입시 패스워드에 공백을 포함하면 상태코드 400을 반환한다")
@@ -142,6 +152,9 @@ class MemberApiTest {
                 "19960909"));
         String value = objectMapper.writeValueAsString(member);
 
+        ErrorResponse errorResponse = ErrorResponse.builder().message("not valid password").status(HttpStatus.BAD_REQUEST.value()).build();
+        String error = objectMapper.writeValueAsString(errorResponse);
+
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -150,7 +163,7 @@ class MemberApiTest {
                 .post("/members")
                 .then()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body(equalTo("not valid password"));
+                .body(equalTo(error));
     }
 
     @DisplayName("회원가입시 닉네임에 공백을 포함하면 상태코드 400을 반환한다")
@@ -165,6 +178,9 @@ class MemberApiTest {
                 "19960909"));
         String value = objectMapper.writeValueAsString(member);
 
+        ErrorResponse errorResponse = ErrorResponse.builder().message("not valid nickname").status(HttpStatus.BAD_REQUEST.value()).build();
+        String error = objectMapper.writeValueAsString(errorResponse);
+
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -173,7 +189,7 @@ class MemberApiTest {
                 .post("/members")
                 .then()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body(equalTo("not valid nickname"));
+                .body(equalTo(error));
     }
 
     @DisplayName("회원가입시 핸드폰번호에 공백을 포함하면 상태코드 400을 반환한다")
@@ -188,6 +204,9 @@ class MemberApiTest {
                 "19960909"));
         String value = objectMapper.writeValueAsString(member);
 
+        ErrorResponse errorResponse = ErrorResponse.builder().message("not valid telephone").status(HttpStatus.BAD_REQUEST.value()).build();
+        String error = objectMapper.writeValueAsString(errorResponse);
+
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -196,7 +215,7 @@ class MemberApiTest {
                 .post("/members")
                 .then()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body(equalTo("not valid telephone"));
+                .body(equalTo(error));
     }
 
     @DisplayName("회원가입시 생일에 공백을 포함하면 상태코드 400을 반환한다")
@@ -211,6 +230,9 @@ class MemberApiTest {
                 "1996 09 09"));
         String value = objectMapper.writeValueAsString(member);
 
+        ErrorResponse errorResponse = ErrorResponse.builder().message("not valid birth day").status(HttpStatus.BAD_REQUEST.value()).build();
+        String error = objectMapper.writeValueAsString(errorResponse);
+
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -219,6 +241,6 @@ class MemberApiTest {
                 .post("/members")
                 .then()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body(equalTo("not valid birth day"));
+                .body(equalTo(error));
     }
 }
