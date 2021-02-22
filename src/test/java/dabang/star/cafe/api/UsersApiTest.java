@@ -7,6 +7,7 @@ import dabang.star.cafe.domain.user.UserRepository;
 import dabang.star.cafe.domain.user.UserService;
 import dabang.star.cafe.infrastructure.mybatis.readservice.UserReadService;
 import dabang.star.cafe.infrastructure.service.SHA256EncryptService;
+import dabang.star.cafe.infrastructure.service.SessionAuthenticationService;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +32,7 @@ import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
 @WebMvcTest(UsersApi.class)
-@Import({UserApplicationService.class, UserService.class, SHA256EncryptService.class})
+@Import({UserApplicationService.class, UserService.class, SessionAuthenticationService.class, SHA256EncryptService.class})
 class UsersApiTest {
 
     @Autowired
@@ -97,11 +98,11 @@ class UsersApiTest {
                 .post("/users")
                 .then()
                 .statusCode(422)
-                .body("errors.email[0]", equalTo("duplicated email"));
+                .body("errors.message", equalTo("duplicated email"));
     }
 
     @Test
-    @DisplayName("이메일 형식이 아닌 회원가입 요청이면 'should be an email' 에러를 보여줍니다.")
+    @DisplayName("이메일 형식이 아닌 회원가입 요청이면 'invalid input value' 에러를 보여줍니다.")
     void showErrorForInvalidEmail() throws Exception {
         String email = "test.com";
 
@@ -114,7 +115,7 @@ class UsersApiTest {
                 .post("/users")
                 .then()
                 .statusCode(422)
-                .body("errors.email[0]", equalTo("should be an email"));
+                .body("errors.message", equalTo("invalid input value"));
     }
 
     private HashMap<String, Object> prepareRegisterParameter(final String email) {

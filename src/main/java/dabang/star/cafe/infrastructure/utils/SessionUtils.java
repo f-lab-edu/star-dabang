@@ -1,11 +1,11 @@
-package dabang.star.cafe.application.util;
+package dabang.star.cafe.infrastructure.utils;
 
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpSession;
 
-public class HttpSessionUtils {
+public class SessionUtils {
 
     public static final String USER_SESSION_KEY = "loginUser";
 
@@ -19,4 +19,3 @@ public class HttpSessionUtils {
         httpSession.invalidate();
     }
 }
-

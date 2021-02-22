@@ -1,34 +1,52 @@
 package dabang.star.cafe.api.exception;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestControllerAdvice
-public class CustomizeExceptionHandler extends ResponseEntityExceptionHandler {
+public class CustomizeExceptionHandler {
 
-    @ExceptionHandler({InvalidRequestException.class})
-    public ResponseEntity<ErrorResource> handleInvalidRequest(RuntimeException runtimeException,
-                                                              WebRequest request) {
-        InvalidRequestException invalidRequestException = (InvalidRequestException) runtimeException;
-        List<FieldErrorResource> errorResources = invalidRequestException.getErrors().getFieldErrors().stream()
-                .map(fieldError -> new FieldErrorResource(
-                        fieldError.getObjectName(),
-                        fieldError.getField(),
-                        fieldError.getDefaultMessage()
-                )).collect(Collectors.toList());
-
-        ErrorResource error = new ErrorResource(errorResources);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        return new ResponseEntity<>(error, httpHeaders, HttpStatus.UNPROCESSABLE_ENTITY);
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException exception) {
+        ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE, exception.getBindingResult());
+        return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
     }
+
+    @ExceptionHandler(BindException.class)
+    protected ResponseEntity<ErrorResponse> handleBindException(BindException exception) {
+        ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE, exception.getBindingResult());
+        return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    protected ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception) {
+        ErrorResponse response = ErrorResponse.of(exception);
+        return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException exception) {
+        ErrorResponse response = ErrorResponse.of(ErrorCode.METHOD_NOT_ALLOWED);
+        return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    protected ResponseEntity<ErrorResponse> handleBusinessException(BusinessException exception) {
+        ErrorCode errorCode = exception.getErrorCode();
+        ErrorResponse response = ErrorResponse.of(errorCode);
+        return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
+    }
+
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<ErrorResponse> handleException(Exception exception) {
+        ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }
