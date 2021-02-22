@@ -7,4 +7,4 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mybatis-mapper/**/*.xml
-  type-aliases-package: dabang.start.cafe.domain
+  type-aliases-package: dabang.star.cafe.domain, dabang.star.cafe.application.data
