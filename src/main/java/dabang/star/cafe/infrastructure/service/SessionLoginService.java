@@ -5,7 +5,8 @@ import dabang.star.cafe.application.data.MemberLogin;
 import dabang.star.cafe.application.data.MemberNickname;
 import dabang.star.cafe.domain.member.EncryptService;
 import dabang.star.cafe.domain.login.LoginService;
-import dabang.star.cafe.infrastructure.mapper.read.MemberReadService;
+import dabang.star.cafe.domain.member.Member;
+import dabang.star.cafe.domain.member.MemberRepository;
 import dabang.star.cafe.utils.SessionKey;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class SessionLoginService implements LoginService {
 
     private final HttpSession httpSession;
     private final EncryptService encryptService;
-    private final MemberReadService memberReadService;
+    private final MemberRepository memberRepository;
 
     @Override
     public MemberNickname login(String email, String password) {
@@ -27,7 +28,7 @@ public class SessionLoginService implements LoginService {
         String requestEmail = email;
         String requestPassword = encryptService.encrypt(password);
 
-        Optional<MemberLogin> findMember = memberReadService.getMemberByLogin(requestEmail, requestPassword);
+        Optional<MemberLogin> findMember = memberRepository.findMemberByLogin(requestEmail, requestPassword);
 
         if (findMember.isPresent()) {
             MemberLogin memberLogin = findMember.get();

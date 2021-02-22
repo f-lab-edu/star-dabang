@@ -4,8 +4,8 @@ import dabang.star.cafe.api.exception.DuplicatedException;
 import dabang.star.cafe.application.data.MemberId;
 import dabang.star.cafe.domain.member.EncryptService;
 import dabang.star.cafe.domain.member.Member;
+import dabang.star.cafe.domain.member.MemberRepository;
 import dabang.star.cafe.infrastructure.repository.MybatisMemberRepository;
-import dabang.star.cafe.infrastructure.mapper.read.MemberReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class MemberApplicationService {
 
-    private final MybatisMemberRepository mybatisMemberRepository;
-    private final MemberReadService memberReadService;
+    private final MemberRepository memberRepository;
     private final EncryptService encryptService;
 
     @Transactional
@@ -24,14 +23,14 @@ public class MemberApplicationService {
         checkDuplicatedMember(member);
         member.setPassword(encryptService.encrypt(member.getPassword()));
 
-        Long saveId = mybatisMemberRepository.save(member);
+        Long saveId = memberRepository.save(member);
 
         return new MemberId(saveId);
     }
 
     private void checkDuplicatedMember(Member member) {
 
-        if (memberReadService.exist(member.getEmail())) {
+        if (memberRepository.isExist(member.getEmail())) {
             throw new DuplicatedException("duplicated Email");
         }
     }
