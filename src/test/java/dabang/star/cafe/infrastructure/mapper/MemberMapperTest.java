@@ -1,4 +1,4 @@
-package dabang.star.cafe.infrastructure.mapper.wirte;
+package dabang.star.cafe.infrastructure.mapper;
 
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.infrastructure.mapper.MemberMapper;
@@ -38,5 +38,20 @@ class MemberMapperTest {
         memberMapper.insert(member);
 
         assertThat(member.getId()).isEqualTo(6);
+    }
+
+    @DisplayName("이메일이 존재한다면 True 반환")
+    @Test
+    public void existsEmailTest() {
+        boolean exist = memberMapper.exist("test1@naver.com");
+
+        assertThat(exist).isTrue();
+    }
+
+    @DisplayName("이메일이 존재하지 않으면 False 반환")
+    @Test
+    public void notExistsEmailTest() {        boolean noExist = memberMapper.exist("noEmail@naver.com");
+
+        assertThat(noExist).isFalse();
     }
 }
