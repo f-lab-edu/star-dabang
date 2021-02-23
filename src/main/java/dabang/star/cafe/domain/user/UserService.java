@@ -1,7 +1,6 @@
 package dabang.star.cafe.domain.user;
 
-import dabang.star.cafe.api.exception.BusinessException;
-import dabang.star.cafe.api.exception.ErrorCode;
+import dabang.star.cafe.domain.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,7 @@ public class UserService {
         String encryptedLoginPassword = encryptService.encrypt(loginPassword);
         if (userOptional.isEmpty()
                 || !userOptional.get().getPassword().equals(encryptedLoginPassword)) {
-            throw new BusinessException(ErrorCode.LOGIN_INPUT_INVALID);
+            throw new UserNotFoundException(loginEmail);
         }
 
         return userOptional.get();

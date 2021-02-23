@@ -1,5 +1,9 @@
 package dabang.star.cafe.api.exception;
 
+import dabang.star.cafe.api.exception.common.BusinessException;
+import dabang.star.cafe.api.exception.common.EntityNotFoundException;
+import dabang.star.cafe.api.exception.common.ErrorCode;
+import dabang.star.cafe.api.exception.common.InvalidValueException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -36,11 +40,23 @@ public class CustomizeExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
+    @ExceptionHandler(InvalidValueException.class)
+    protected ResponseEntity<ErrorResponse> handleInvalidValueException(InvalidValueException exception) {
+        ErrorResponse response = ErrorResponse.of(exception.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    protected ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException exception) {
+        ErrorResponse response = ErrorResponse.of(exception.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<ErrorResponse> handleBusinessException(BusinessException exception) {
         ErrorCode errorCode = exception.getErrorCode();
         ErrorResponse response = ErrorResponse.of(errorCode);
-        return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)

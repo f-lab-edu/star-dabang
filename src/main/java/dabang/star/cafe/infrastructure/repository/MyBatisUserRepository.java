@@ -15,16 +15,17 @@ public class MyBatisUserRepository implements UserRepository {
     private final UserMapper userMapper;
 
     @Override
-    public void save(User user) {
+    public Long save(User user) {
         if (userMapper.findById(user.getId()) == null) {
             userMapper.insert(user);
         } else {
             userMapper.update(user);
         }
+        return user.getId();
     }
 
     @Override
-    public Optional<User> findById(String id) {
+    public Optional<User> findById(Long id) {
         return Optional.ofNullable(userMapper.findById(id));
     }
 

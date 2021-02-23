@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserReadService {
-    UserData findById(@Param("id") String id);
+    UserData findById(@Param("id") Long id);
 
     UserData findByEmail(@Param("email") String email);
 }

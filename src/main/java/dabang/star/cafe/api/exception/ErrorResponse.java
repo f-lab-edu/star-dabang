@@ -2,6 +2,7 @@ package dabang.star.cafe.api.exception;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import dabang.star.cafe.api.exception.common.ErrorCode;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,20 +22,17 @@ import java.util.stream.Collectors;
 public class ErrorResponse {
 
     private String message;
-    private int status;
     private List<CustomFieldError> infos;
     private String code;
 
     private ErrorResponse(ErrorCode code, List<CustomFieldError> infos) {
         this.message = code.getMessage();
-        this.status = code.getStatus();
         this.infos = infos;
         this.code = code.getCode();
     }
 
     private ErrorResponse(ErrorCode code) {
         this.message = code.getMessage();
-        this.status = code.getStatus();
         this.code = code.getCode();
         this.infos = new ArrayList<>();
     }

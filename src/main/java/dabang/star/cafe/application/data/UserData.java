@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @JsonRootName("user")
 public class UserData {
-    private String id;
+    private Long id;
     private String email;
     private String nickname;
     private String tel;

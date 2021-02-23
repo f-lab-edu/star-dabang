@@ -1,13 +1,12 @@
 package dabang.star.cafe.application;
 
-import dabang.star.cafe.api.exception.BusinessException;
-import dabang.star.cafe.api.exception.ErrorCode;
 import dabang.star.cafe.api.request.RegisterParam;
 import dabang.star.cafe.application.data.UserData;
 import dabang.star.cafe.domain.user.EncryptService;
 import dabang.star.cafe.domain.user.User;
 import dabang.star.cafe.domain.user.UserRepository;
 import dabang.star.cafe.domain.user.UserService;
+import dabang.star.cafe.domain.user.exception.EmailDuplicationException;
 import dabang.star.cafe.infrastructure.mybatis.readservice.UserReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,11 +25,11 @@ public class UserApplicationService {
 
     private final EncryptService encryptService;
 
-    public Optional<UserData> findById(String id) {
+    public Optional<UserData> findById(Long id) {
         return Optional.ofNullable(userReadService.findById(id));
     }
 
-    public String register(RegisterParam registerParam) {
+    public Long register(RegisterParam registerParam) {
         User user = new User(
                 registerParam.getEmail(),
                 encryptService.encrypt(registerParam.getPassword()),
@@ -40,7 +39,7 @@ public class UserApplicationService {
         );
 
         if (userService.exists(user)) {
-            throw new BusinessException(ErrorCode.EMAIL_DUPLICATION);
+            throw new EmailDuplicationException(user.getEmail());
         }
 
         userRepository.save(user);

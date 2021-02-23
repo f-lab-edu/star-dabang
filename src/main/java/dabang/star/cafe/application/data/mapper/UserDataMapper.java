@@ -5,5 +5,5 @@ import dabang.star.cafe.domain.user.User;
 import org.mapstruct.Mapper;
 
 @Mapper
-public interface UserDataMapper extends GenericMapper<UserData, User>{
+public interface UserDataMapper extends GenericMapper<UserData, User> {
 }

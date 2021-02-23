@@ -1,16 +1,17 @@
 package dabang.star.cafe.domain.user;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
 public class User {
 
-    private String id;
+    private Long id;
     private String email;
     private String password;
     private String nickname;
@@ -18,7 +19,6 @@ public class User {
     private LocalDate birthday;
 
     public User(String email, String password, String nickname, String tel, LocalDate birthday) {
-        this.id = UUID.randomUUID().toString();
         this.email = email;
         this.password = password;
         this.nickname = nickname;

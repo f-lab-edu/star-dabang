@@ -56,7 +56,7 @@ class UsersApiTest {
 
         User user = new User(email, "test", "test", "01000000000", LocalDate.now());
         UserData userData = UserData.builder()
-                .id(user.getId())
+                .id(1L)
                 .email(email)
                 .nickname(user.getNickname())
                 .tel(user.getTel())
@@ -116,6 +116,44 @@ class UsersApiTest {
                 .then()
                 .statusCode(422)
                 .body("errors.message", equalTo("invalid input value"));
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 유저 이메일로 로그인 요청시 'user not found' 에러를 보여줍니다.")
+    void showErrorForNotExistUserEmail() throws Exception {
+        String email = "test3@test.com";
+
+        HashMap<String, Object> parameter = prepareRegisterParameter(email);
+        RestAssuredMockMvc
+                .given()
+                .contentType("application/json")
+                .body(parameter)
+                .when()
+                .post("/users/login")
+                .then()
+                .statusCode(404)
+                .body("errors.message", equalTo("user not found"));
+
+    }
+
+    @Test
+    @DisplayName("존재하는 유저 이메일이지만 패스워드가 일치하지 않는 로그인 요청시 'user not found' 에러를 보여줍니다.")
+    void showErrorForNotCorrectPassword() throws Exception {
+        String email = "test3@test.com";
+        User user = new User(email, "test3", "test", "01000000000", LocalDate.now());
+
+        when(userRepository.findByEmail(eq(email))).thenReturn(Optional.of(user));
+
+        HashMap<String, Object> parameter = prepareRegisterParameter(email);
+        RestAssuredMockMvc
+                .given()
+                .contentType("application/json")
+                .body(parameter)
+                .when()
+                .post("/users/login")
+                .then()
+                .statusCode(404)
+                .body("errors.message", equalTo("user not found"));
     }
 
     private HashMap<String, Object> prepareRegisterParameter(final String email) {

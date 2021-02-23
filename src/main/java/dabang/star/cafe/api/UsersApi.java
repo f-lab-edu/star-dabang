@@ -26,7 +26,7 @@ public class UsersApi {
 
     @PostMapping("/users")
     public ResponseEntity<UserData> createUser(@Valid @RequestBody RegisterParam registerParam) {
-        String id = userApplicationService.register(registerParam);
+        Long id = userApplicationService.register(registerParam);
         return ResponseEntity.status(201).body(
                 userApplicationService.findById(id).get()
         );
