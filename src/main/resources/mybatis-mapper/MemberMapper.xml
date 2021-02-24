@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="dabang.star.cafe.infrastructure.mapper.wirte.MemberMapper">
+<mapper namespace="dabang.star.cafe.infrastructure.mapper.MemberMapper">
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO members (email, passwd, nickname, phone, birth)
@@ -18,5 +18,16 @@
         </set>
         where member_id=#{id}
     </update>
+
+    <select id="exist" resultType="boolean">
+        SELECT EXISTS(SELECT m.member_id FROM members m WHERE m.email = #{email})
+    </select>
+
+    <select id="getByEmailAndPassword" resultType="MemberData">
+        SELECT m.member_id, m.email, m.nickname
+        FROM members m
+        WHERE m.email = #{email}
+          AND m.passwd = #{password}
+    </select>
 
 </mapper>
