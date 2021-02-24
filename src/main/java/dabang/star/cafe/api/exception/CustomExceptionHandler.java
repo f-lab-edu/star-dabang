@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class CustomExceptionHandler {
 
     /**
-     * 유효하지 않은 요청 값에 대하여 에러가 발생한다
+     * 유효성 검증에 대한 예외를 처리하며 Http Status 400을 반환한다.
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
@@ -36,7 +36,7 @@ public class CustomExceptionHandler {
     }
 
     /**
-     * 유니크한 값에 대하여 중복된 값으로 요청시에 에러가 발생한다
+     * 중복된 값에 대한 예외를 처리하며 Http Status 409를 반환한다.
      */
     @ExceptionHandler(DuplicatedException.class)
     public ResponseEntity<ErrorResponse> handleDuplicatedException(DuplicatedException e) {
@@ -51,8 +51,11 @@ public class CustomExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(NotAuthenticationException.class)
-    public ResponseEntity<ErrorResponse> handleNotAuthenticationException(NotAuthenticationException e) {
+    /**
+     * 로그인 인증 실패에 대한 예외를 처리하며 Http Status 401을 반환한다.
+     */
+    @ExceptionHandler(MemberNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotAuthenticationException(MemberNotFoundException e) {
 
         ErrorResponse response = ErrorResponse.builder()
                 .status(HttpStatus.UNAUTHORIZED.value())

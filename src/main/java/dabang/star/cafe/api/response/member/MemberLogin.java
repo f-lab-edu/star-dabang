@@ -1,4 +1,4 @@
-package dabang.star.cafe.application.data;
+package dabang.star.cafe.api.response.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

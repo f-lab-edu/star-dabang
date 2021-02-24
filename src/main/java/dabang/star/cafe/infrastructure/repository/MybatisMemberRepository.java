@@ -1,6 +1,6 @@
 package dabang.star.cafe.infrastructure.repository;
 
-import dabang.star.cafe.application.data.MemberLogin;
+import dabang.star.cafe.api.response.member.MemberData;
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.domain.member.MemberRepository;
 import dabang.star.cafe.infrastructure.mapper.MemberMapper;
@@ -34,7 +34,7 @@ public class MybatisMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Optional<MemberLogin> findMember(String email, String password) {
+    public Optional<MemberData> findMember(String email, String password) {
 
         return memberMapper.getByEmailAndPassword(email, password);
     }

@@ -1,11 +1,11 @@
 package dabang.star.cafe.domain.login;
 
 
-import dabang.star.cafe.application.data.MemberNickname;
+import dabang.star.cafe.api.response.member.MemberData;
 
 public interface LoginService {
 
-    MemberNickname login(String email, String password);
+    MemberData login(String email, String password);
 
     void logout();
 }
