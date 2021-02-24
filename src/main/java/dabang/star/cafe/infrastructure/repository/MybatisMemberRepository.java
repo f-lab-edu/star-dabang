@@ -34,7 +34,7 @@ public class MybatisMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Optional<MemberLogin> findMemberByLogin(String email, String password) {
+    public Optional<MemberLogin> findMember(String email, String password) {
 
         return memberMapper.getByEmailAndPassword(email, password);
     }
