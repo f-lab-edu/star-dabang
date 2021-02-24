@@ -1,11 +1,9 @@
 package dabang.star.cafe.infrastructure.service;
 
-import dabang.star.cafe.api.exception.NotAuthenticationException;
-import dabang.star.cafe.application.data.MemberLogin;
-import dabang.star.cafe.application.data.MemberNickname;
-import dabang.star.cafe.domain.member.EncryptService;
+import dabang.star.cafe.api.exception.MemberNotFoundException;
+import dabang.star.cafe.api.response.member.MemberData;
 import dabang.star.cafe.domain.login.LoginService;
-import dabang.star.cafe.domain.member.Member;
+import dabang.star.cafe.domain.member.EncryptService;
 import dabang.star.cafe.domain.member.MemberRepository;
 import dabang.star.cafe.utils.SessionKey;
 import lombok.RequiredArgsConstructor;
@@ -23,20 +21,20 @@ public class SessionLoginService implements LoginService {
     private final MemberRepository memberRepository;
 
     @Override
-    public MemberNickname login(String email, String password) {
+    public MemberData login(String email, String password) {
 
         String requestEmail = email;
         String requestPassword = encryptService.encrypt(password);
 
-        Optional<MemberLogin> findMember = memberRepository.findMember(requestEmail, requestPassword);
+        Optional<MemberData> findMember = memberRepository.findMember(requestEmail, requestPassword);
 
         if (findMember.isPresent()) {
-            MemberLogin memberLogin = findMember.get();
-            httpSession.setAttribute(SessionKey.LOGIN_MEMBER_ID, memberLogin.getId());
+            MemberData memberData = findMember.get();
+            httpSession.setAttribute(SessionKey.LOGIN_MEMBER_ID, memberData.getId());
 
-            return new MemberNickname(memberLogin.getNickname());
+            return memberData;
         } else {
-            throw new NotAuthenticationException("not authentication");
+            throw new MemberNotFoundException("member not found");
         }
     }
 

@@ -1,6 +1,6 @@
 package dabang.star.cafe.domain.member;
 
-import dabang.star.cafe.application.data.MemberLogin;
+import dabang.star.cafe.api.response.member.MemberData;
 
 import java.util.Optional;
 
@@ -10,5 +10,5 @@ public interface MemberRepository {
 
     boolean isExist(String email);
 
-    Optional<MemberLogin> findMember(String email, String password);
+    Optional<MemberData> findMember(String email, String password);
 }

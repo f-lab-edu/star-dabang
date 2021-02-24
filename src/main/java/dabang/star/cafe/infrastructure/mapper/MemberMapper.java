@@ -1,6 +1,6 @@
 package dabang.star.cafe.infrastructure.mapper;
 
-import dabang.star.cafe.application.data.MemberLogin;
+import dabang.star.cafe.api.response.member.MemberData;
 import dabang.star.cafe.domain.member.Member;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,5 +15,5 @@ public interface MemberMapper {
 
     boolean exist(String email);
 
-    Optional<MemberLogin> getByEmailAndPassword(String email, String password);
+    Optional<MemberData> getByEmailAndPassword(String email, String password);
 }

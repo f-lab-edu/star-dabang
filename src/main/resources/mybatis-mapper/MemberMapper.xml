@@ -23,8 +23,8 @@
         SELECT EXISTS(SELECT m.member_id FROM members m WHERE m.email = #{email})
     </select>
 
-    <select id="getByEmailAndPassword" resultType="MemberLogin">
-        SELECT m.member_id, m.nickname
+    <select id="getByEmailAndPassword" resultType="MemberData">
+        SELECT m.member_id, m.email, m.nickname
         FROM members m
         WHERE m.email = #{email}
           AND m.passwd = #{password}

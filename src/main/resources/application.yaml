@@ -1,4 +1,13 @@
 spring:
+  profiles:
+    active: dev
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/star_dabang?serverTimezone=UTC&characterEncoding=utf8&useSSL=false
@@ -9,13 +18,24 @@ spring:
   session:
     store-type: redis
     redis:
-      flush-mode: immediate
       namespace: star_dabang:session
 
   redis:
     host: localhost
     port: 6379
 
+
 mybatis:
   mapper-locations: classpath:mybatis-mapper/**/*.xml
-  type-aliases-package: dabang.star.cafe.domain, dabang.star.cafe.application.data
+  type-aliases-package: dabang.star.cafe.domain, dabang.star.cafe.api.response
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+
+mybatis:
+  mapper-locations: classpath:mybatis-mapper/**/*.xml
+  type-aliases-package: dabang.star.cafe.domain, dabang.star.cafe.api.response
+
