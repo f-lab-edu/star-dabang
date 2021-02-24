@@ -10,12 +10,14 @@ import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+@ActiveProfiles("test")
 @MybatisTest
 @Import(MybatisMemberRepository.class)
 class MybatisMemberRepositoryTest {
@@ -65,17 +67,4 @@ class MybatisMemberRepositoryTest {
         assertThat(result).isFalse();
     }
 
-
-//
-//    @Override
-//    public boolean isExist(String email) {
-//
-//        return memberMapper.exist(email);
-//    }
-//
-//    @Override
-//    public Optional<MemberData> findMember(String email, String password) {
-//
-//        return memberMapper.getByEmailAndPassword(email, password);
-//    }
 }
