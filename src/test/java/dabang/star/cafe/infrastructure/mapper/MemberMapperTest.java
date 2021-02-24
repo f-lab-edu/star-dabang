@@ -50,7 +50,8 @@ class MemberMapperTest {
 
     @DisplayName("이메일이 존재하지 않으면 False 반환")
     @Test
-    public void notExistsEmailTest() {        boolean noExist = memberMapper.exist("noEmail@naver.com");
+    public void notExistsEmailTest() {
+        boolean noExist = memberMapper.exist("noEmail@naver.com");
 
         assertThat(noExist).isFalse();
     }

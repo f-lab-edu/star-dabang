@@ -28,7 +28,7 @@ public class SessionLoginService implements LoginService {
         String requestEmail = email;
         String requestPassword = encryptService.encrypt(password);
 
-        Optional<MemberLogin> findMember = memberRepository.findMemberByLogin(requestEmail, requestPassword);
+        Optional<MemberLogin> findMember = memberRepository.findMember(requestEmail, requestPassword);
 
         if (findMember.isPresent()) {
             MemberLogin memberLogin = findMember.get();
