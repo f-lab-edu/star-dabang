@@ -10,5 +10,7 @@ public interface MemberRepository {
 
     boolean isExist(String email);
 
-    Optional<MemberData> findMember(String email, String password);
+    Optional<MemberData> findMemberByEmailAndPassword(String email, String password);
+
+    Optional<MemberData> findMemberById(Long email);
 }
