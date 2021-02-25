@@ -12,5 +12,5 @@ public interface MemberRepository {
 
     Optional<MemberData> findMemberByEmailAndPassword(String email, String password);
 
-    Optional<MemberData> findMemberById(Long email);
+    Optional<MemberData> findMemberById(long id);
 }
