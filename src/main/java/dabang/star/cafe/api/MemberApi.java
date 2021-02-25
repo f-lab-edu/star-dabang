@@ -75,7 +75,7 @@ public class MemberApi {
      * @return 업데이트 완료시 HttpStatus.OK 반환
      */
     @MemberLoginCheck
-    @PatchMapping
+    @PatchMapping("/info")
     public ResponseEntity<MemberData> updateMember(@Valid @RequestBody MemberUpdateRequest memberUpdateRequest,
                                                    HttpSession httpSession) {
 
