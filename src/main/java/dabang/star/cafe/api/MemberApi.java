@@ -1,20 +1,21 @@
 package dabang.star.cafe.api;
 
+import dabang.star.cafe.api.aop.MemberLoginCheck;
 import dabang.star.cafe.api.request.LoginRequest;
+import dabang.star.cafe.api.request.MemberUpdateRequest;
 import dabang.star.cafe.api.request.SignUpRequest;
 import dabang.star.cafe.api.response.member.MemberData;
 import dabang.star.cafe.domain.login.LoginService;
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.domain.member.MemberService;
 import dabang.star.cafe.utils.ResponseStatus;
+import dabang.star.cafe.utils.SessionKey;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @RequiredArgsConstructor
@@ -64,5 +65,24 @@ public class MemberApi {
         loginService.logout();
 
         return ResponseStatus.OK;
+    }
+
+
+    /**
+     * 멤버 업데이트
+     * @param memberUpdateRequest (password, nickname, telephone)
+     * @param httpSession (httpSession)
+     * @return 업데이트 완료시 HttpStatus.OK 반환
+     */
+    @MemberLoginCheck
+    @PatchMapping
+    public ResponseEntity<MemberData> updateMember(@Valid @RequestBody MemberUpdateRequest memberUpdateRequest,
+                                                   HttpSession httpSession) {
+
+        Long id = (Long) httpSession.getAttribute(SessionKey.LOGIN_MEMBER_ID);
+        memberService.update(new Member(id, memberUpdateRequest));
+
+        MemberData memberData = memberService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(memberData);
     }
 }

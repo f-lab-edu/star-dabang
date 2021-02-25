@@ -1,5 +1,6 @@
 package dabang.star.cafe.domain.member;
 
+import dabang.star.cafe.api.request.MemberUpdateRequest;
 import dabang.star.cafe.api.request.SignUpRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,6 +35,13 @@ public class Member {
         this.nickname = signUpRequest.getNickname();
         this.telephone = signUpRequest.getTelephone();
         this.birth = signUpRequest.getBirth();
+    }
+
+    public Member(Long id, MemberUpdateRequest updateRequest) {
+        this.id = id;
+        this.password = updateRequest.getPassword();
+        this.nickname = updateRequest.getNickname();
+        this.telephone = updateRequest.getTelephone();
     }
 
 }

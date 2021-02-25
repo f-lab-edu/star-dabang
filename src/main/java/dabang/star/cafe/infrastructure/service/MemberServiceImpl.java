@@ -1,6 +1,7 @@
 package dabang.star.cafe.infrastructure.service;
 
 import dabang.star.cafe.api.exception.DuplicatedException;
+import dabang.star.cafe.api.exception.MemberNotFoundException;
 import dabang.star.cafe.api.response.member.MemberData;
 import dabang.star.cafe.domain.member.EncryptService;
 import dabang.star.cafe.domain.member.Member;
@@ -36,4 +37,17 @@ public class MemberServiceImpl implements MemberService {
             throw new DuplicatedException("duplicated Email");
         }
     }
+
+    @Override
+    public void update(Member member) {
+        member.setPassword(encryptService.encrypt(member.getPassword()));
+        memberRepository.save(member);
+    }
+
+    @Override
+    public MemberData findById(Long id) {
+        return memberRepository.findMemberById(id)
+                .orElseThrow(() -> new MemberNotFoundException("member not found"));
+    }
+
 }
