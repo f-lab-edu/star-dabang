@@ -37,7 +37,7 @@ public class Member {
         this.birth = signUpRequest.getBirth();
     }
 
-    public Member(Long id, MemberUpdateRequest updateRequest) {
+    public Member(long id, MemberUpdateRequest updateRequest) {
         this.id = id;
         this.password = updateRequest.getPassword();
         this.nickname = updateRequest.getNickname();
