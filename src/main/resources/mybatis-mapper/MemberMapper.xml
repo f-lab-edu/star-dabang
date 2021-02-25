@@ -34,4 +34,10 @@
         WHERE m.member_id = #{id}
     </select>
 
+    <delete id="deleteById">
+        DELETE
+        FROM members
+        WHERE member_id = #{id}
+    </delete>
+
 </mapper>

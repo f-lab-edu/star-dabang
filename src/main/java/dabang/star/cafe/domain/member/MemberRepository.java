@@ -13,4 +13,6 @@ public interface MemberRepository {
     Optional<MemberData> findMemberByEmailAndPassword(String email, String password);
 
     Optional<MemberData> findMemberById(Long email);
+
+    void delete(Long id);
 }
