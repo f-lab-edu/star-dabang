@@ -70,8 +70,9 @@ public class MemberApi {
 
     /**
      * 멤버 업데이트
+     *
      * @param memberUpdateRequest (password, nickname, telephone)
-     * @param httpSession (httpSession)
+     * @param httpSession         (httpSession)
      * @return 업데이트 완료시 HttpStatus.OK 반환
      */
     @MemberLoginCheck
@@ -84,5 +85,22 @@ public class MemberApi {
 
         MemberData memberData = memberService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(memberData);
+    }
+
+    /**
+     * 멤버 회원탈퇴
+     *
+     * @return 회원탈퇴 완료시 로그아웃 후 HttpsStatus.OK, 반환
+     */
+    @MemberLoginCheck
+    @DeleteMapping("/info")
+    public ResponseEntity deleteMember(HttpSession httpSession) {
+
+        Long id = (Long) httpSession.getAttribute(SessionKey.LOGIN_MEMBER_ID);
+        memberService.secession(id);
+
+        loginService.logout();
+
+        return ResponseStatus.OK;
     }
 }

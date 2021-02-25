@@ -50,4 +50,9 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new MemberNotFoundException("member not found"));
     }
 
+    @Override
+    public void secession(Long id) {
+
+        memberRepository.delete(id);
+    }
 }

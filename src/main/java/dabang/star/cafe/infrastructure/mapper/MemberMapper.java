@@ -19,4 +19,6 @@ public interface MemberMapper {
     Optional<MemberData> getByEmailAndPassword(@Param("email") String email, @Param("password") String password);
 
     Optional<MemberData> findById(@Param("id") Long id);
+
+    void deleteById(@Param("id") Long id);
 }
