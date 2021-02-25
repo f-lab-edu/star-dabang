@@ -65,4 +65,15 @@ class MybatisMemberRepositoryTest {
         assertThat(result).isFalse();
     }
 
+    @DisplayName("회원을 삭제할 수 있어야 한다")
+    @Test
+    void deleteMemberTest() {
+        memberRepository.save(member);
+        memberRepository.delete(member.getId());
+
+        Optional<MemberData> findMember = memberRepository.findMemberById(member.getId());
+
+        assertThat(findMember).isEmpty();
+    }
+
 }
