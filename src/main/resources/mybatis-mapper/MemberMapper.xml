@@ -10,24 +10,28 @@
     <update id="update" keyProperty="id">
         UPDATE members
         <set>
-            <if test="email != null">username=#{email},</if>
-            <if test="passwd != null">password=#{password},</if>
-            <if test="nickname != null">email=#{nickname},</if>
-            <if test="telephone != null">email=#{telephone},</if>
-            <if test="birth != null">email=#{birth}</if>
+            <if test="password != null">passwd=#{password},</if>
+            <if test="nickname != null">nickname=#{nickname},</if>
+            <if test="telephone != null">phone=#{telephone},</if>
         </set>
         where member_id=#{id}
     </update>
 
-    <select id="exist" resultType="boolean">
+    <select id="exists" resultType="boolean">
         SELECT EXISTS(SELECT m.member_id FROM members m WHERE m.email = #{email})
     </select>
 
-    <select id="getByEmailAndPassword" resultType="MemberData">
+    <select id="getByEmailAndPassword" resultType="MemberData" parameterType="map">
         SELECT m.member_id, m.email, m.nickname
         FROM members m
         WHERE m.email = #{email}
           AND m.passwd = #{password}
+    </select>
+
+    <select id="findById" resultType="MemberData" parameterType="map">
+        SELECT m.member_id, m.email, m.nickname
+        FROM members m
+        WHERE m.member_id = #{id}
     </select>
 
 </mapper>
