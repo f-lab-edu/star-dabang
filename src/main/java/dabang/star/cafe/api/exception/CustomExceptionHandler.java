@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class CustomExceptionHandler {
 
     /**
-     * 유효성 검증에 대한 예외를 처리하며 Http Status 400을 반환한다.
+     * 유효성 검증에 대한 예외를 처리하며 Http Status 422을 반환한다.
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
@@ -26,13 +26,13 @@ public class CustomExceptionHandler {
                 .getDefaultMessage();
 
         ErrorResponse response = ErrorResponse.builder()
-                .status(HttpStatus.BAD_REQUEST.value())
+                .status(HttpStatus.UNPROCESSABLE_ENTITY.value())
                 .message(errorMessage)
                 .build();
 
         log.warn("Not Valid Exception : {}", target, e);
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     /**
@@ -52,18 +52,35 @@ public class CustomExceptionHandler {
     }
 
     /**
-     * 로그인 인증 실패에 대한 예외를 처리하며 Http Status 401을 반환한다.
+     * 요청에 대해 멤버를 찾지 못한 예외를 처리하며 Http Status 404을 반환한다.
      */
     @ExceptionHandler(MemberNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotAuthenticationException(MemberNotFoundException e) {
+    public ResponseEntity<ErrorResponse> handleMemberNotFoundException(MemberNotFoundException e) {
 
         ErrorResponse response = ErrorResponse.builder()
-                .status(HttpStatus.UNAUTHORIZED.value())
+                .status(HttpStatus.NOT_FOUND.value())
                 .message(e.getMessage())
                 .build();
 
-        log.warn("User failed authentication", e);
+        log.warn("Member Not Found", e);
 
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+
+    /**
+     * 권한을 갖지 못한 요청에 대한 예외를 처리하며 Http Status 403 을 반환한다.
+     */
+    @ExceptionHandler(NoAuthorizationException.class)
+    public ResponseEntity<ErrorResponse> handleNoAuthorizationException(NoAuthorizationException e) {
+
+        ErrorResponse response = ErrorResponse.builder()
+                .status(HttpStatus.FORBIDDEN.value())
+                .message(e.getMessage())
+                .build();
+
+        log.warn("No Authorization", e);
+
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 }

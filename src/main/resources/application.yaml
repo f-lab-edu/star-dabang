@@ -11,6 +11,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/star_dabang?serverTimezone=UTC&characterEncoding=utf8&useSSL=false
+#    url: jdbc:mysql://172.17.0.2:3306/yslocaldb
     username: root
     password: root
     initialization-mode: never
@@ -22,6 +23,7 @@ spring:
 
   redis:
     host: localhost
+#    host: 172.17.0.3
     port: 6379
 
 
