@@ -12,5 +12,5 @@ public interface MemberService {
 
     MemberData findById(Long id);
 
-    public void secession(Long id);
+    void secession(Long id);
 }
