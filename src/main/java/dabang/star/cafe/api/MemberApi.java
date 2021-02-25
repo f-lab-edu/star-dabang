@@ -78,6 +78,7 @@ public class MemberApi {
     @PatchMapping("/info")
     public ResponseEntity<MemberData> updateMember(@Valid @RequestBody MemberUpdateRequest memberUpdateRequest,
                                                    HttpSession httpSession) {
+
         long id = (long) httpSession.getAttribute(SessionKey.LOGIN_MEMBER_ID);
         memberService.update(new Member(id, memberUpdateRequest));
 
