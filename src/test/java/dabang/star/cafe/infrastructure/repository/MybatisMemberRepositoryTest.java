@@ -65,7 +65,7 @@ class MybatisMemberRepositoryTest {
         assertThat(result).isFalse();
     }
 
-    @DisplayName("회원을 삭제할 수 있어야 한다")
+    @DisplayName("회원의 id가 주어졌을 때 회원을 삭제한다")
     @Test
     void deleteMemberTest() {
         memberRepository.save(member);

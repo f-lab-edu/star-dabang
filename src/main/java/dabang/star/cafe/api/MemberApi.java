@@ -8,7 +8,6 @@ import dabang.star.cafe.api.response.member.MemberData;
 import dabang.star.cafe.domain.login.LoginService;
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.domain.member.MemberService;
-import dabang.star.cafe.utils.ResponseStatus;
 import dabang.star.cafe.utils.SessionKey;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,7 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/member")
 public class MemberApi {
 
     private final MemberService memberService;
@@ -56,15 +55,11 @@ public class MemberApi {
 
     /**
      * 로그아웃
-     *
-     * @return 로그아웃 완료시 HttpsStatus.OK, 반환
      */
     @PostMapping("/logout")
-    public ResponseEntity logoutMember() {
+    public void logoutMember() {
 
         loginService.logout();
-
-        return ResponseStatus.OK;
     }
 
 
@@ -86,21 +81,5 @@ public class MemberApi {
         MemberData memberData = memberService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(memberData);
     }
-
-    /**
-     * 멤버 회원탈퇴
-     *
-     * @return 회원탈퇴 완료시 로그아웃 후 HttpsStatus.OK, 반환
-     */
-    @MemberLoginCheck
-    @DeleteMapping("/info")
-    public ResponseEntity deleteMember(HttpSession httpSession) {
-
-        Long id = (Long) httpSession.getAttribute(SessionKey.LOGIN_MEMBER_ID);
-        memberService.secession(id);
-
-        loginService.logout();
-
-        return ResponseStatus.OK;
-    }
+    
 }
