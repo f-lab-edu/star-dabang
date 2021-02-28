@@ -28,10 +28,17 @@
           AND m.passwd = #{password}
     </select>
 
-    <select id="findById" resultType="MemberData" parameterType="map">
+    <select id="getById" resultType="MemberData" parameterType="map">
         SELECT m.member_id, m.email, m.nickname
         FROM members m
         WHERE m.member_id = #{id}
+    </select>
+
+    <select id="getByIdAndPassword" resultType="MemberData" parameterType="map">
+        SELECT m.member_id, m.email, m.nickname
+        FROM members m
+        WHERE m.member_id = #{id}
+          AND m.passwd = #{password}
     </select>
 
 </mapper>

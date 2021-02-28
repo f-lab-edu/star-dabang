@@ -10,5 +10,5 @@ public interface MemberService {
 
     void update(Member member);
 
-    MemberData findById(Long id);
+    MemberData loadById(long id);
 }
