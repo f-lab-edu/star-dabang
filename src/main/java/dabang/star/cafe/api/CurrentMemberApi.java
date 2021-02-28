@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpSession;
 
 @RequiredArgsConstructor
-@RestController("/member")
-public class MemberInfoApi {
+@RestController("/my-infos")
+public class CurrentMemberApi {
 
     private final MemberService memberService;
     private final LoginService loginService;
 
     /**
-     * 멤버 회원탈퇴
+     * 멤버 삭제
      */
     @MemberLoginCheck
     @DeleteMapping
