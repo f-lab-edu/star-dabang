@@ -45,9 +45,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberData findById(Long id) {
-        return memberRepository.findMemberById(id)
-                .orElseThrow(() -> new MemberNotFoundException("member not found"));
+    public MemberData loadById(long id) {
+        return memberRepository.findMemberById(id).orElseThrow(
+                () -> new MemberNotFoundException("member not found")
+        );
     }
 
     @Override

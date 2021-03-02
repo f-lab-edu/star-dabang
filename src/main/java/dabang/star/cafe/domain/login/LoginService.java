@@ -8,4 +8,6 @@ public interface LoginService {
     MemberData login(String email, String password);
 
     void logout();
+
+    MemberData accessToMyPage(long id, String password);
 }

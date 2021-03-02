@@ -23,7 +23,7 @@ spring:
 
   redis:
     host: localhost
-#    host: 172.17.0.3
+#    host: 172.18.0.2
     port: 6379
 
 

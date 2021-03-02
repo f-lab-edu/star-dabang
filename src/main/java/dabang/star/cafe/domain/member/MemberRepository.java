@@ -12,7 +12,9 @@ public interface MemberRepository {
 
     Optional<MemberData> findMemberByEmailAndPassword(String email, String password);
 
-    Optional<MemberData> findMemberById(Long email);
+    Optional<MemberData> findMemberByIdAndPassword(long id, String password);
 
-    void delete(Long id);
+    Optional<MemberData> findMemberById(long id);
+
+    void delete(long id);
 }
