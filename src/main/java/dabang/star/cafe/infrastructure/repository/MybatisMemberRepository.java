@@ -40,13 +40,17 @@ public class MybatisMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Optional<MemberData> findMemberById(Long id) {
-
-        return memberMapper.findById(id);
+    public Optional<MemberData> findMemberById(long id) {
+        return memberMapper.getById(id);
     }
 
     @Override
-    public void delete(Long id) {
+    public Optional<MemberData> findMemberByIdAndPassword(long id, String password) {
+        return memberMapper.getByIdAndPassword(id, password);
+    }
+
+    @Override
+    public void delete(long id) {
 
         memberMapper.deleteById(id);
     }
