@@ -48,4 +48,10 @@ public class MybatisMemberRepository implements MemberRepository {
     public Optional<MemberData> findMemberByIdAndPassword(long id, String password) {
         return memberMapper.getByIdAndPassword(id, password);
     }
+
+    @Override
+    public void delete(long id) {
+
+        memberMapper.deleteById(id);
+    }
 }

@@ -51,4 +51,9 @@ public class MemberServiceImpl implements MemberService {
         );
     }
 
+    @Override
+    public void secession(Long id) {
+
+        memberRepository.delete(id);
+    }
 }

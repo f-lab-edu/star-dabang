@@ -30,7 +30,7 @@ public class CurrentMemberApi {
      * @param loginMemberId        로그인 유저 ID: 스프링 AOP 통해 주입
      * @return 조회 성공시 HttpStatus.OK(MemberData) 반환
      */
-    @MemberLoginCheck
+    @CurrentMemberCheck
     @PostMapping
     public MemberData myPage(@Valid @RequestBody CurrentMemberRequest currentMemberRequest,
                              Long loginMemberId) {
@@ -52,6 +52,22 @@ public class CurrentMemberApi {
 
         memberService.update(new Member(currentMemberId, memberUpdateRequest));
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    /**
+     * 멤버 삭제
+     *
+     * @param loginMemberId 로그인 유저 ID: 스프링 AOP 통해 주입
+     *                      삭제 완료시 HttpStatus.NO_CONTENT 반환
+     */
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @MemberLoginCheck
+    @DeleteMapping
+    public void deleteMember(Long loginMemberId) {
+
+        memberService.secession(loginMemberId);
+
+        loginService.logout();
     }
 
 }
