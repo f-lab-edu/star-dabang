@@ -8,20 +8,23 @@ import dabang.star.cafe.api.response.member.MemberData;
 import dabang.star.cafe.domain.login.LoginService;
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.domain.member.MemberService;
+import dabang.star.cafe.utils.SessionKey;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/members/me")
+@RequestMapping("/members/my-info")
 @RequiredArgsConstructor
 public class CurrentMemberApi {
 
     private final MemberService memberService;
     private final LoginService loginService;
+
+    private final HttpSession httpSession;
 
     /**
      * 마이페이지(수정, 탈퇴) 접속
@@ -30,12 +33,15 @@ public class CurrentMemberApi {
      * @param loginMemberId        로그인 유저 ID: 스프링 AOP 통해 주입
      * @return 조회 성공시 HttpStatus.OK(MemberData) 반환
      */
-    @CurrentMemberCheck
+    @MemberLoginCheck
     @PostMapping
     public MemberData myPage(@Valid @RequestBody CurrentMemberRequest currentMemberRequest,
                              Long loginMemberId) {
 
-        return loginService.accessToMyPage(loginMemberId, currentMemberRequest.getPassword());
+        MemberData memberData = memberService.loadByIdAndPassword(loginMemberId, currentMemberRequest.getPassword());
+        httpSession.setAttribute(SessionKey.CURRENT_MEMBER_ID, memberData.getId());
+
+        return memberData;
     }
 
     /**
@@ -43,29 +49,29 @@ public class CurrentMemberApi {
      *
      * @param memberUpdateRequest (password, nickname, telephone)
      * @param currentMemberId     현재 유저 ID: 스프링 AOP 통해 주입
-     * @return 업데이트 완료시 HttpStatus.NO_CONTENT 반환
+     *                            완료시 HttpStatus.NO_CONTENT 반환
      */
     @CurrentMemberCheck
     @PatchMapping
-    public ResponseEntity<Void> updateMember(@Valid @RequestBody MemberUpdateRequest memberUpdateRequest,
-                                             Long currentMemberId) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateMember(@Valid @RequestBody MemberUpdateRequest memberUpdateRequest,
+                             Long currentMemberId) {
 
         memberService.update(new Member(currentMemberId, memberUpdateRequest));
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     /**
-     * 멤버 삭제
+     * 멤버 탈퇴
      *
-     * @param loginMemberId 로그인 유저 ID: 스프링 AOP 통해 주입
+     * @param currentMemberId 현재 유저 ID: 스프링 AOP 통해 주입
      *                      삭제 완료시 HttpStatus.NO_CONTENT 반환
      */
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @MemberLoginCheck
+    @CurrentMemberCheck
     @DeleteMapping
-    public void deleteMember(Long loginMemberId) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteMember(Long currentMemberId) {
 
-        memberService.secession(loginMemberId);
+        memberService.secession(currentMemberId);
 
         loginService.logout();
     }

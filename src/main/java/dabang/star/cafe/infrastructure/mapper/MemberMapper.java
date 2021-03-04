@@ -22,5 +22,5 @@ public interface MemberMapper {
 
     Optional<MemberData> getByIdAndPassword(@Param("id") Long id, @Param("password") String password);
 
-    void deleteById(@Param("id") Long id);
+    void removeById(@Param("id") Long id);
 }

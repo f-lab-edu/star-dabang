@@ -29,13 +29,11 @@ public class MybatisMemberRepository implements MemberRepository {
 
     @Override
     public boolean isExist(String email) {
-
         return memberMapper.exists(email);
     }
 
     @Override
     public Optional<MemberData> findMemberByEmailAndPassword(String email, String password) {
-
         return memberMapper.getByEmailAndPassword(email, password);
     }
 
@@ -50,8 +48,7 @@ public class MybatisMemberRepository implements MemberRepository {
     }
 
     @Override
-    public void delete(long id) {
-
-        memberMapper.deleteById(id);
+    public void deleteById(long id) {
+        memberMapper.removeById(id);
     }
 }
