@@ -52,8 +52,16 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void secession(Long id) {
+    public MemberData loadByIdAndPassword(long id, String password) {
+        String encryptedPassword = encryptService.encrypt(password);
 
-        memberRepository.delete(id);
+        return memberRepository.findMemberByIdAndPassword(id, encryptedPassword).orElseThrow(
+                () -> new MemberNotFoundException("member not found")
+        );
+    }
+
+    @Override
+    public void secession(long id) {
+        memberRepository.deleteById(id);
     }
 }

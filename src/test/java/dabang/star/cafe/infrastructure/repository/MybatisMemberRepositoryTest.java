@@ -69,7 +69,7 @@ class MybatisMemberRepositoryTest {
     @Test
     void deleteMemberTest() {
         memberRepository.save(member);
-        memberRepository.delete(member.getId());
+        memberRepository.deleteById(member.getId());
 
         Optional<MemberData> findMember = memberRepository.findMemberById(member.getId());
 

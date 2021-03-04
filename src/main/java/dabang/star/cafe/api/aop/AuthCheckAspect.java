@@ -1,7 +1,7 @@
 package dabang.star.cafe.api.aop;
 
-import dabang.star.cafe.api.exception.NoAuthorizationException;
-import dabang.star.cafe.utils.SessionUtils;
+import dabang.star.cafe.api.exception.NoAuthenticationException;
+import dabang.star.cafe.utils.SessionKey;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -9,7 +9,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
-import java.util.Optional;
 
 @Aspect
 @Component
@@ -21,24 +20,28 @@ public class AuthCheckAspect {
     @Around("@annotation(dabang.star.cafe.api.aop.MemberLoginCheck)")
     public Object memberLoginCheck(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
-        Optional<Long> memberIdOptional = SessionUtils.getLoginMemberId(httpSession);
-        return proceedWithMemberId(memberIdOptional, proceedingJoinPoint);
+        Object memberId = httpSession.getAttribute(SessionKey.LOGIN_MEMBER_ID);
+        return proceedWithMemberId(memberId, proceedingJoinPoint);
     }
 
     @Around("@annotation(dabang.star.cafe.api.aop.CurrentMemberCheck)")
     public Object currentMemberCheck(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
-        Optional<Long> memberIdOptional = SessionUtils.getCurrentMemberId(httpSession);
-        return proceedWithMemberId(memberIdOptional, proceedingJoinPoint);
+        Object memberId = httpSession.getAttribute(SessionKey.CURRENT_MEMBER_ID);
+        return proceedWithMemberId(memberId, proceedingJoinPoint);
     }
 
-    private Object proceedWithMemberId(Optional<Long> memberIdOptional, ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        return proceedingJoinPoint.proceed(
-                new Object[]{
-                        proceedingJoinPoint.getArgs()[0],
-                        memberIdOptional.orElseThrow(() -> new NoAuthorizationException("not authorized"))
-                }
-        );
+    private Object proceedWithMemberId(Object memberId, ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        if (memberId == null) {
+            throw new NoAuthenticationException("no authenticated");
+        }
+
+        Object[] args = proceedingJoinPoint.getArgs();
+        if (args.length != 0 && args[args.length - 1] == null) {
+            args[args.length - 1] = memberId;
+        }
+
+        return proceedingJoinPoint.proceed(args);
     }
 
 }

@@ -8,17 +8,13 @@ import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.domain.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/member")
+@RequestMapping("/members")
 public class MemberApi {
 
     private final MemberService memberService;
@@ -28,21 +24,19 @@ public class MemberApi {
      * 멤버 회원가입
      *
      * @param signUpRequest (email, password, nickname, telephone, birth)
-     * @return 멤버 회원가입 완료시 HttpStatus.Ok, ID 반환 / 유효성 검증 에러시 HttpStatus.BAD_REQUEST, error 반환
+     * @return 멤버 회원가입 완료시 HttpStatus.Ok (MemberData) 반환
      */
     @PostMapping
-    public ResponseEntity<MemberData> signUpMember(@Valid @RequestBody SignUpRequest signUpRequest) {
-
-        MemberData memberData = memberService.join(new Member(signUpRequest));
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(memberData);
+    @ResponseStatus(HttpStatus.CREATED)
+    public MemberData signUpMember(@Valid @RequestBody SignUpRequest signUpRequest) {
+        return memberService.join(new Member(signUpRequest));
     }
 
     /**
      * 로그인
      *
      * @param loginRequest (email, password)
-     * @return 로그인 완료시 HttpsStatus.OK, ID 반환 / 로그인 실패시 HttpsStatus.UNAUTHORIZED, error 반환
+     * @return 로그인 완료시 HttpsStatus.OK (MemberData) 반환
      */
     @PostMapping("/login")
     public MemberData loginMember(@Valid @RequestBody LoginRequest loginRequest) {
