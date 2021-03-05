@@ -9,4 +9,5 @@ public interface LoginService {
 
     void logout();
 
+    MemberData accessMyPage(long id, String password);
 }

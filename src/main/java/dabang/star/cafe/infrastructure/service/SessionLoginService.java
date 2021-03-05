@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
+import static dabang.star.cafe.utils.SessionKey.CURRENT_MEMBER_ID;
 import static dabang.star.cafe.utils.SessionKey.LOGIN_MEMBER_ID;
 
 @RequiredArgsConstructor
@@ -26,8 +27,8 @@ public class SessionLoginService implements LoginService {
 
         String encryptedPassword = encryptService.encrypt(password);
 
-        Optional<MemberData> memberDataOptional = memberRepository.findMemberByEmailAndPassword(email, encryptedPassword);
-        MemberData memberData = memberDataOptional.orElseThrow(
+        Optional<MemberData> byEmailAndPassword = memberRepository.findMemberByEmailAndPassword(email, encryptedPassword);
+        MemberData memberData = byEmailAndPassword.orElseThrow(
                 () -> new NoAuthenticationException("no authenticated")
         );
 
@@ -41,4 +42,18 @@ public class SessionLoginService implements LoginService {
         httpSession.removeAttribute(LOGIN_MEMBER_ID);
     }
 
+    @Override
+    public MemberData accessMyPage(long id, String password) {
+
+        String encryptedPassword = encryptService.encrypt(password);
+
+        Optional<MemberData> byIdAndPassword = memberRepository.findMemberByIdAndPassword(id, encryptedPassword);
+        MemberData memberData = byIdAndPassword.orElseThrow(
+                () -> new NoAuthenticationException("no authenticated")
+        );
+
+        httpSession.setAttribute(CURRENT_MEMBER_ID, memberData.getId());
+
+        return memberData;
+    }
 }
