@@ -2,18 +2,17 @@ package dabang.star.cafe.api;
 
 import dabang.star.cafe.api.aop.CurrentMemberCheck;
 import dabang.star.cafe.api.aop.MemberLoginCheck;
+import dabang.star.cafe.api.aop.SessionMemberId;
 import dabang.star.cafe.api.request.CurrentMemberRequest;
 import dabang.star.cafe.api.request.MemberUpdateRequest;
 import dabang.star.cafe.api.response.member.MemberData;
 import dabang.star.cafe.domain.login.LoginService;
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.domain.member.MemberService;
-import dabang.star.cafe.utils.SessionKey;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @RestController
@@ -23,8 +22,6 @@ public class CurrentMemberApi {
 
     private final MemberService memberService;
     private final LoginService loginService;
-
-    private final HttpSession httpSession;
 
     /**
      * 마이페이지(수정, 탈퇴) 접속
@@ -36,12 +33,9 @@ public class CurrentMemberApi {
     @MemberLoginCheck
     @PostMapping
     public MemberData myPage(@Valid @RequestBody CurrentMemberRequest currentMemberRequest,
-                             Long loginMemberId) {
+                             @SessionMemberId Long loginMemberId) {
 
-        MemberData memberData = memberService.loadByIdAndPassword(loginMemberId, currentMemberRequest.getPassword());
-        httpSession.setAttribute(SessionKey.CURRENT_MEMBER_ID, memberData.getId());
-
-        return memberData;
+        return loginService.accessMyPage(loginMemberId, currentMemberRequest.getPassword());
     }
 
     /**
@@ -55,7 +49,7 @@ public class CurrentMemberApi {
     @PatchMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateMember(@Valid @RequestBody MemberUpdateRequest memberUpdateRequest,
-                             Long currentMemberId) {
+                             @SessionMemberId Long currentMemberId) {
 
         memberService.update(new Member(currentMemberId, memberUpdateRequest));
     }
@@ -64,12 +58,12 @@ public class CurrentMemberApi {
      * 멤버 탈퇴
      *
      * @param currentMemberId 현재 유저 ID: 스프링 AOP 통해 주입
-     *                      삭제 완료시 HttpStatus.NO_CONTENT 반환
+     *                        삭제 완료시 HttpStatus.NO_CONTENT 반환
      */
     @CurrentMemberCheck
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteMember(Long currentMemberId) {
+    public void deleteMember(@SessionMemberId Long currentMemberId) {
 
         memberService.secession(currentMemberId);
 

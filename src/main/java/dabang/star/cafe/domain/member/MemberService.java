@@ -12,7 +12,5 @@ public interface MemberService {
 
     MemberData loadById(long id);
 
-    MemberData loadByIdAndPassword(long id, String password);
-
     void secession(long id);
 }
