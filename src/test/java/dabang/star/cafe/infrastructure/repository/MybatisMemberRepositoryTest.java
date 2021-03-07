@@ -3,7 +3,6 @@ package dabang.star.cafe.infrastructure.repository;
 import dabang.star.cafe.api.response.member.MemberData;
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.domain.member.MemberRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,6 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
 @MybatisTest
@@ -44,7 +42,7 @@ class MybatisMemberRepositoryTest {
         memberRepository.save(member);
         MemberData saveMember = new MemberData(member);
 
-        Optional<MemberData> findMember = memberRepository.findMember(this.member.getEmail(), this.member.getPassword());
+        Optional<MemberData> findMember = memberRepository.findMemberByEmailAndPassword(this.member.getEmail(), this.member.getPassword());
 
         assertThat(findMember.get().getEmail()).isEqualTo(saveMember.getEmail());
     }
@@ -65,6 +63,17 @@ class MybatisMemberRepositoryTest {
         boolean result = memberRepository.isExist("abcd@naver.com");
 
         assertThat(result).isFalse();
+    }
+
+    @DisplayName("회원의 id가 주어졌을 때 회원을 삭제한다")
+    @Test
+    void deleteMemberTest() {
+        memberRepository.save(member);
+        memberRepository.deleteById(member.getId());
+
+        Optional<MemberData> findMember = memberRepository.findMemberById(member.getId());
+
+        assertThat(findMember).isEmpty();
     }
 
 }

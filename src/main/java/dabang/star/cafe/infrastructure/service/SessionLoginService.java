@@ -1,16 +1,18 @@
 package dabang.star.cafe.infrastructure.service;
 
-import dabang.star.cafe.api.exception.MemberNotFoundException;
+import dabang.star.cafe.api.exception.NoAuthenticationException;
 import dabang.star.cafe.api.response.member.MemberData;
 import dabang.star.cafe.domain.login.LoginService;
 import dabang.star.cafe.domain.member.EncryptService;
 import dabang.star.cafe.domain.member.MemberRepository;
-import dabang.star.cafe.utils.SessionKey;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
+
+import static dabang.star.cafe.utils.SessionKey.CURRENT_MEMBER_ID;
+import static dabang.star.cafe.utils.SessionKey.LOGIN_MEMBER_ID;
 
 @RequiredArgsConstructor
 @Service
@@ -23,27 +25,35 @@ public class SessionLoginService implements LoginService {
     @Override
     public MemberData login(String email, String password) {
 
-        String requestEmail = email;
-        String requestPassword = encryptService.encrypt(password);
+        String encryptedPassword = encryptService.encrypt(password);
 
-        Optional<MemberData> findMember = memberRepository.findMember(requestEmail, requestPassword);
+        Optional<MemberData> byEmailAndPassword = memberRepository.findMemberByEmailAndPassword(email, encryptedPassword);
+        MemberData memberData = byEmailAndPassword.orElseThrow(
+                () -> new NoAuthenticationException("no authenticated")
+        );
 
-        if (findMember.isPresent()) {
-            MemberData memberData = findMember.get();
-            httpSession.setAttribute(SessionKey.LOGIN_MEMBER_ID, memberData.getId());
+        httpSession.setAttribute(LOGIN_MEMBER_ID, memberData.getId());
 
-            return memberData;
-        } else {
-            throw new MemberNotFoundException("member not found");
-        }
+        return memberData;
     }
 
     @Override
     public void logout() {
-        Optional<Object> member = Optional.ofNullable(httpSession.getAttribute(SessionKey.LOGIN_MEMBER_ID));
+        httpSession.removeAttribute(LOGIN_MEMBER_ID);
+    }
 
-        if (member.isPresent()) {
-            httpSession.invalidate();
-        }
+    @Override
+    public MemberData accessMyPage(long id, String password) {
+
+        String encryptedPassword = encryptService.encrypt(password);
+
+        Optional<MemberData> byIdAndPassword = memberRepository.findMemberByIdAndPassword(id, encryptedPassword);
+        MemberData memberData = byIdAndPassword.orElseThrow(
+                () -> new NoAuthenticationException("no authenticated")
+        );
+
+        httpSession.setAttribute(CURRENT_MEMBER_ID, memberData.getId());
+
+        return memberData;
     }
 }
