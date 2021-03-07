@@ -4,8 +4,13 @@ import dabang.star.cafe.api.response.member.MemberData;
 
 public interface MemberService {
 
-    public MemberData join(Member member);
+    MemberData join(Member member);
 
-    public void checkDuplicatedMember(Member member);
+    void checkDuplicatedMember(Member member);
 
+    void update(Member member);
+
+    MemberData loadById(long id);
+
+    void secession(long id);
 }
