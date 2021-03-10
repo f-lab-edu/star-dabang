@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS my_menu;
-DROP TABLE IF EXISTS product_option;
+DROP TABLE IF EXISTS office_stock;
 DROP TABLE IF EXISTS additional_option;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS product_category;
@@ -33,11 +33,11 @@ CREATE TABLE office
 
 CREATE TABLE manager
 (
-    manager_id   BIGINT       NOT NULL AUTO_INCREMENT,
-    office_id    INT          NOT NULL,
-    manager_name VARCHAR(50)  NOT NULL,
-    passwd       VARCHAR(255) NOT NULL,
-    rule         VARCHAR(1)   NOT NULL,
+    manager_id BIGINT       NOT NULL AUTO_INCREMENT,
+    office_id  INT          NOT NULL,
+    id         VARCHAR(20)  NOT NULL,
+    passwd     VARCHAR(255) NOT NULL,
+    rule       VARCHAR(1)   NOT NULL,
 
     PRIMARY KEY (manager_id),
     FOREIGN KEY (office_id) REFERENCES office (office_id)
@@ -46,7 +46,7 @@ CREATE TABLE manager
 CREATE TABLE product_type
 (
     product_type_id   INT         NOT NULL AUTO_INCREMENT,
-    product_type_name VARCHAR(20) NOT NULL UNIQUE,
+    product_type_name VARCHAR(10) NOT NULL UNIQUE,
 
     PRIMARY KEY (product_type_id)
 );
@@ -67,6 +67,7 @@ CREATE TABLE product
     product_name VARCHAR(20)  NOT NULL,
     category_id  INT          NOT NULL,
     price        INT          NOT NULL,
+    option_info  JSON         NOT NULL,
     description  VARCHAR(255) NOT NULL,
     image        VARCHAR(255) NOT NULL,
     is_active    VARCHAR(1)   NOT NULL,
@@ -86,15 +87,15 @@ CREATE TABLE additional_option
     PRIMARY KEY (additional_option_id)
 );
 
-CREATE TABLE product_option
+CREATE TABLE office_stock
 (
-    product_option_id    BIGINT     NOT NULL AUTO_INCREMENT,
-    additional_option_id BIGINT     NOT NULL,
-    product_id           BIGINT     NOT NULL,
-    option_value         VARCHAR(1) NOT NULL DEFAULT '0',
+    stock_id    BIGINT NOT NULL AUTO_INCREMENT,
+    office_id   INT    NOT NULL,
+    product_id  BIGINT NOT NULL,
+    stock_value INT    NOT NULL,
 
-    PRIMARY KEY (product_option_id),
-    FOREIGN KEY (additional_option_id) REFERENCES additional_option (additional_option_id),
+    PRIMARY KEY (stock_id),
+    FOREIGN KEY (office_id) REFERENCES office (office_id),
     FOREIGN KEY (product_id) REFERENCES product (product_id)
 );
 
