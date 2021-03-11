@@ -1,6 +1,5 @@
 DROP TABLE IF EXISTS my_menu;
 DROP TABLE IF EXISTS office_stock;
-DROP TABLE IF EXISTS additional_option;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS product_category;
 DROP TABLE IF EXISTS product_type;
@@ -75,16 +74,6 @@ CREATE TABLE product
 
     PRIMARY KEY (product_id),
     FOREIGN KEY (category_id) REFERENCES product_category (category_id)
-);
-
-CREATE TABLE additional_option
-(
-    additional_option_id   BIGINT NOT NULL AUTO_INCREMENT,
-    additional_option_name BIGINT NOT NULL,
-    max_value              INT    NOT NULL,
-    price                  INT    NOT NULL,
-
-    PRIMARY KEY (additional_option_id)
 );
 
 CREATE TABLE office_stock
