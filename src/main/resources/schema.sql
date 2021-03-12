@@ -1,6 +1,8 @@
 DROP TABLE IF EXISTS my_menu;
 DROP TABLE IF EXISTS office_stock;
 DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS product_option;
+DROP TABLE IF EXISTS additional_option;
 DROP TABLE IF EXISTS product_category;
 DROP TABLE IF EXISTS product_type;
 DROP TABLE IF EXISTS manager;
@@ -60,20 +62,42 @@ CREATE TABLE product_category
     FOREIGN KEY (product_type_id) REFERENCES product_type (product_type_id)
 );
 
+CREATE TABLE additional_option
+(
+    option_id    INT         NOT NULL AUTO_INCREMENT,
+    option_name  VARCHAR(10) NOT NULL,
+    option_price INT         NOT NULL,
+    max_quantity INT         NOT NULL,
+
+    PRIMARY KEY (option_id)
+);
+
+CREATE TABLE product_option
+(
+    product_option_id BIGINT NOT NULL AUTO_INCREMENT,
+    product_id        BIGINT NOT NULL,
+    option_id         INT    NOT NULL,
+    quantity          INT    NOT NULL,
+
+    PRIMARY KEY (product_option_id),
+    FOREIGN KEY (option_id) REFERENCES additional_option (option_id)
+);
+
 CREATE TABLE product
 (
     product_id   BIGINT       NOT NULL AUTO_INCREMENT,
     product_name VARCHAR(20)  NOT NULL,
     category_id  INT          NOT NULL,
     price        INT          NOT NULL,
-    option_info  JSON         NOT NULL,
+    option_id    BIGINT       NOT NULL,
     description  VARCHAR(255) NOT NULL,
     image        VARCHAR(255) NOT NULL,
     is_active    VARCHAR(1)   NOT NULL,
     created_at   DATE,
 
     PRIMARY KEY (product_id),
-    FOREIGN KEY (category_id) REFERENCES product_category (category_id)
+    FOREIGN KEY (category_id) REFERENCES product_category (category_id),
+    FOREIGN KEY (product_id) REFERENCES product_option (product_option_id)
 );
 
 CREATE TABLE office_stock
