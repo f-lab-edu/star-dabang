@@ -27,8 +27,8 @@ CREATE TABLE office
     office_id   INT             NOT NULL AUTO_INCREMENT,
     office_name VARCHAR(50)     NOT NULL,
     address     VARCHAR(255)    NOT NULL,
-    location_x  DECIMAL(16, 14) NOT NULL,
-    location_y  DECIMAL(17, 14) NOT NULL,
+    latitude    DECIMAL(16, 14) NOT NULL,
+    longitude   DECIMAL(17, 14) NOT NULL,
 
     PRIMARY KEY (office_id)
 );
