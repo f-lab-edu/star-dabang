@@ -73,6 +73,7 @@ public class SessionLoginService implements LoginService {
         }
 
         httpSession.setAttribute(LOGIN_MANAGER_ID, manager.getId());
+        httpSession.setAttribute(MANAGER_POWER, manager.getRule());
 
         return new ManagerData(manager);
     }
@@ -80,5 +81,6 @@ public class SessionLoginService implements LoginService {
     @Override
     public void logoutManager() {
         httpSession.removeAttribute(LOGIN_MANAGER_ID);
+        httpSession.removeAttribute(MANAGER_POWER);
     }
 }

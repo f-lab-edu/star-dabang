@@ -2,7 +2,7 @@ package dabang.star.cafe.api;
 
 import dabang.star.cafe.api.aop.CurrentMemberCheck;
 import dabang.star.cafe.api.aop.MemberLoginCheck;
-import dabang.star.cafe.api.aop.SessionMemberId;
+import dabang.star.cafe.api.aop.SessionId;
 import dabang.star.cafe.api.request.CurrentMemberRequest;
 import dabang.star.cafe.api.request.MemberUpdateRequest;
 import dabang.star.cafe.api.response.member.MemberData;
@@ -33,7 +33,7 @@ public class CurrentMemberApi {
     @MemberLoginCheck
     @PostMapping
     public MemberData myPage(@Valid @RequestBody CurrentMemberRequest currentMemberRequest,
-                             @SessionMemberId Long loginMemberId) {
+                             @SessionId Long loginMemberId) {
 
         return loginService.accessMyPage(loginMemberId, currentMemberRequest.getPassword());
     }
@@ -49,7 +49,7 @@ public class CurrentMemberApi {
     @PatchMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateMember(@Valid @RequestBody MemberUpdateRequest memberUpdateRequest,
-                             @SessionMemberId Long currentMemberId) {
+                             @SessionId Long currentMemberId) {
 
         memberService.update(new Member(currentMemberId, memberUpdateRequest));
     }
@@ -63,7 +63,7 @@ public class CurrentMemberApi {
     @CurrentMemberCheck
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteMember(@SessionMemberId Long currentMemberId) {
+    public void deleteMember(@SessionId Long currentMemberId) {
 
         memberService.secession(currentMemberId);
 
