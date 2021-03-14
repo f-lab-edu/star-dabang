@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/manager")
@@ -23,7 +25,7 @@ public class ManagerApi {
      * @return 로그인 완료시 HttpStatus.OK (ManagerData) 반환
      */
     @PostMapping("/login")
-    public ManagerData loginManager(@RequestBody ManagerLoginRequest managerLoginRequest) {
+    public ManagerData loginManager(@Valid @RequestBody ManagerLoginRequest managerLoginRequest) {
 
         return loginService.loginManager(managerLoginRequest.getName(), managerLoginRequest.getPassword());
     }

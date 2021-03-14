@@ -1,12 +1,10 @@
 package dabang.star.cafe.infrastructure.service;
 
-import dabang.star.cafe.api.exception.ManagerNotFoundException;
 import dabang.star.cafe.api.exception.NoAuthenticationException;
 import dabang.star.cafe.api.response.manager.ManagerData;
 import dabang.star.cafe.api.response.member.MemberData;
 import dabang.star.cafe.domain.login.EncryptService;
 import dabang.star.cafe.domain.login.LoginService;
-import dabang.star.cafe.domain.manager.Manager;
 import dabang.star.cafe.domain.manager.ManagerRepository;
 import dabang.star.cafe.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -63,19 +61,18 @@ public class SessionLoginService implements LoginService {
 
     @Override
     public ManagerData loginManager(String name, String password) {
-        Manager manager = managerRepository.findManagerByName(name).orElseThrow(
-                () -> new ManagerNotFoundException("not found name")
-        );
 
         String encryptedPassword = encryptService.encrypt(password);
-        if (!encryptedPassword.equals(manager.getPassword())) {
-            throw new NoAuthenticationException("no authenticated");
-        }
 
-        httpSession.setAttribute(LOGIN_MANAGER_ID, manager.getId());
-        httpSession.setAttribute(MANAGER_POWER, manager.getRule());
+        Optional<ManagerData> byNameAndPassword = managerRepository.findManagerByNameAndPassword(name, encryptedPassword);
+        ManagerData managerData = byNameAndPassword.orElseThrow(
+                () -> new NoAuthenticationException("no authenticated")
+        );
 
-        return new ManagerData(manager);
+        httpSession.setAttribute(LOGIN_MANAGER_ID, managerData.getId());
+        httpSession.setAttribute(MANAGER_POWER, managerData.getRule());
+
+        return managerData;
     }
 
     @Override
