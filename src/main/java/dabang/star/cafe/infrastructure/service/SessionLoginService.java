@@ -79,6 +79,6 @@ public class SessionLoginService implements LoginService {
 
     @Override
     public void logoutManager() {
-
+        httpSession.removeAttribute(LOGIN_MANAGER_ID);
     }
 }
