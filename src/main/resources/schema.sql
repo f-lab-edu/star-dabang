@@ -24,10 +24,11 @@ CREATE TABLE members
 
 CREATE TABLE office
 (
-    office_id   INT          NOT NULL AUTO_INCREMENT,
-    office_name VARCHAR(50)  NOT NULL,
-    address     VARCHAR(255) NOT NULL,
-    location    POINT        NOT NULL,
+    office_id   INT            NOT NULL AUTO_INCREMENT,
+    office_name VARCHAR(50)    NOT NULL,
+    address     VARCHAR(255)   NOT NULL,
+    location_x  DECIMAL(10, 6) NOT NULL,
+    location_y  DECIMAL(10, 6) NOT NULL,
 
     PRIMARY KEY (office_id)
 );
@@ -36,9 +37,9 @@ CREATE TABLE manager
 (
     manager_id BIGINT       NOT NULL AUTO_INCREMENT,
     office_id  INT          NOT NULL,
-    id         VARCHAR(20)  NOT NULL,
+    name       VARCHAR(20)  NOT NULL,
     passwd     VARCHAR(255) NOT NULL,
-    rule       VARCHAR(1)   NOT NULL,
+    rule       VARCHAR(10)  NOT NULL,
 
     PRIMARY KEY (manager_id),
     FOREIGN KEY (office_id) REFERENCES office (office_id)
