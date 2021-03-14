@@ -4,6 +4,7 @@ import dabang.star.cafe.api.exception.NoAuthenticationException;
 import dabang.star.cafe.api.exception.NoAuthorizationException;
 import dabang.star.cafe.domain.manager.Rule;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -25,7 +26,7 @@ public class AuthCheckAspect {
     private final HttpSession httpSession;
 
     @Before("@annotation(dabang.star.cafe.api.aop.AdminLoginCheck)")
-    public void adminLoginCheck(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    public void adminLoginCheck(JoinPoint joinPoint) throws Throwable {
 
         Object managerId = httpSession.getAttribute(LOGIN_MANAGER_ID);
         if (managerId == null) {
