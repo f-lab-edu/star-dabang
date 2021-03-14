@@ -29,7 +29,13 @@ public class MemberApi {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public MemberData signUpMember(@Valid @RequestBody SignUpRequest signUpRequest) {
-        return memberService.join(new Member(signUpRequest));
+        return memberService.join(
+                signUpRequest.getEmail(),
+                signUpRequest.getPassword(),
+                signUpRequest.getNickname(),
+                signUpRequest.getTelephone(),
+                signUpRequest.getBirth()
+        );
     }
 
     /**
