@@ -23,15 +23,20 @@ public class AuthCheckAspect {
 
     private final HttpSession httpSession;
 
-    @Around("@annotation(dabang.star.cafe.api.aop.AdminLoginCheck) && execution(* *(.., @SessionId (Long), ..)) ")
+    @Around("@annotation(dabang.star.cafe.api.aop.AdminLoginCheck)")
     public Object adminLoginCheck(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
-        if (Rule.ADMIN != httpSession.getAttribute(MANAGER_POWER)) {
+        Object managerId = httpSession.getAttribute(LOGIN_MANAGER_ID);
+        if (managerId == null) {
+            throw new NoAuthenticationException("no authenticated");
+        }
+
+        Object managerRule = httpSession.getAttribute(MANAGER_POWER);
+        if (managerRule != Rule.ADMIN) {
             throw new NoAuthorizationException("no authority");
         }
 
-        Object managerId = httpSession.getAttribute(LOGIN_MANAGER_ID);
-        return proceedWithMemberId(managerId, proceedingJoinPoint);
+        return proceedingJoinPoint.proceed();
     }
 
     @Around("@annotation(dabang.star.cafe.api.aop.MemberLoginCheck) && execution(* *(.., @SessionId (Long), ..))")
