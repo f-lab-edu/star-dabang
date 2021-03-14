@@ -1,6 +1,6 @@
 package dabang.star.cafe.api;
 
-import dabang.star.cafe.api.request.LoginRequest;
+import dabang.star.cafe.api.request.MemberLoginRequest;
 import dabang.star.cafe.api.request.SignUpRequest;
 import dabang.star.cafe.api.response.member.MemberData;
 import dabang.star.cafe.domain.login.LoginService;
@@ -33,24 +33,24 @@ public class MemberApi {
     }
 
     /**
-     * 로그인
+     * 멤버 로그인
      *
      * @param loginRequest (email, password)
      * @return 로그인 완료시 HttpsStatus.OK (MemberData) 반환
      */
     @PostMapping("/login")
-    public MemberData loginMember(@Valid @RequestBody LoginRequest loginRequest) {
-        return loginService.login(loginRequest.getEmail(), loginRequest.getPassword());
+    public MemberData loginMember(@Valid @RequestBody MemberLoginRequest loginRequest) {
+        return loginService.loginMember(loginRequest.getEmail(), loginRequest.getPassword());
     }
 
     /**
-     * 로그아웃
-     *
+     * 멤버 로그아웃
+     * <p>
      * 로그아웃 완료시 HttpsStatus.OK 반환
      */
     @PostMapping("/logout")
     public void logoutMember() {
-        loginService.logout();
+        loginService.logoutMember();
     }
 
 }

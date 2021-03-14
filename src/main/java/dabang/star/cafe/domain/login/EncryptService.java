@@ -1,4 +1,4 @@
-package dabang.star.cafe.domain.member;
+package dabang.star.cafe.domain.login;
 
 public interface EncryptService {
 

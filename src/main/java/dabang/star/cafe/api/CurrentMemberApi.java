@@ -67,7 +67,7 @@ public class CurrentMemberApi {
 
         memberService.secession(currentMemberId);
 
-        loginService.logout();
+        loginService.logoutMember();
     }
 
 }

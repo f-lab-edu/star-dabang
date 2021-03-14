@@ -12,4 +12,9 @@ public interface SessionKey {
      */
     String CURRENT_MEMBER_ID = "CURRENT";
 
+
+    /**
+     * 관리자의 ID를 관리하는 세션 키
+     */
+    String LOGIN_MANAGER_ID = "MANAGER";
 }

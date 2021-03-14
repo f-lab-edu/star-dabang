@@ -104,4 +104,21 @@ public class CustomExceptionHandler {
 
         return response;
     }
+
+    /**
+     * 요청에 대해 관리자를 찾지 못한 예외를 처리하며 Http Status 404을 반환한다.
+     */
+    @ExceptionHandler(ManagerNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleManagerNotFoundException(ManagerNotFoundException e) {
+
+        ErrorResponse response = ErrorResponse.builder()
+                .status(HttpStatus.NOT_FOUND.value())
+                .message(e.getMessage())
+                .build();
+
+        log.warn("Manager Not Found", e);
+
+        return response;
+    }
 }

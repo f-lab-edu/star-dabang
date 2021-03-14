@@ -1,0 +1,33 @@
+package dabang.star.cafe.api;
+
+import dabang.star.cafe.api.request.ManagerLoginRequest;
+import dabang.star.cafe.api.response.manager.ManagerData;
+import dabang.star.cafe.domain.login.LoginService;
+import dabang.star.cafe.infrastructure.mapper.ManagerMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/manager")
+public class ManagerApi {
+
+    private final LoginService loginService;
+    private final ManagerMapper managerMapper;
+
+    /**
+     * 관리자 로그인
+     *
+     * @param managerLoginRequest (name, password)
+     * @return 로그인 완료시 HttpStatus.OK (ManagerData) 반환
+     */
+    @PostMapping("/login")
+    public ManagerData loginManager(@RequestBody ManagerLoginRequest managerLoginRequest) {
+
+        return loginService.loginManager(managerLoginRequest.getName(), managerLoginRequest.getPassword());
+    }
+
+}
