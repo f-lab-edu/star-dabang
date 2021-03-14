@@ -1,7 +1,7 @@
 package dabang.star.cafe.api;
 
 import dabang.star.cafe.api.request.ManagerLoginRequest;
-import dabang.star.cafe.api.response.manager.ManagerData;
+import dabang.star.cafe.domain.manager.ManagerData;
 import dabang.star.cafe.domain.login.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -2,7 +2,7 @@ package dabang.star.cafe.infrastructure.service;
 
 import dabang.star.cafe.api.exception.DuplicatedException;
 import dabang.star.cafe.api.exception.MemberNotFoundException;
-import dabang.star.cafe.api.response.member.MemberData;
+import dabang.star.cafe.domain.member.MemberData;
 import dabang.star.cafe.domain.login.EncryptService;
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.domain.member.MemberRepository;

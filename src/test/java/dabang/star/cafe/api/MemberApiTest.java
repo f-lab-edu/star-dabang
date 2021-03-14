@@ -2,7 +2,7 @@ package dabang.star.cafe.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dabang.star.cafe.api.request.SignUpRequest;
-import dabang.star.cafe.api.response.ErrorResponse;
+import dabang.star.cafe.api.exception.ErrorResponse;
 import dabang.star.cafe.domain.member.Member;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.*;

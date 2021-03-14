@@ -5,7 +5,7 @@ import dabang.star.cafe.api.aop.MemberLoginCheck;
 import dabang.star.cafe.api.aop.SessionId;
 import dabang.star.cafe.api.request.CurrentMemberRequest;
 import dabang.star.cafe.api.request.MemberUpdateRequest;
-import dabang.star.cafe.api.response.member.MemberData;
+import dabang.star.cafe.domain.member.MemberData;
 import dabang.star.cafe.domain.login.LoginService;
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.domain.member.MemberService;

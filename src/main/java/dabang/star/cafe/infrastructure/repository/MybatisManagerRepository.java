@@ -1,6 +1,6 @@
 package dabang.star.cafe.infrastructure.repository;
 
-import dabang.star.cafe.api.response.manager.ManagerData;
+import dabang.star.cafe.domain.manager.ManagerData;
 import dabang.star.cafe.domain.manager.ManagerRepository;
 import dabang.star.cafe.infrastructure.mapper.ManagerMapper;
 import lombok.RequiredArgsConstructor;

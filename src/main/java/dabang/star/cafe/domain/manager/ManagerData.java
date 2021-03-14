@@ -1,7 +1,5 @@
-package dabang.star.cafe.api.response.manager;
+package dabang.star.cafe.domain.manager;
 
-import dabang.star.cafe.domain.manager.Manager;
-import dabang.star.cafe.domain.manager.Rule;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

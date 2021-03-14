@@ -1,6 +1,6 @@
 package dabang.star.cafe.infrastructure.repository;
 
-import dabang.star.cafe.api.response.member.MemberData;
+import dabang.star.cafe.domain.member.MemberData;
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.domain.member.MemberRepository;
 import dabang.star.cafe.infrastructure.mapper.MemberMapper;
