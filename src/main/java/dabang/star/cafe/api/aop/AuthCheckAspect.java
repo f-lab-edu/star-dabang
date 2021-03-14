@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
@@ -23,8 +24,8 @@ public class AuthCheckAspect {
 
     private final HttpSession httpSession;
 
-    @Around("@annotation(dabang.star.cafe.api.aop.AdminLoginCheck)")
-    public Object adminLoginCheck(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    @Before("@annotation(dabang.star.cafe.api.aop.AdminLoginCheck)")
+    public void adminLoginCheck(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         Object managerId = httpSession.getAttribute(LOGIN_MANAGER_ID);
         if (managerId == null) {
@@ -35,8 +36,6 @@ public class AuthCheckAspect {
         if (managerRule != Rule.ADMIN) {
             throw new NoAuthorizationException("no authority");
         }
-
-        return proceedingJoinPoint.proceed();
     }
 
     @Around("@annotation(dabang.star.cafe.api.aop.MemberLoginCheck) && execution(* *(.., @SessionId (Long), ..))")
