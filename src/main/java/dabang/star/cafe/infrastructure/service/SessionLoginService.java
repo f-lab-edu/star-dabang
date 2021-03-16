@@ -34,14 +34,14 @@ public class SessionLoginService implements LoginService {
                 () -> new NoAuthenticationException("no authenticated")
         );
 
-        httpSession.setAttribute(LOGIN_MEMBER_ID, memberData.getId());
+        httpSession.setAttribute(LOGIN_ID, memberData.getId());
 
         return memberData;
     }
 
     @Override
     public void logoutMember() {
-        httpSession.removeAttribute(LOGIN_MEMBER_ID);
+        httpSession.removeAttribute(LOGIN_ID);
     }
 
     @Override
@@ -69,15 +69,15 @@ public class SessionLoginService implements LoginService {
                 () -> new NoAuthenticationException("no authenticated")
         );
 
-        httpSession.setAttribute(LOGIN_MANAGER_ID, managerData.getId());
-        httpSession.setAttribute(MANAGER_POWER, managerData.getRule());
+        httpSession.setAttribute(LOGIN_ID, managerData.getId());
+        httpSession.setAttribute(MANAGER_ROLE, managerData.getRole());
 
         return managerData;
     }
 
     @Override
     public void logoutManager() {
-        httpSession.removeAttribute(LOGIN_MANAGER_ID);
-        httpSession.removeAttribute(MANAGER_POWER);
+        httpSession.removeAttribute(LOGIN_ID);
+        httpSession.removeAttribute(MANAGER_ROLE);
     }
 }

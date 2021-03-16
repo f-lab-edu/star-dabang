@@ -1,7 +1,7 @@
 package dabang.star.cafe.api.response.manager;
 
 import dabang.star.cafe.domain.manager.Manager;
-import dabang.star.cafe.domain.manager.Rule;
+import dabang.star.cafe.domain.manager.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -15,12 +15,12 @@ public class ManagerData {
 
     private String name;
 
-    private Rule rule;
+    private Role role;
 
     public ManagerData(Manager manager) {
         this.id = manager.getId();
         this.officeId = manager.getOfficeId();
         this.name = manager.getName();
-        this.rule = manager.getRule();
+        this.role = manager.getRole();
     }
 }

@@ -17,5 +17,5 @@ public class Manager {
 
     private String password;
 
-    private Rule rule;
+    private Role role;
 }
