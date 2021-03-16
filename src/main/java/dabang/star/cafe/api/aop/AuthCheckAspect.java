@@ -47,8 +47,8 @@ public class AuthCheckAspect {
 
         Method method = ((MethodSignature) proceedingJoinPoint.getSignature()).getMethod();
         LoginCheck loginCheck = method.getAnnotation(LoginCheck.class);
-        if (loginCheck != null && loginCheck.role() != Role.NONE) {
-            managerRoleCheck(loginCheck.role());
+        if (loginCheck != null && loginCheck.role().length != 0) {
+            managerRoleCheck(loginCheck.role()[0]);
         }
 
         Object[] args = proceedingJoinPoint.getArgs();

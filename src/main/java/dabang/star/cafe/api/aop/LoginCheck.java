@@ -11,5 +11,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface LoginCheck {
 
-    Role role() default Role.NONE;
+    Role[] role() default {};
+
 }

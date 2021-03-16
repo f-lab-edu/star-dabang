@@ -1,8 +1,10 @@
 package dabang.star.cafe.api;
 
+import dabang.star.cafe.api.aop.LoginCheck;
 import dabang.star.cafe.api.request.ManagerLoginRequest;
 import dabang.star.cafe.api.response.manager.ManagerData;
 import dabang.star.cafe.domain.login.LoginService;
+import dabang.star.cafe.domain.manager.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,6 +38,7 @@ public class ManagerApi {
      * <p>
      * 로그아웃 완료시 HttpStatus.OK 반환
      */
+    @LoginCheck(role = Role.ADMIN)
     @PostMapping("/logout")
     public void logoutMember() {
         loginService.logoutManager();
