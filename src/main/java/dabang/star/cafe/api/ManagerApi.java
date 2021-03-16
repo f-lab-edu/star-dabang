@@ -13,7 +13,7 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/manager")
+@RequestMapping("/managers")
 public class ManagerApi {
 
     private final LoginService loginService;
