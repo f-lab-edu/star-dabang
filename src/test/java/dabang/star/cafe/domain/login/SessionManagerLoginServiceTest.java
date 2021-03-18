@@ -6,7 +6,6 @@ import dabang.star.cafe.domain.manager.ManagerRepository;
 import dabang.star.cafe.domain.manager.Role;
 import dabang.star.cafe.infrastructure.service.SessionManagerLoginService;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,11 +43,6 @@ class SessionManagerLoginServiceTest {
 
     @Mock
     ManagerRepository managerRepository;
-
-    @BeforeEach
-    void setUp() {
-
-    }
 
     @DisplayName("로그인을 하기위해 관리자 정보를 조회해서 세션에 아이디와 권한을 저장시킨다")
     @Test
