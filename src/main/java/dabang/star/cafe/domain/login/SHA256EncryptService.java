@@ -1,6 +1,5 @@
-package dabang.star.cafe.infrastructure.service;
+package dabang.star.cafe.domain.login;
 
-import dabang.star.cafe.domain.login.EncryptService;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;

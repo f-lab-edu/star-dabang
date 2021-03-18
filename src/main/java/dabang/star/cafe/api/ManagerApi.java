@@ -1,10 +1,8 @@
 package dabang.star.cafe.api;
 
-import dabang.star.cafe.api.aop.LoginCheck;
 import dabang.star.cafe.api.request.ManagerLoginRequest;
-import dabang.star.cafe.api.response.manager.ManagerData;
-import dabang.star.cafe.domain.login.LoginService;
-import dabang.star.cafe.domain.manager.Role;
+import dabang.star.cafe.domain.login.ManagerLoginService;
+import dabang.star.cafe.domain.manager.ManagerData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +16,7 @@ import javax.validation.Valid;
 @RequestMapping("/managers")
 public class ManagerApi {
 
-    private final LoginService loginService;
+    private final ManagerLoginService managerLoginService;
 
     /**
      * 관리자 로그인
@@ -29,7 +27,7 @@ public class ManagerApi {
     @PostMapping("/login")
     public ManagerData loginManager(@Valid @RequestBody ManagerLoginRequest managerLoginRequest) {
 
-        return loginService.loginManager(managerLoginRequest.getName(), managerLoginRequest.getPassword());
+        return managerLoginService.login(managerLoginRequest.getName(), managerLoginRequest.getPassword());
     }
 
 
@@ -38,10 +36,9 @@ public class ManagerApi {
      * <p>
      * 로그아웃 완료시 HttpStatus.OK 반환
      */
-    @LoginCheck(role = Role.ADMIN)
     @PostMapping("/logout")
     public void logoutMember() {
-        loginService.logoutManager();
+        managerLoginService.logout();
     }
 
 }

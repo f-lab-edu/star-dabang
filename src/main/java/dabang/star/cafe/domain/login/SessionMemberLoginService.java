@@ -1,11 +1,7 @@
-package dabang.star.cafe.infrastructure.service;
+package dabang.star.cafe.domain.login;
 
 import dabang.star.cafe.api.exception.NoAuthenticationException;
-import dabang.star.cafe.api.response.manager.ManagerData;
-import dabang.star.cafe.api.response.member.MemberData;
-import dabang.star.cafe.domain.login.EncryptService;
-import dabang.star.cafe.domain.login.LoginService;
-import dabang.star.cafe.domain.manager.ManagerRepository;
+import dabang.star.cafe.domain.member.MemberData;
 import dabang.star.cafe.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,19 +9,19 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
-import static dabang.star.cafe.utils.SessionKey.*;
+import static dabang.star.cafe.utils.SessionKey.CURRENT_MEMBER_ID;
+import static dabang.star.cafe.utils.SessionKey.LOGIN_ID;
 
 @RequiredArgsConstructor
 @Service
-public class SessionLoginService implements LoginService {
+public class SessionMemberLoginService implements MemberLoginService {
 
     private final HttpSession httpSession;
     private final EncryptService encryptService;
     private final MemberRepository memberRepository;
-    private final ManagerRepository managerRepository;
 
     @Override
-    public MemberData loginMember(String email, String password) {
+    public MemberData login(String email, String password) {
 
         String encryptedPassword = encryptService.encrypt(password);
 
@@ -40,7 +36,7 @@ public class SessionLoginService implements LoginService {
     }
 
     @Override
-    public void logoutMember() {
+    public void logout() {
         httpSession.removeAttribute(LOGIN_ID);
     }
 
@@ -59,25 +55,4 @@ public class SessionLoginService implements LoginService {
         return memberData;
     }
 
-    @Override
-    public ManagerData loginManager(String name, String password) {
-
-        String encryptedPassword = encryptService.encrypt(password);
-
-        Optional<ManagerData> byNameAndPassword = managerRepository.findManagerByNameAndPassword(name, encryptedPassword);
-        ManagerData managerData = byNameAndPassword.orElseThrow(
-                () -> new NoAuthenticationException("no authenticated")
-        );
-
-        httpSession.setAttribute(LOGIN_ID, managerData.getId());
-        httpSession.setAttribute(MANAGER_ROLE, managerData.getRole());
-
-        return managerData;
-    }
-
-    @Override
-    public void logoutManager() {
-        httpSession.removeAttribute(LOGIN_ID);
-        httpSession.removeAttribute(MANAGER_ROLE);
-    }
 }

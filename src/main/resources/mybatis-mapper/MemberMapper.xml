@@ -41,7 +41,7 @@
           AND m.passwd = #{password}
     </select>
 
-    <delete id="deleteById">
+    <delete id="removeById">
         DELETE
         FROM members
         WHERE member_id = #{id}

@@ -2,9 +2,9 @@ package dabang.star.cafe.api;
 
 import dabang.star.cafe.api.request.MemberLoginRequest;
 import dabang.star.cafe.api.request.SignUpRequest;
-import dabang.star.cafe.api.response.member.MemberData;
-import dabang.star.cafe.domain.login.LoginService;
+import dabang.star.cafe.domain.login.MemberLoginService;
 import dabang.star.cafe.domain.member.Member;
+import dabang.star.cafe.domain.member.MemberData;
 import dabang.star.cafe.domain.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import javax.validation.Valid;
 public class MemberApi {
 
     private final MemberService memberService;
-    private final LoginService loginService;
+    private final MemberLoginService memberLoginService;
 
     /**
      * 멤버 회원가입
@@ -40,7 +40,7 @@ public class MemberApi {
      */
     @PostMapping("/login")
     public MemberData loginMember(@Valid @RequestBody MemberLoginRequest loginRequest) {
-        return loginService.loginMember(loginRequest.getEmail(), loginRequest.getPassword());
+        return memberLoginService.login(loginRequest.getEmail(), loginRequest.getPassword());
     }
 
     /**
@@ -50,7 +50,7 @@ public class MemberApi {
      */
     @PostMapping("/logout")
     public void logoutMember() {
-        loginService.logoutMember();
+        memberLoginService.logout();
     }
 
 }
