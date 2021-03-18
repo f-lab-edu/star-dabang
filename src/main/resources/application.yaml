@@ -15,7 +15,7 @@ spring:
     username: root
     password: root
     initialization-mode: always
-    data: data-dev.sql
+    data: classpath:data-dev.sql
 
 
   session:
