@@ -1,9 +1,9 @@
 package dabang.star.cafe.infrastructure.service;
 
 import dabang.star.cafe.api.exception.NoAuthenticationException;
-import dabang.star.cafe.api.response.member.MemberData;
-import dabang.star.cafe.domain.login.LoginService;
-import dabang.star.cafe.domain.member.EncryptService;
+import dabang.star.cafe.domain.login.EncryptService;
+import dabang.star.cafe.domain.login.MemberLoginService;
+import dabang.star.cafe.domain.member.MemberData;
 import dabang.star.cafe.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,11 +12,11 @@ import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 import static dabang.star.cafe.utils.SessionKey.CURRENT_MEMBER_ID;
-import static dabang.star.cafe.utils.SessionKey.LOGIN_MEMBER_ID;
+import static dabang.star.cafe.utils.SessionKey.LOGIN_ID;
 
 @RequiredArgsConstructor
 @Service
-public class SessionLoginService implements LoginService {
+public class SessionMemberLoginService implements MemberLoginService {
 
     private final HttpSession httpSession;
     private final EncryptService encryptService;
@@ -32,14 +32,14 @@ public class SessionLoginService implements LoginService {
                 () -> new NoAuthenticationException("no authenticated")
         );
 
-        httpSession.setAttribute(LOGIN_MEMBER_ID, memberData.getId());
+        httpSession.setAttribute(LOGIN_ID, memberData.getId());
 
         return memberData;
     }
 
     @Override
     public void logout() {
-        httpSession.removeAttribute(LOGIN_MEMBER_ID);
+        httpSession.removeAttribute(LOGIN_ID);
     }
 
     @Override
@@ -56,4 +56,5 @@ public class SessionLoginService implements LoginService {
 
         return memberData;
     }
+
 }

@@ -1,4 +1,4 @@
-package dabang.star.cafe.api.response;
+package dabang.star.cafe.api.exception;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dabang.star.cafe.infrastructure.mapper.ManagerMapper">
+
+    <select id="getByNameAndPassword" resultType="ManagerData">
+        SELECT m.manager_id AS id,
+               m.office_id  AS officeId,
+               m.name       AS name,
+               m.rule       AS rule
+        FROM manager m
+        WHERE m.name = #{name}
+          AND m.passwd = #{password}
+    </select>
+
+</mapper>

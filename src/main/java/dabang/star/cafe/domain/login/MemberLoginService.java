@@ -1,9 +1,9 @@
 package dabang.star.cafe.domain.login;
 
 
-import dabang.star.cafe.api.response.member.MemberData;
+import dabang.star.cafe.domain.member.MemberData;
 
-public interface LoginService {
+public interface MemberLoginService {
 
     MemberData login(String email, String password);
 
