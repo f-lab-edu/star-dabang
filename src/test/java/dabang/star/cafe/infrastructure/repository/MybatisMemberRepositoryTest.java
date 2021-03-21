@@ -1,7 +1,7 @@
 package dabang.star.cafe.infrastructure.repository;
 
-import dabang.star.cafe.api.response.member.MemberData;
 import dabang.star.cafe.domain.member.Member;
+import dabang.star.cafe.domain.member.MemberData;
 import dabang.star.cafe.domain.member.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -40,7 +40,7 @@ class MybatisMemberRepositoryTest {
     @Test
     void saveMember() {
         memberRepository.save(member);
-        MemberData saveMember = new MemberData(member);
+        MemberData saveMember = MemberData.from(member);
 
         Optional<MemberData> findMember = memberRepository.findMemberByEmailAndPassword(this.member.getEmail(), this.member.getPassword());
 
