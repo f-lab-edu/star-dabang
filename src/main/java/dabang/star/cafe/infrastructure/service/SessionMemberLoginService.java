@@ -27,7 +27,7 @@ public class SessionMemberLoginService implements MemberLoginService {
 
         String encryptedPassword = encryptService.encrypt(password);
 
-        Optional<MemberData> byEmailAndPassword = memberRepository.findMemberByEmailAndPassword(email, encryptedPassword);
+        Optional<MemberData> byEmailAndPassword = memberRepository.findByEmailAndPassword(email, encryptedPassword);
         MemberData memberData = byEmailAndPassword.orElseThrow(
                 () -> new NoAuthenticationException("no authenticated")
         );
@@ -47,7 +47,7 @@ public class SessionMemberLoginService implements MemberLoginService {
 
         String encryptedPassword = encryptService.encrypt(password);
 
-        Optional<MemberData> byIdAndPassword = memberRepository.findMemberByIdAndPassword(id, encryptedPassword);
+        Optional<MemberData> byIdAndPassword = memberRepository.findByIdAndPassword(id, encryptedPassword);
         MemberData memberData = byIdAndPassword.orElseThrow(
                 () -> new NoAuthenticationException("no authenticated")
         );

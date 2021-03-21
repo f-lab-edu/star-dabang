@@ -6,13 +6,13 @@ public interface MemberRepository {
 
     void save(Member member);
 
-    boolean isExist(String email);
+    boolean existsByEmail(String email);
 
-    Optional<MemberData> findMemberByEmailAndPassword(String email, String password);
+    Optional<MemberData> findByEmailAndPassword(String email, String password);
 
-    Optional<MemberData> findMemberByIdAndPassword(long id, String password);
+    Optional<MemberData> findByIdAndPassword(long id, String password);
 
-    Optional<MemberData> findMemberById(long id);
+    Optional<MemberData> findById(long id);
 
     void deleteById(long id);
 }

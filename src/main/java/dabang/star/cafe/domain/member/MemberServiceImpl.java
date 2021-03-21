@@ -16,21 +16,28 @@ public class MemberServiceImpl implements MemberService {
     private final EncryptService encryptService;
 
     @Override
-    public MemberData join(Member member) {
+    public MemberData join(String email, String password, String nickname, String telephone, String birth) {
 
-        checkDuplicatedMember(member);
-        member.setPassword(encryptService.encrypt(member.getPassword()));
+        checkDuplicatedEmail(email);
 
+        String encryptedPassword = encryptService.encrypt(password);
+        Member member = Member.builder()
+                .email(email)
+                .password(encryptedPassword)
+                .nickname(nickname)
+                .telephone(telephone)
+                .birth(birth)
+                .build();
         memberRepository.save(member);
 
         return MemberData.from(member);
     }
 
     @Override
-    public void checkDuplicatedMember(Member member) {
+    public void checkDuplicatedEmail(String email) {
 
-        if (memberRepository.isExist(member.getEmail())) {
-            throw new DuplicatedException("duplicated Email");
+        if (memberRepository.existsByEmail(email)) {
+            throw new DuplicatedException("duplicated email");
         }
     }
 
@@ -42,7 +49,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberData loadById(long id) {
-        return memberRepository.findMemberById(id).orElseThrow(
+        return memberRepository.findById(id).orElseThrow(
                 () -> new MemberNotFoundException("member not found")
         );
     }

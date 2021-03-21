@@ -27,22 +27,22 @@ public class MybatisMemberRepository implements MemberRepository {
     }
 
     @Override
-    public boolean isExist(String email) {
+    public boolean existsByEmail(String email) {
         return memberMapper.exists(email);
     }
 
     @Override
-    public Optional<MemberData> findMemberByEmailAndPassword(String email, String password) {
+    public Optional<MemberData> findByEmailAndPassword(String email, String password) {
         return memberMapper.getByEmailAndPassword(email, password);
     }
 
     @Override
-    public Optional<MemberData> findMemberById(long id) {
+    public Optional<MemberData> findById(long id) {
         return memberMapper.getById(id);
     }
 
     @Override
-    public Optional<MemberData> findMemberByIdAndPassword(long id, String password) {
+    public Optional<MemberData> findByIdAndPassword(long id, String password) {
         return memberMapper.getByIdAndPassword(id, password);
     }
 

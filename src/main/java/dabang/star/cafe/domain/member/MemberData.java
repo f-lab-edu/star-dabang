@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 @AllArgsConstructor
 public class MemberData {
 
@@ -14,7 +15,6 @@ public class MemberData {
 
     private String nickname;
 
-    @Builder
     public static MemberData from(Member member) {
 
         return new MemberData(member.getId(),
