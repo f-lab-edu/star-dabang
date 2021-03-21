@@ -39,6 +39,11 @@ spring:
     activate:
       on-profile: test
 
+  session:
+    store-type: redis
+    redis:
+      namespace: star_dabang:session
+
   redis:
     host: localhost
     port: 16380
