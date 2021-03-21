@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dabang.star.cafe.infrastructure.mapper.OptionMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO additional_option (option_name, option_price, max_quantity)
+        VALUES (#{name}, #{price}, #{maxQuantity});
+    </insert>
+
+    <update id="update" keyProperty="id">
+        UPDATE additional_option
+        <set>
+            <if test="option_name != null">option_name=#{name},</if>
+            <if test="option_price != null">option_price=#{price},</if>
+            <if test="max_quantity != null">max_quantity=#{maxQuantity},</if>
+        </set>
+        WHERE option_id=#{id}
+    </update>
+
+</mapper>
