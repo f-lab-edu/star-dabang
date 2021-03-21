@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 public class MemberUpdateRequest {
 
-    @NotBlank(message = "blank email")
+    @NotBlank(message = "not valid password")
     @Pattern(regexp = "^[0-9a-zA-z]{2,}$", message = "not valid password")
     private String password;
 
