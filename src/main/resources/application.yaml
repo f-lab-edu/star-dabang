@@ -39,6 +39,10 @@ spring:
     activate:
       on-profile: test
 
+  redis:
+    host: localhost
+    port: 16380
+
 mybatis:
   mapper-locations: classpath:mybatis-mapper/**/*.xml
   type-aliases-package: dabang.star.cafe.domain, dabang.star.cafe.api.response
