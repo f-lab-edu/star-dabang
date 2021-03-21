@@ -1,7 +1,7 @@
 package dabang.star.cafe.infrastructure.repository;
 
-import dabang.star.cafe.api.response.member.MemberData;
 import dabang.star.cafe.domain.member.Member;
+import dabang.star.cafe.domain.member.MemberData;
 import dabang.star.cafe.domain.member.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -40,9 +40,9 @@ class MybatisMemberRepositoryTest {
     @Test
     void saveMember() {
         memberRepository.save(member);
-        MemberData saveMember = new MemberData(member);
+        MemberData saveMember = MemberData.from(member);
 
-        Optional<MemberData> findMember = memberRepository.findMemberByEmailAndPassword(this.member.getEmail(), this.member.getPassword());
+        Optional<MemberData> findMember = memberRepository.findByEmailAndPassword(this.member.getEmail(), this.member.getPassword());
 
         assertThat(findMember.get().getEmail()).isEqualTo(saveMember.getEmail());
     }
@@ -51,7 +51,7 @@ class MybatisMemberRepositoryTest {
     @Test
     void isNotExistEmail() {
         memberRepository.save(member);
-        boolean result = memberRepository.isExist("test@naver.com");
+        boolean result = memberRepository.existsByEmail("test@naver.com");
 
         assertThat(result).isTrue();
     }
@@ -60,7 +60,7 @@ class MybatisMemberRepositoryTest {
     @Test
     void isExistEmail() {
         memberRepository.save(member);
-        boolean result = memberRepository.isExist("abcd@naver.com");
+        boolean result = memberRepository.existsByEmail("abcd@naver.com");
 
         assertThat(result).isFalse();
     }
@@ -71,7 +71,7 @@ class MybatisMemberRepositoryTest {
         memberRepository.save(member);
         memberRepository.deleteById(member.getId());
 
-        Optional<MemberData> findMember = memberRepository.findMemberById(member.getId());
+        Optional<MemberData> findMember = memberRepository.findById(member.getId());
 
         assertThat(findMember).isEmpty();
     }
