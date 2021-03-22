@@ -46,7 +46,7 @@ class OptionAdminApiTest {
         optionFactoryMockedStatic.close();
     }
 
-    @DisplayName("새로운 옵션을 추가할 때 성공적으로 반환한다면 상태코드 201과 Option 정보를 반환한다")
+    @DisplayName("새로운 옵션을 추가에 성공한다면 상태코드 201과 Option 정보를 반환한다")
     @Test
     void successfulCreateOptionTest() {
 
