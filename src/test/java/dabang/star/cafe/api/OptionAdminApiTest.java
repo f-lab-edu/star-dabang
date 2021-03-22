@@ -1,23 +1,27 @@
 package dabang.star.cafe.api;
 
+import dabang.star.cafe.api.exception.NotFoundException;
 import dabang.star.cafe.api.request.OptionCreateRequest;
 import dabang.star.cafe.domain.admin.OptionAdminService;
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.domain.option.OptionFactory;
-import io.restassured.mapper.ObjectMapperType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.*;
 import org.mockito.MockedStatic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static io.restassured.mapper.ObjectMapperType.JACKSON_2;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.*;
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @ActiveProfiles("test")
 @WebMvcTest(OptionAdminApi.class)
@@ -59,8 +63,8 @@ class OptionAdminApiTest {
 
         RestAssuredMockMvc
                 .given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(optionCreateRequest, ObjectMapperType.JACKSON_2)
+                .contentType(APPLICATION_JSON_VALUE)
+                .body(optionCreateRequest, JACKSON_2)
                 .when()
                 .post("/options")
                 .then()
@@ -79,12 +83,12 @@ class OptionAdminApiTest {
         OptionCreateRequest optionCreateRequest = new OptionCreateRequest("option", -100, 10);
 
         RestAssuredMockMvc.given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(optionCreateRequest, ObjectMapperType.JACKSON_2)
+                .contentType(APPLICATION_JSON_VALUE)
+                .body(optionCreateRequest, JACKSON_2)
                 .when()
                 .post("/options")
                 .then()
-                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .statusCode(UNPROCESSABLE_ENTITY.value())
                 .body("message", equalTo("not valid price"))
                 .body("status", equalTo(422));
     }
@@ -96,12 +100,12 @@ class OptionAdminApiTest {
         OptionCreateRequest optionCreateRequest = new OptionCreateRequest("option", null, 10);
 
         RestAssuredMockMvc.given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(optionCreateRequest, ObjectMapperType.JACKSON_2)
+                .contentType(APPLICATION_JSON_VALUE)
+                .body(optionCreateRequest, JACKSON_2)
                 .when()
                 .post("/options")
                 .then()
-                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .statusCode(UNPROCESSABLE_ENTITY.value())
                 .body("message", equalTo("blank price"))
                 .body("status", equalTo(422));
     }
@@ -113,12 +117,12 @@ class OptionAdminApiTest {
         OptionCreateRequest optionCreateRequest = new OptionCreateRequest("option", 500, -10);
 
         RestAssuredMockMvc.given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(optionCreateRequest, ObjectMapperType.JACKSON_2)
+                .contentType(APPLICATION_JSON_VALUE)
+                .body(optionCreateRequest, JACKSON_2)
                 .when()
                 .post("/options")
                 .then()
-                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .statusCode(UNPROCESSABLE_ENTITY.value())
                 .body("message", equalTo("not valid max quantity"))
                 .body("status", equalTo(422));
     }
@@ -130,14 +134,49 @@ class OptionAdminApiTest {
         OptionCreateRequest optionCreateRequest = new OptionCreateRequest("option", 500, null);
 
         RestAssuredMockMvc.given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(optionCreateRequest, ObjectMapperType.JACKSON_2)
+                .contentType(APPLICATION_JSON_VALUE)
+                .body(optionCreateRequest, JACKSON_2)
                 .when()
                 .post("/options")
                 .then()
-                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .statusCode(UNPROCESSABLE_ENTITY.value())
                 .body("message", equalTo("blank max quantity"))
                 .body("status", equalTo(422));
+    }
+
+    @DisplayName("옵션들을 조회할 때 옵션 정보가 없으면 상태코드 404와 No options were found를 반환한다")
+    @Test
+    void failedGetOptionTest() {
+
+        when(optionAdminService.getAllOption())
+                .thenThrow(new NotFoundException("No options were found"));
+
+        RestAssuredMockMvc.when()
+                .get("/options")
+                .then()
+                .statusCode(NOT_FOUND.value())
+                .body("message", equalTo("No options were found"))
+                .body("status", equalTo(404));
+    }
+
+    @DisplayName("옵션들을 성공적으로 조회하면 상태코드 200과 List<Option>를 반환한다")
+    @Test
+    void successGetOptionTest() {
+
+        List<Option> response = new ArrayList<>();
+        response.add(new Option(1, "option1", 100, 10));
+
+        when(optionAdminService.getAllOption())
+                .thenReturn(response);
+
+        RestAssuredMockMvc.when()
+                .get("/options")
+                .then()
+                .statusCode(OK.value())
+                .body("[0].id", equalTo(1))
+                .body("[0].name", equalTo("option1"))
+                .body("[0].price", equalTo(100))
+                .body("[0].maxQuantity", equalTo(10));
     }
 
 }
