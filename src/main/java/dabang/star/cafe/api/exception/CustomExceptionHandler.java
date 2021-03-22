@@ -53,18 +53,18 @@ public class CustomExceptionHandler {
     }
 
     /**
-     * 요청에 대해 멤버를 찾지 못한 예외를 처리하며 Http Status 404을 반환한다.
+     * 요청에 대한 값을 찾지 못했을 경우 예외를 처리하며 Http Status 404을 반환한다.
      */
-    @ExceptionHandler(MemberNotFoundException.class)
+    @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleMemberNotFoundException(MemberNotFoundException e) {
+    public ErrorResponse handleNotFoundException(NotFoundException e) {
 
         ErrorResponse response = ErrorResponse.builder()
                 .status(HttpStatus.NOT_FOUND.value())
                 .message(e.getMessage())
                 .build();
 
-        log.warn("Member Not Found", e);
+        log.warn("No value was found for the request", e);
 
         return response;
     }

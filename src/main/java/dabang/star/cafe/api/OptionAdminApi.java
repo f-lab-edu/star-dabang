@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -33,4 +34,16 @@ public class OptionAdminApi {
         return optionAdminService.createOption(OptionFactory.from(optionCreateRequest));
     }
 
+    /**
+     * 새로운 상품을 추가하거나 수정할 때 설정을위해서 옵션 정보를 조회
+     *
+     * @return 조회 완료시 HttpStatus.OK (List<Option>) 반환
+     */
+    @LoginCheck(role = Role.ADMIN)
+    @GetMapping
+    public List<Option> getAllOption() {
+
+        return optionAdminService.getAllOption();
+    }
+    
 }

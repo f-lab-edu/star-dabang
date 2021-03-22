@@ -6,6 +6,8 @@ import dabang.star.cafe.infrastructure.mapper.OptionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Repository
 public class MybatisOptionRepository implements OptionRepository {
@@ -19,6 +21,12 @@ public class MybatisOptionRepository implements OptionRepository {
         } else {
             optionMapper.update(option);
         }
+    }
+
+    @Override
+    public List<Option> findAll() {
+
+        return optionMapper.selectAllOption();
     }
 
 }

@@ -17,4 +17,12 @@
         WHERE option_id=#{id}
     </update>
 
+    <select id="selectAllOption" resultType="Option">
+        SELECT option_id,
+               option_name,
+               option_price,
+               max_quantity
+        FROM additional_option
+    </select>
+
 </mapper>
