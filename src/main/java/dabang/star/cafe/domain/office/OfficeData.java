@@ -11,8 +11,13 @@ public class OfficeData {
 
     private String name;
 
-    public OfficeData(Office office) {
-        this.id = office.getId();
-        this.name = office.getName();
+    private String address;
+
+    public static OfficeData from(Office office) {
+
+        return new OfficeData(office.getId(),
+                office.getName(),
+                office.getAddress()
+        );
     }
 }

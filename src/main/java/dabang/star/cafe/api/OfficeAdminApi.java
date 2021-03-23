@@ -5,10 +5,12 @@ import dabang.star.cafe.api.request.OfficeCreateRequest;
 import dabang.star.cafe.api.request.OfficeUpdateRequest;
 import dabang.star.cafe.domain.office.OfficeData;
 import dabang.star.cafe.domain.admin.OfficeAdminService;
+import dabang.star.cafe.utils.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -30,7 +32,7 @@ public class OfficeAdminApi {
     }
 
     @AdminLoginCheck
-    @PostMapping
+    @PatchMapping
     public void updateOffice(@Valid @RequestBody OfficeUpdateRequest officeUpdateRequest) {
         officeAdminService.updateOffice(
                 officeUpdateRequest.getId(),
@@ -45,6 +47,13 @@ public class OfficeAdminApi {
     @DeleteMapping("/{officeId}")
     public void deleteOffice(@PathVariable Long officeId) {
         officeAdminService.deleteOffice(officeId);
+    }
+
+    @AdminLoginCheck
+    @GetMapping
+    public List<OfficeData> getOffices(@RequestParam(value = "offset", defaultValue = "0") int offset,
+                                       @RequestParam(value = "limit", defaultValue = "20") int limit) {
+        return officeAdminService.findOffices(new Page(offset, limit));
     }
 
 }

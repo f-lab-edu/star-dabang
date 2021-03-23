@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dabang.star.cafe.infrastructure.mapper.OfficeReadService">
+
+    <select id="findOffices" resultType="officeData">
+        SELECT O.*
+        FROM (
+                 SELECT office_id, office_name, address
+                 FROM office
+                 ORDER BY office_id
+             ) O
+        LIMIT #{page.limit} OFFSET #{page.offset}
+    </select>
+
+</mapper>

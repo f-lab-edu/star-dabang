@@ -6,7 +6,7 @@ public interface OfficeRepository {
 
     Long save(Office office);
 
-    Optional<Office> findOfficeById(long id);
+    Optional<Office> findById(long id);
 
     void deleteById(long id);
 }

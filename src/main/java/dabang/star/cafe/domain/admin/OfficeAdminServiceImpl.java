@@ -1,20 +1,24 @@
-package dabang.star.cafe.infrastructure.service;
+package dabang.star.cafe.domain.admin;
 
 import dabang.star.cafe.api.exception.OfficeNotFoundException;
-import dabang.star.cafe.domain.admin.OfficeAdminService;
 import dabang.star.cafe.domain.office.Office;
 import dabang.star.cafe.domain.office.OfficeData;
 import dabang.star.cafe.domain.office.OfficeRepository;
+import dabang.star.cafe.infrastructure.mapper.OfficeReadService;
+import dabang.star.cafe.utils.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class OfficeAdminServiceImpl implements OfficeAdminService {
 
     private final OfficeRepository officeRepository;
+
+    private final OfficeReadService officeReadService;
 
     @Override
     public OfficeData createOffice(String name, String address, BigDecimal latitude, BigDecimal longitude) {
@@ -28,7 +32,7 @@ public class OfficeAdminServiceImpl implements OfficeAdminService {
 
         officeRepository.save(office);
 
-        return new OfficeData(office);
+        return OfficeData.from(office);
     }
 
     @Override
@@ -39,7 +43,7 @@ public class OfficeAdminServiceImpl implements OfficeAdminService {
     @Override
     public void updateOffice(Long id, String name, String address, BigDecimal latitude, BigDecimal longitude) {
 
-        Office office = officeRepository.findOfficeById(id).orElseThrow(
+        Office office = officeRepository.findById(id).orElseThrow(
                 () -> new OfficeNotFoundException("office not found")
         );
 
@@ -53,4 +57,8 @@ public class OfficeAdminServiceImpl implements OfficeAdminService {
         );
     }
 
+    @Override
+    public List<OfficeData> findOffices(Page page) {
+        return officeReadService.findOffices(page);
+    }
 }

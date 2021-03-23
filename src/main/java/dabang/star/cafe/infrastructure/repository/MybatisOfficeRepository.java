@@ -27,7 +27,7 @@ public class MybatisOfficeRepository implements OfficeRepository {
     }
 
     @Override
-    public Optional<Office> findOfficeById(long id) {
+    public Optional<Office> findById(long id) {
         return officeMapper.getById(id);
     }
 

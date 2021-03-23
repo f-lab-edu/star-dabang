@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Getter
@@ -18,12 +18,11 @@ public class OfficeCreateRequest {
     private String name;
 
     @NotBlank(message = "blank office address")
-    @Pattern(regexp = "/(([가-힣A-Za-z·\\d~\\-\\.]{2,}(로|길).[\\d]+)|([가-힣A-Za-z·\\d~\\-\\.]+(읍|동)\\s)[\\d]+)/")
     private String address;
 
-    @NotBlank(message = "blank office latitude")
+    @NotNull(message = "blank office latitude")
     private BigDecimal latitude;
 
-    @NotBlank(message = "blank office latitude")
+    @NotNull(message = "blank office latitude")
     private BigDecimal longitude;
 }
