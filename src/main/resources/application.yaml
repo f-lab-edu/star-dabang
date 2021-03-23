@@ -17,6 +17,8 @@ spring:
     initialization-mode: always
     data: classpath:data-dev.sql
 
+  cache:
+    type: redis
 
   session:
     store-type: redis
@@ -27,7 +29,6 @@ spring:
     host: localhost
     #    host: 172.18.0.2
     port: 6379
-
 
 mybatis:
   mapper-locations: classpath:mybatis-mapper/**/*.xml

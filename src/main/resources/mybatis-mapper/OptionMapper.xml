@@ -18,10 +18,10 @@
     </update>
 
     <select id="selectAllOption" resultType="Option">
-        SELECT option_id,
-               option_name,
-               option_price,
-               max_quantity
+        SELECT option_id    AS id,
+               option_name  AS name,
+               option_price AS price,
+               max_quantity AS maxQuantity
         FROM additional_option
     </select>
 
