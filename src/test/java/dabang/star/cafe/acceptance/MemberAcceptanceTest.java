@@ -56,10 +56,10 @@ class MemberAcceptanceTest {
     @Test
     void testLoginSuccess() {
         // given (회원 등록되어 있음)
-        already_registered(EMAIL, PASSWORD, NICKNAME, TELEPHONE, BIRTH);
+        alreadyRegistered(EMAIL, PASSWORD, NICKNAME, TELEPHONE, BIRTH);
 
         // when (로그인 요청)
-        ExtractableResponse<Response> response = login_request(EMAIL, PASSWORD);
+        ExtractableResponse<Response> response = loginRequest(EMAIL, PASSWORD);
 
         // then (로그인 됨)
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
@@ -69,13 +69,13 @@ class MemberAcceptanceTest {
     @Test
     void testLoginFail() {
         // when (로그인 요청)
-        ExtractableResponse<Response> response = login_request(EMAIL, PASSWORD);
+        ExtractableResponse<Response> response = loginRequest(EMAIL, PASSWORD);
 
         // then (로그인 실패)
         assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
     }
 
-    public static ExtractableResponse<Response> login_request(final String email, final String password) {
+    public static ExtractableResponse<Response> loginRequest(final String email, final String password) {
         return RestAssured
                 .given().log().all()
                 .contentType(APPLICATION_JSON_VALUE)
@@ -86,7 +86,7 @@ class MemberAcceptanceTest {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> signup_request(
+    public static ExtractableResponse<Response> signupRequest(
             final String email, final String password, final String nickname, final String telephone, final String birth) {
 
         return RestAssured
@@ -99,10 +99,10 @@ class MemberAcceptanceTest {
                 .extract();
     }
 
-    public static void already_registered(
+    public static void alreadyRegistered(
             final String email, final String password, final String nickname, final String telephone, final String birth) {
 
-        assertThat(signup_request(email, password, nickname, telephone, birth).statusCode())
+        assertThat(signupRequest(email, password, nickname, telephone, birth).statusCode())
                 .isEqualTo(HttpStatus.CREATED.value());
     }
 

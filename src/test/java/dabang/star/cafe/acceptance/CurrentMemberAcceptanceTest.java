@@ -51,7 +51,7 @@ public class CurrentMemberAcceptanceTest {
     void testMyPage() {
 
         // given (회원 등록 되어 있음)
-        MemberAcceptanceTest.already_registered(MemberAcceptanceTest.EMAIL,
+        MemberAcceptanceTest.alreadyRegistered(MemberAcceptanceTest.EMAIL,
                 MemberAcceptanceTest.PASSWORD,
                 MemberAcceptanceTest.NICKNAME,
                 MemberAcceptanceTest.TELEPHONE,
@@ -60,29 +60,29 @@ public class CurrentMemberAcceptanceTest {
 
         // given (로그인 되어 있음)
         ExtractableResponse<Response> loginResponse =
-                MemberAcceptanceTest.login_request(MemberAcceptanceTest.EMAIL, MemberAcceptanceTest.PASSWORD);
+                MemberAcceptanceTest.loginRequest(MemberAcceptanceTest.EMAIL, MemberAcceptanceTest.PASSWORD);
 
         // when (패스워드 검증 요청)
-        ExtractableResponse<Response> response = access_my_page(loginResponse, MemberAcceptanceTest.PASSWORD);
+        ExtractableResponse<Response> response = accessMyPage(loginResponse, MemberAcceptanceTest.PASSWORD);
 
         // then (로그인 됨)
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
 
         // when (내 정보 수정 요청)
         ExtractableResponse<Response> updateResponse
-                = member_update_request(loginResponse, NEW_PASSWORD, NEW_NICKNAME, NEW_TELEPHONE);
+                = memberUpdateRequest(loginResponse, NEW_PASSWORD, NEW_NICKNAME, NEW_TELEPHONE);
 
         // then (내 정보 수정됨)
         assertThat(updateResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
 
         // when (탈퇴 요청)
-        ExtractableResponse<Response> deleteResponse = member_delete_request(loginResponse);
+        ExtractableResponse<Response> deleteResponse = memberDeleteRequest(loginResponse);
 
         // then (탈퇴됨)
         assertThat(deleteResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 
-    public static ExtractableResponse<Response> member_delete_request(ExtractableResponse<Response> loginResponse) {
+    public static ExtractableResponse<Response> memberDeleteRequest(ExtractableResponse<Response> loginResponse) {
 
         return RestAssured
                 .given().log().all()
@@ -94,7 +94,7 @@ public class CurrentMemberAcceptanceTest {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> member_update_request(
+    public static ExtractableResponse<Response> memberUpdateRequest(
             ExtractableResponse<Response> loginResponse, String newPassword, String newNickname, String newTelephone) {
 
         return RestAssured
@@ -108,7 +108,7 @@ public class CurrentMemberAcceptanceTest {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> access_my_page(
+    public static ExtractableResponse<Response> accessMyPage(
             ExtractableResponse<Response> loginResponse, String password) {
 
         return RestAssured
