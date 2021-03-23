@@ -53,6 +53,10 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured:4.2.1'
     testImplementation 'io.rest-assured:json-path:4.2.1'
     testImplementation 'io.rest-assured:xml-path:4.2.1'
+
+    // 테스트 환경에서 static method의 mock 테스트를 위한 종속성 추가
+    testImplementation 'org.mockito:mockito-inline:3.6.28'
+
 }
 
 test {

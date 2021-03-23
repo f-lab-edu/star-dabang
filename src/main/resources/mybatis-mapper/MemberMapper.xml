@@ -14,7 +14,7 @@
             <if test="nickname != null">nickname=#{nickname},</if>
             <if test="telephone != null">phone=#{telephone},</if>
         </set>
-        where member_id=#{id}
+        WHERE member_id=#{id}
     </update>
 
     <select id="exists" resultType="boolean">
