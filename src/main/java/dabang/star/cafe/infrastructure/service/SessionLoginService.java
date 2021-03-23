@@ -64,7 +64,7 @@ public class SessionLoginService implements LoginService {
 
         String encryptedPassword = encryptService.encrypt(password);
 
-        Optional<ManagerData> byNameAndPassword = managerRepository.findManagerByNameAndPassword(name, encryptedPassword);
+        Optional<ManagerData> byNameAndPassword = managerRepository.findByNameAndPassword(name, encryptedPassword);
         ManagerData managerData = byNameAndPassword.orElseThrow(
                 () -> new NoAuthenticationException("no authenticated")
         );
