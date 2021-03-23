@@ -46,9 +46,9 @@ public class CurrentMemberAcceptanceTest {
         RestAssuredMockMvc.mockMvc(mockMvc);
     }
 
-    @DisplayName("마이 페이지 접속해 나의 정보를 관리한다.")
+    @DisplayName("마이 페이지에 접속해 나의 정보를 수정한다.")
     @Test
-    void testMyPage() {
+    void testMyPageUpdate() {
 
         // given (회원 등록 되어 있음)
         MemberAcceptanceTest.alreadyRegistered(MemberAcceptanceTest.EMAIL,
@@ -74,6 +74,29 @@ public class CurrentMemberAcceptanceTest {
 
         // then (내 정보 수정됨)
         assertThat(updateResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+    }
+
+    @DisplayName("마이 페이지에 접속해 탈퇴한다.")
+    @Test
+    void testMyPageDelete() {
+
+        // given (회원 등록 되어 있음)
+        MemberAcceptanceTest.alreadyRegistered(MemberAcceptanceTest.EMAIL,
+                MemberAcceptanceTest.PASSWORD,
+                MemberAcceptanceTest.NICKNAME,
+                MemberAcceptanceTest.TELEPHONE,
+                MemberAcceptanceTest.BIRTH
+        );
+
+        // given (로그인 되어 있음)
+        ExtractableResponse<Response> loginResponse =
+                MemberAcceptanceTest.loginRequest(MemberAcceptanceTest.EMAIL, MemberAcceptanceTest.PASSWORD);
+
+        // when (패스워드 검증 요청)
+        ExtractableResponse<Response> response = accessMyPage(loginResponse, MemberAcceptanceTest.PASSWORD);
+
+        // then (로그인 됨)
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
 
         // when (탈퇴 요청)
         ExtractableResponse<Response> deleteResponse = memberDeleteRequest(loginResponse);
