@@ -44,9 +44,6 @@ spring:
     redis:
       namespace: star_dabang:session
 
-  redis:
-    host: localhost
-    port: 16380
 
 mybatis:
   mapper-locations: classpath:mybatis-mapper/**/*.xml
