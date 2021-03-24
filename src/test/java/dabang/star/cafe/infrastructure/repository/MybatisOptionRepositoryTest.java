@@ -32,7 +32,7 @@ class MybatisOptionRepositoryTest {
         assertThat(option.getId()).isNotNull();
     }
 
-    @DisplayName("옵션을 성공적으로 조회하면 List<Option>을 반환한다")
+    @DisplayName("옵션을 성공적으로 조회하면 옵션 목록을 반환한다")
     @Test
     void selectAllOptionTest() {
         Option option = new Option(null, "option1", 100, 10);
