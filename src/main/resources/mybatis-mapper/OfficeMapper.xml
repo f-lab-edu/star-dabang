@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dabang.star.cafe.infrastructure.mapper.OfficeMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO office (office_name, address, latitude, longitude)
+        VALUES (#{name}, #{address}, #{latitude}, #{longitude})
+    </insert>
+
+    <update id="update" keyProperty="id">
+        UPDATE office
+        <set>
+            <if test="name != null">office_name=#{name},</if>
+            <if test="nickname != null">address=#{address},</if>
+            <if test="latitude != null">latitude=#{latitude},</if>
+            <if test="longitude != null">longitude=#{longitude},</if>
+        </set>
+        WHERE office_id=#{id}
+    </update>
+
+    <select id="getById" resultType="Office" parameterType="map">
+        SELECT o.office_id, o.office_name
+        FROM office o
+        WHERE o.office_id = #{id}
+    </select>
+
+    <delete id="removeById">
+        DELETE
+        FROM office
+        WHERE office_id = #{id}
+    </delete>
+
+</mapper>
