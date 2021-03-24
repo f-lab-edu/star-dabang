@@ -31,7 +31,7 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mybatis-mapper/**/*.xml
-  type-aliases-package: dabang.star.cafe.domain, dabang.star.cafe.api.response
+  type-aliases-package: dabang.star.cafe.domain
 
 ---
 spring:
@@ -41,6 +41,6 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mybatis-mapper/**/*.xml
-  type-aliases-package: dabang.star.cafe.domain, dabang.star.cafe.api.response
+  type-aliases-package: dabang.star.cafe.domain
   type-handlers-package: dabang.star.cafe.utils
 
