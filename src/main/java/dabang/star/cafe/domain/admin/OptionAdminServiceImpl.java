@@ -4,7 +4,6 @@ import dabang.star.cafe.api.exception.NotFoundException;
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.domain.option.OptionRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +22,6 @@ public class OptionAdminServiceImpl implements OptionAdminService {
         return option;
     }
 
-    @Cacheable(value = "optionCache", key = "#root.methodName")
     @Override
     public List<Option> getAllOption() {
         List<Option> options = optionRepository.findAll();

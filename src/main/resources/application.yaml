@@ -17,9 +17,6 @@ spring:
     initialization-mode: always
     data: classpath:data-dev.sql
 
-  cache:
-    type: redis
-
   session:
     store-type: redis
     redis:
