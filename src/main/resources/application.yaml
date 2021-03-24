@@ -14,7 +14,9 @@ spring:
     #    url: jdbc:mysql://172.17.0.2:3306/yslocaldb
     username: root
     password: root
-    initialization-mode: never
+    initialization-mode: always
+    data: classpath:data-dev.sql
+
 
   session:
     store-type: redis

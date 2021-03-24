@@ -16,7 +16,7 @@ public class MybatisMemberRepository implements MemberRepository {
     private final MemberMapper memberMapper;
 
     @Override
-    public Long save(Member member) {
+    public void save(Member member) {
 
         if (member.getId() == null) {
             memberMapper.insert(member);
@@ -24,7 +24,6 @@ public class MybatisMemberRepository implements MemberRepository {
             memberMapper.update(member);
         }
 
-        return member.getId();
     }
 
     @Override

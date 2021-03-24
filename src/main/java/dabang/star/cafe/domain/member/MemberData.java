@@ -13,9 +13,10 @@ public class MemberData {
 
     private String nickname;
 
-    public MemberData(Member member) {
-        this.id = member.getId();
-        this.email = member.getEmail();
-        this.nickname = member.getNickname();
+    public static MemberData from(Member member) {
+
+        return new MemberData(member.getId(),
+                member.getEmail(),
+                member.getNickname());
     }
 }

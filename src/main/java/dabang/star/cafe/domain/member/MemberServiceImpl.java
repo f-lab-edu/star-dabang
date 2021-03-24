@@ -1,12 +1,8 @@
-package dabang.star.cafe.infrastructure.service;
+package dabang.star.cafe.domain.member;
 
 import dabang.star.cafe.api.exception.DuplicatedException;
 import dabang.star.cafe.api.exception.MemberNotFoundException;
-import dabang.star.cafe.domain.member.MemberData;
 import dabang.star.cafe.domain.login.EncryptService;
-import dabang.star.cafe.domain.member.Member;
-import dabang.star.cafe.domain.member.MemberRepository;
-import dabang.star.cafe.domain.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,8 +31,8 @@ public class MemberServiceImpl implements MemberService {
                 .build();
 
         memberRepository.save(member);
-        
-        return new MemberData(member);
+
+        return MemberData.from(member);
     }
 
     @Override

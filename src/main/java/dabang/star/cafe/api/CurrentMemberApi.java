@@ -1,12 +1,12 @@
 package dabang.star.cafe.api;
 
 import dabang.star.cafe.api.aop.CurrentMemberCheck;
-import dabang.star.cafe.api.aop.MemberLoginCheck;
+import dabang.star.cafe.api.aop.LoginCheck;
 import dabang.star.cafe.api.aop.SessionId;
 import dabang.star.cafe.api.request.CurrentMemberRequest;
 import dabang.star.cafe.api.request.MemberUpdateRequest;
 import dabang.star.cafe.domain.member.MemberData;
-import dabang.star.cafe.domain.login.LoginService;
+import dabang.star.cafe.domain.login.MemberLoginService;
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.domain.member.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import javax.validation.Valid;
 public class CurrentMemberApi {
 
     private final MemberService memberService;
-    private final LoginService loginService;
+    private final MemberLoginService memberLoginService;
 
     /**
      * 마이페이지(수정, 탈퇴) 접속
@@ -30,12 +30,12 @@ public class CurrentMemberApi {
      * @param loginMemberId        로그인 유저 ID: 스프링 AOP 통해 주입
      * @return 조회 성공시 HttpStatus.OK(MemberData) 반환
      */
-    @MemberLoginCheck
+    @LoginCheck
     @PostMapping
     public MemberData myPage(@Valid @RequestBody CurrentMemberRequest currentMemberRequest,
                              @SessionId Long loginMemberId) {
 
-        return loginService.accessMyPage(loginMemberId, currentMemberRequest.getPassword());
+        return memberLoginService.accessMyPage(loginMemberId, currentMemberRequest.getPassword());
     }
 
     /**
@@ -67,7 +67,7 @@ public class CurrentMemberApi {
 
         memberService.secession(currentMemberId);
 
-        loginService.logoutMember();
+        memberLoginService.logout();
     }
 
 }

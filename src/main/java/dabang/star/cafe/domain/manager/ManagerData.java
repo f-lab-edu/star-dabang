@@ -13,12 +13,6 @@ public class ManagerData {
 
     private String name;
 
-    private Rule rule;
+    private Role role;
 
-    public ManagerData(Manager manager) {
-        this.id = manager.getId();
-        this.officeId = manager.getOfficeId();
-        this.name = manager.getName();
-        this.rule = manager.getRule();
-    }
 }

@@ -1,6 +1,6 @@
 package dabang.star.cafe.domain.manager;
 
-public enum Rule {
+public enum Role {
 
     ADMIN, MANAGER
 }

@@ -40,7 +40,7 @@ class MybatisMemberRepositoryTest {
     @Test
     void saveMember() {
         memberRepository.save(member);
-        MemberData saveMember = new MemberData(member);
+        MemberData saveMember = MemberData.from(member);
 
         Optional<MemberData> findMember = memberRepository.findMemberByEmailAndPassword(this.member.getEmail(), this.member.getPassword());
 

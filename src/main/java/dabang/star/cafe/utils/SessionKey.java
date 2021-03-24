@@ -5,7 +5,7 @@ public interface SessionKey {
     /**
      * 로그인 회원의 ID를 가져오는 세션 키
      */
-    String LOGIN_MEMBER_ID = "MEMBER";
+    String LOGIN_ID = "LOGIN";
 
     /**
      * 마이 페이지 접속 ID를 가져오는 세션 키
@@ -14,12 +14,7 @@ public interface SessionKey {
 
 
     /**
-     * 관리자의 ID를 관리하는 세션 키
-     */
-    String LOGIN_MANAGER_ID = "MANAGER";
-
-    /**
      * 관리자의 권한을 관리하는 세션 키
      */
-    String MANAGER_POWER = "POWER";
+    String MANAGER_ROLE = "ROLE";
 }
