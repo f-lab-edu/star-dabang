@@ -2,6 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dabang.star.cafe.infrastructure.mapper.ManagerMapper">
 
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO manager (office_id, name, passwd, rule)
+        VALUES (#{officeId}, #{name}, #{password}, #{rule,typeHandler=org.apache.ibatis.type.EnumTypeHandler})
+    </insert>
+
+    <update id="update" keyProperty="id">
+        UPDATE manager
+        <set>
+            <if test="name != null">
+                passwd=#{password},
+            </if>
+            <if test="password != null">
+                nickname=#{nickname},
+            </if>
+            <if test="rule != null">
+                rule=#{rule,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+            </if>
+        </set>
+        where member_id=#{id}
+    </update>
+
     <select id="getByNameAndPassword" resultType="ManagerData">
         SELECT m.manager_id AS id,
                m.office_id  AS officeId,

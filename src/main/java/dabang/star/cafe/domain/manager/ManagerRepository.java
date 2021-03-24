@@ -4,6 +4,8 @@ import java.util.Optional;
 
 public interface ManagerRepository {
 
-    Optional<ManagerData> findManagerByNameAndPassword(String name, String password);
+    Long save(Manager manager);
+
+    Optional<ManagerData> findByNameAndPassword(String name, String password);
 
 }
