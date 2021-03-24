@@ -1,7 +1,6 @@
 package dabang.star.cafe.domain.member;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -14,7 +13,6 @@ public class MemberData {
 
     private String nickname;
 
-    @Builder
     public static MemberData from(Member member) {
 
         return new MemberData(member.getId(),
