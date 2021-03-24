@@ -21,9 +21,10 @@ public class OfficeAdminApi {
     private final OfficeAdminService officeAdminService;
 
     /**
+     * 매장 생성
      *
-     * @param officeCreateRequest
-     * @return
+     * @param officeCreateRequest (name, address, latitude, longitude)
+     * @return 생성 완료시 HttpStatus.OK (OfficeData) 반환
      */
     @LoginCheck(role = Role.ADMIN)
     @PostMapping
@@ -37,8 +38,9 @@ public class OfficeAdminApi {
     }
 
     /**
+     * 매장 정보 수정
      *
-     * @param officeUpdateRequest
+     * @param officeUpdateRequest (id, name, address, latitude, longitude)
      */
     @LoginCheck(role = Role.ADMIN)
     @PatchMapping
@@ -53,6 +55,7 @@ public class OfficeAdminApi {
     }
 
     /**
+     * 매장 삭제
      *
      * @param officeId
      */
@@ -63,10 +66,10 @@ public class OfficeAdminApi {
     }
 
     /**
-     *
+     * 매장 조회
      * @param offset
      * @param limit
-     * @return
+     * @return HttpStatus.OK (List<OfficeData) 반환
      */
     @LoginCheck(role = Role.ADMIN)
     @GetMapping
