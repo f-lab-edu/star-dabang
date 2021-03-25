@@ -1,14 +1,12 @@
 package dabang.star.cafe.domain.admin;
 
-import dabang.star.cafe.api.exception.NotFoundException;
+import dabang.star.cafe.api.exception.MemberNotFoundException;
+import dabang.star.cafe.api.exception.OptionNotFoundException;
 import dabang.star.cafe.domain.option.Option;
-import dabang.star.cafe.domain.option.OptionRepository;
-import dabang.star.cafe.infrastructure.mapper.OptionMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,7 +50,7 @@ class OptionAdminServiceTest {
     @Test
     void notFoundOptionTest() {
 
-        assertThrows(NotFoundException.class, () -> optionAdminService.getAllOption());
+        assertThrows(OptionNotFoundException.class, () -> optionAdminService.getAllOption());
     }
 
 }

@@ -1,6 +1,7 @@
 package dabang.star.cafe.api;
 
-import dabang.star.cafe.api.exception.NotFoundException;
+import dabang.star.cafe.api.exception.MemberNotFoundException;
+import dabang.star.cafe.api.exception.OptionNotFoundException;
 import dabang.star.cafe.api.request.OptionCreateRequest;
 import dabang.star.cafe.domain.admin.OptionAdminService;
 import dabang.star.cafe.domain.option.Option;
@@ -149,7 +150,7 @@ class OptionAdminApiTest {
     void failedGetOptionTest() {
 
         when(optionAdminService.getAllOption())
-                .thenThrow(new NotFoundException("No options were found"));
+                .thenThrow(new OptionNotFoundException("No options were found"));
 
         RestAssuredMockMvc.when()
                 .get("/options")

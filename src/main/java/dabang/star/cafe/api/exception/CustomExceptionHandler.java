@@ -53,11 +53,11 @@ public class CustomExceptionHandler {
     }
 
     /**
-     * 요청에 대한 값을 찾지 못했을 경우 예외를 처리하며 Http Status 404을 반환한다.
+     * 요청에 대해 멤버를 찾지 못한 예외를 처리하며 Http Status 404을 반환한다.
      */
-    @ExceptionHandler(NotFoundException.class)
+    @ExceptionHandler(MemberNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleNotFoundException(NotFoundException e) {
+    public ErrorResponse handleNotFoundException(MemberNotFoundException e) {
 
         ErrorResponse response = ErrorResponse.builder()
                 .status(HttpStatus.NOT_FOUND.value())
@@ -100,6 +100,23 @@ public class CustomExceptionHandler {
                 .build();
 
         log.warn("No Authentication", e);
+
+        return response;
+    }
+
+    /**
+     * 요청에 대해 옵션을 찾지 못한 예외를 처리하며 Http Status 404을 반환한다.
+     */
+    @ExceptionHandler(OptionNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleNotFoundException(OptionNotFoundException e) {
+
+        ErrorResponse response = ErrorResponse.builder()
+                .status(HttpStatus.NOT_FOUND.value())
+                .message(e.getMessage())
+                .build();
+
+        log.warn("Option were not found", e);
 
         return response;
     }

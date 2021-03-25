@@ -1,6 +1,7 @@
 package dabang.star.cafe.domain.admin;
 
-import dabang.star.cafe.api.exception.NotFoundException;
+import dabang.star.cafe.api.exception.MemberNotFoundException;
+import dabang.star.cafe.api.exception.OptionNotFoundException;
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.domain.option.OptionRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class OptionAdminServiceImpl implements OptionAdminService {
     private void verifyExitsOption(List<Option> options) {
 
         if (options.size() == 0) {
-            throw new NotFoundException("No options were found");
+            throw new OptionNotFoundException("No options were found");
         }
     }
 
