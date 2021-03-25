@@ -8,25 +8,22 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@Transactional
 @ActiveProfiles("test")
 @SpringBootTest
 class OptionAdminServiceTest {
 
     @Autowired
     OptionAdminService optionAdminService;
-
-    @Autowired
-    OptionRepository optionRepository;
-
-    @Autowired
-    OptionMapper optionMapper;
 
     @DisplayName("id가 null인 옵션 객체로 새로운 옵션을 추가하고 아이디가 생긴 옵션 객체를 반환한다")
     @Test
@@ -43,8 +40,8 @@ class OptionAdminServiceTest {
     void getAllOptionTest() {
         Option option = new Option(null, "새로운 옵션", 100, 10);
         Option option2 = new Option(null, "새로운 옵션", 100, 10);
-        optionRepository.save(option);
-        optionRepository.save(option2);
+        optionAdminService.createOption(option);
+        optionAdminService.createOption(option2);
 
         List<Option> options = optionAdminService.getAllOption();
 
