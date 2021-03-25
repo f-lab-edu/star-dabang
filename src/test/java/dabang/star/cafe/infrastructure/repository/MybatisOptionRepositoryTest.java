@@ -2,6 +2,7 @@ package dabang.star.cafe.infrastructure.repository;
 
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.domain.option.OptionRepository;
+import dabang.star.cafe.utils.Page;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,7 +41,7 @@ class MybatisOptionRepositoryTest {
         optionRepository.save(option);
         optionRepository.save(option2);
 
-        List<Option> options = optionRepository.findAll();
+        List<Option> options = optionRepository.findAll(new Page(0, 20));
 
         Assertions.assertThat(options.size()).isEqualTo(2);
     }

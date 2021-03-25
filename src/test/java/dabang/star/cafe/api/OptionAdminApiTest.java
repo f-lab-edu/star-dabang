@@ -6,6 +6,7 @@ import dabang.star.cafe.api.request.OptionCreateRequest;
 import dabang.star.cafe.domain.admin.OptionAdminService;
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.domain.option.OptionFactory;
+import dabang.star.cafe.utils.Page;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.*;
 import org.mockito.MockedStatic;
@@ -149,7 +150,7 @@ class OptionAdminApiTest {
     @Test
     void failedGetOptionTest() {
 
-        when(optionAdminService.getAllOption())
+        when(optionAdminService.getAllOption(any(Page.class)))
                 .thenThrow(new OptionNotFoundException("No options were found"));
 
         RestAssuredMockMvc.when()
@@ -167,7 +168,7 @@ class OptionAdminApiTest {
         List<Option> response = new ArrayList<>();
         response.add(new Option(1, "option1", 100, 10));
 
-        when(optionAdminService.getAllOption())
+        when(optionAdminService.getAllOption(any(Page.class)))
                 .thenReturn(response);
 
         RestAssuredMockMvc.when()

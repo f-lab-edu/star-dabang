@@ -3,6 +3,7 @@ package dabang.star.cafe.domain.admin;
 import dabang.star.cafe.api.exception.MemberNotFoundException;
 import dabang.star.cafe.api.exception.OptionNotFoundException;
 import dabang.star.cafe.domain.option.Option;
+import dabang.star.cafe.utils.Page;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ class OptionAdminServiceTest {
         optionAdminService.createOption(option);
         optionAdminService.createOption(option2);
 
-        List<Option> options = optionAdminService.getAllOption();
+        List<Option> options = optionAdminService.getAllOption(new Page(0, 20));
 
         assertThat(options.size()).isEqualTo(2);
     }
@@ -50,7 +51,7 @@ class OptionAdminServiceTest {
     @Test
     void notFoundOptionTest() {
 
-        assertThrows(OptionNotFoundException.class, () -> optionAdminService.getAllOption());
+        assertThrows(OptionNotFoundException.class, () -> optionAdminService.getAllOption(new Page(0, 20)));
     }
 
 }
