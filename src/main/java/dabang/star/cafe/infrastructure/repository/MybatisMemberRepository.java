@@ -1,7 +1,7 @@
 package dabang.star.cafe.infrastructure.repository;
 
-import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.domain.member.MemberData;
+import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.domain.member.MemberRepository;
 import dabang.star.cafe.infrastructure.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
@@ -32,17 +32,17 @@ public class MybatisMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Optional<MemberData> findMemberByEmailAndPassword(String email, String password) {
+    public Optional<MemberData> findByEmailAndPassword(String email, String password) {
         return memberMapper.getByEmailAndPassword(email, password);
     }
 
     @Override
-    public Optional<MemberData> findMemberById(long id) {
+    public Optional<MemberData> findById(long id) {
         return memberMapper.getById(id);
     }
 
     @Override
-    public Optional<MemberData> findMemberByIdAndPassword(long id, String password) {
+    public Optional<MemberData> findByIdAndPassword(long id, String password) {
         return memberMapper.getByIdAndPassword(id, password);
     }
 
