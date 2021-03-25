@@ -160,7 +160,7 @@ class OptionAdminApiTest {
                 .body("status", equalTo(404));
     }
 
-    @DisplayName("옵션들을 성공적으로 조회하면 상태코드 200과 List<Option>를 반환한다")
+    @DisplayName("옵션들을 성공적으로 조회하면 상태코드 200과 옵션 목록을 반환한다")
     @Test
     void successGetOptionTest() {
 

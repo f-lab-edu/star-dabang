@@ -33,7 +33,7 @@ class OptionAdminServiceTest {
         assertThat(newOption.getId()).isNotNull();
     }
 
-    @DisplayName("요청에 대하여 옵션들을 성공적으로 조회하면 List<Option>을 반환한다")
+    @DisplayName("요청에 대하여 옵션들을 성공적으로 조회하면 옵션 목록을 반환한다")
     @Test
     void getAllOptionTest() {
         Option option = new Option(null, "새로운 옵션", 100, 10);
