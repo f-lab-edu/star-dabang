@@ -6,6 +6,7 @@ import dabang.star.cafe.domain.admin.OptionAdminService;
 import dabang.star.cafe.domain.manager.Role;
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.domain.option.OptionFactory;
+import dabang.star.cafe.utils.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -41,9 +42,10 @@ public class OptionAdminApi {
      */
     @LoginCheck(role = Role.ADMIN)
     @GetMapping
-    public List<Option> getAllOption() {
+    public List<Option> getAllOption(@RequestParam(value = "offset", defaultValue = "0") int offset,
+                                     @RequestParam(value = "limit", defaultValue = "20") int limit) {
 
-        return optionAdminService.getAllOption();
+        return optionAdminService.getAllOption(new Page(offset, limit));
     }
     
 }

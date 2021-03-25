@@ -3,6 +3,7 @@ package dabang.star.cafe.infrastructure.repository;
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.domain.option.OptionRepository;
 import dabang.star.cafe.infrastructure.mapper.OptionMapper;
+import dabang.star.cafe.utils.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -24,9 +25,9 @@ public class MybatisOptionRepository implements OptionRepository {
     }
 
     @Override
-    public List<Option> findAll() {
+    public List<Option> findAll(Page page) {
 
-        return optionMapper.selectAllOption();
+        return optionMapper.selectAllOption(page);
     }
 
 }
