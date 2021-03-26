@@ -7,7 +7,9 @@ import io.restassured.mapper.ObjectMapperType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,26 +47,30 @@ public class CurrentMemberAcceptanceTest {
         RestAssuredMockMvc.mockMvc(mockMvc);
     }
 
-    @DisplayName("마이 페이지에 접속해 나의 정보를 수정한다.")
+    @DisplayName("마이 페이지 접속에 성공한다.")
     @Test
-    void testMyPageUpdate() {
-
-        // given (회원 등록 되어 있음)
-        MemberAcceptanceTest.alreadyRegistered(MemberAcceptanceTest.EMAIL,
-                MemberAcceptanceTest.PASSWORD,
-                MemberAcceptanceTest.NICKNAME,
-                MemberAcceptanceTest.TELEPHONE,
-                MemberAcceptanceTest.BIRTH
-        );
-
-        // given (로그인 되어 있음)
-        ExtractableResponse<Response> loginResponse =
-                MemberAcceptanceTest.loginRequest(MemberAcceptanceTest.EMAIL, MemberAcceptanceTest.PASSWORD);
+    void testAccessMyPage() {
+        // given (회원 등록되어 있고 로그인 되어 있음)
+        ExtractableResponse<Response> loginResponse = alreadyLogin();
 
         // when (패스워드 검증 요청)
         ExtractableResponse<Response> response = accessMyPage(loginResponse, MemberAcceptanceTest.PASSWORD);
 
-        // then (로그인 됨)
+        // then (마이페이지 접속됨)
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @DisplayName("마이 페이지에 접속해 나의 정보를 수정한다.")
+    @Test
+    void testMyPageUpdate() {
+
+        // given (회원 등록 되어 있고 로그인 되어 있음)
+        ExtractableResponse<Response> loginResponse = alreadyLogin();
+
+        // when (패스워드 검증 요청)
+        ExtractableResponse<Response> response = accessMyPage(loginResponse, MemberAcceptanceTest.PASSWORD);
+
+        // then (마이페이지 접속됨)
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
 
         // when (내 정보 수정 요청)
@@ -79,22 +85,13 @@ public class CurrentMemberAcceptanceTest {
     @Test
     void testMyPageDelete() {
 
-        // given (회원 등록 되어 있음)
-        MemberAcceptanceTest.alreadyRegistered(MemberAcceptanceTest.EMAIL,
-                MemberAcceptanceTest.PASSWORD,
-                MemberAcceptanceTest.NICKNAME,
-                MemberAcceptanceTest.TELEPHONE,
-                MemberAcceptanceTest.BIRTH
-        );
-
-        // given (로그인 되어 있음)
-        ExtractableResponse<Response> loginResponse =
-                MemberAcceptanceTest.loginRequest(MemberAcceptanceTest.EMAIL, MemberAcceptanceTest.PASSWORD);
+        // given (회원 등록 되어 있고 로그인 되어 있음)
+        ExtractableResponse<Response> loginResponse = alreadyLogin();
 
         // when (패스워드 검증 요청)
         ExtractableResponse<Response> response = accessMyPage(loginResponse, MemberAcceptanceTest.PASSWORD);
 
-        // then (로그인 됨)
+        // then (마이페이지 접속됨)
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
 
         // when (탈퇴 요청)
@@ -142,6 +139,17 @@ public class CurrentMemberAcceptanceTest {
                 .post("/members/my-info")
                 .then().log().all()
                 .extract();
+    }
+
+    public static ExtractableResponse<Response> alreadyLogin() {
+
+        MemberAcceptanceTest.alreadyRegistered(MemberAcceptanceTest.EMAIL,
+                MemberAcceptanceTest.PASSWORD,
+                MemberAcceptanceTest.NICKNAME,
+                MemberAcceptanceTest.TELEPHONE,
+                MemberAcceptanceTest.BIRTH
+        );
+        return MemberAcceptanceTest.loginRequest(MemberAcceptanceTest.EMAIL, MemberAcceptanceTest.PASSWORD);
     }
 
 }
