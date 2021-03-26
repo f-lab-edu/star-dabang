@@ -1,8 +1,8 @@
 package dabang.star.cafe.api;
 
-import dabang.star.cafe.api.exception.MemberNotFoundException;
 import dabang.star.cafe.api.exception.OptionNotFoundException;
 import dabang.star.cafe.api.request.OptionCreateRequest;
+import dabang.star.cafe.api.request.OptionUpdateRequest;
 import dabang.star.cafe.domain.admin.OptionAdminService;
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.domain.option.OptionFactory;
@@ -183,6 +183,128 @@ class OptionAdminApiTest {
                 .body("[0].name", equalTo("새로운 옵션"))
                 .body("[0].price", equalTo(100))
                 .body("[0].maxQuantity", equalTo(10));
+    }
+
+    @DisplayName("옵션을 성공적으로 수정하면 상태코드 200을 반환한다")
+    @Test
+    void successUpdateOptionTest() {
+
+        OptionUpdateRequest optionUpdateRequest = new OptionUpdateRequest(1, OPTION_NAME, PRICE, MAX_QUANTITY);
+        Option option = OptionFactory.from(optionUpdateRequest);
+
+        when(OptionFactory.from(optionUpdateRequest)).thenReturn(option);
+
+        RestAssuredMockMvc.given()
+                .contentType(APPLICATION_JSON_VALUE)
+                .body(optionUpdateRequest, JACKSON_2)
+                .when()
+                .patch("/options")
+                .then()
+                .statusCode(OK.value());
+
+        verify(optionAdminService).updateOption(option);
+    }
+
+    @DisplayName("옵션정보를 수정할 때 id가 없으면 blank option id를 반환한다")
+    @Test
+    void notNullIdUpdateOptionTest() {
+
+        OptionUpdateRequest optionUpdateRequest = new OptionUpdateRequest(null, OPTION_NAME, PRICE, MAX_QUANTITY);
+
+        RestAssuredMockMvc.given()
+                .contentType(APPLICATION_JSON_VALUE)
+                .body(optionUpdateRequest, JACKSON_2)
+                .when()
+                .patch("/options")
+                .then()
+                .statusCode(UNPROCESSABLE_ENTITY.value())
+                .body("message", equalTo("blank option id"))
+                .body("status", equalTo(422));
+    }
+
+    @DisplayName("옵션정보를 수정할 때 name이 없으면 blank option name를 반환한다")
+    @Test
+    void notBlankNameUpdateOptionTest() {
+
+        OptionUpdateRequest optionUpdateRequest = new OptionUpdateRequest(1, null, PRICE, MAX_QUANTITY);
+
+        RestAssuredMockMvc.given()
+                .contentType(APPLICATION_JSON_VALUE)
+                .body(optionUpdateRequest, JACKSON_2)
+                .when()
+                .patch("/options")
+                .then()
+                .statusCode(UNPROCESSABLE_ENTITY.value())
+                .body("message", equalTo("blank option name"))
+                .body("status", equalTo(422));
+    }
+
+    @DisplayName("옵션정보를 수정할 때 price가 없으면 blank option price를 반환한다")
+    @Test
+    void notNullPriceUpdateOptionTest() {
+
+        OptionUpdateRequest optionUpdateRequest = new OptionUpdateRequest(1, OPTION_NAME, null, MAX_QUANTITY);
+
+        RestAssuredMockMvc.given()
+                .contentType(APPLICATION_JSON_VALUE)
+                .body(optionUpdateRequest, JACKSON_2)
+                .when()
+                .patch("/options")
+                .then()
+                .statusCode(UNPROCESSABLE_ENTITY.value())
+                .body("message", equalTo("blank option price"))
+                .body("status", equalTo(422));
+    }
+
+    @DisplayName("옵션정보를 수정할 때 price가 음수라면 not valid option price를 반환한다")
+    @Test
+    void notPositivePriceUpdateOptionTest() {
+
+        OptionUpdateRequest optionUpdateRequest = new OptionUpdateRequest(1, OPTION_NAME, -100, MAX_QUANTITY);
+
+        RestAssuredMockMvc.given()
+                .contentType(APPLICATION_JSON_VALUE)
+                .body(optionUpdateRequest, JACKSON_2)
+                .when()
+                .patch("/options")
+                .then()
+                .statusCode(UNPROCESSABLE_ENTITY.value())
+                .body("message", equalTo("not valid option price"))
+                .body("status", equalTo(422));
+    }
+
+    @DisplayName("옵션정보를 수정할 때 maxQuantity가 음수라면 not valid option max quantity를 반환한다")
+    @Test
+    void notPositiveMaxQuantityUpdateOptionTest() {
+
+        OptionUpdateRequest optionUpdateRequest = new OptionUpdateRequest(1, OPTION_NAME, PRICE, -10);
+
+        RestAssuredMockMvc.given()
+                .contentType(APPLICATION_JSON_VALUE)
+                .body(optionUpdateRequest, JACKSON_2)
+                .when()
+                .patch("/options")
+                .then()
+                .statusCode(UNPROCESSABLE_ENTITY.value())
+                .body("message", equalTo("not valid option max quantity"))
+                .body("status", equalTo(422));
+    }
+
+    @DisplayName("옵션정보를 수정할 때 maxQuantity가 없으면 blank option max quantity를 반환한다")
+    @Test
+    void notNullMaxQuantityUpdateOptionTest() {
+
+        OptionUpdateRequest optionUpdateRequest = new OptionUpdateRequest(1, OPTION_NAME, PRICE, null);
+
+        RestAssuredMockMvc.given()
+                .contentType(APPLICATION_JSON_VALUE)
+                .body(optionUpdateRequest, JACKSON_2)
+                .when()
+                .patch("/options")
+                .then()
+                .statusCode(UNPROCESSABLE_ENTITY.value())
+                .body("message", equalTo("blank option max quantity"))
+                .body("status", equalTo(422));
     }
 
 }

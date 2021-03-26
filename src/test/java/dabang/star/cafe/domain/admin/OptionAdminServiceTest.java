@@ -60,4 +60,31 @@ class OptionAdminServiceTest {
                 () -> optionAdminService.getAllOption(new Page(DEFAULT_OFFSET, DEFAULT_LIMIT)));
     }
 
+    @DisplayName("옵션의 정보 수정할 때 존재하지 않는 옵션의 id라면 OptionNotFoundException을 발생시킨다")
+    @Test
+    void failOptionUpdateTest() {
+        Option newOption = new Option(1, "바뀐 옵션", PRICE, MAX_QUANTITY);
+
+        assertThrows(OptionNotFoundException.class,
+                () -> optionAdminService.updateOption(newOption));
+    }
+
+    @DisplayName("옵션의 정보를 수정할 때 존재하는 옵션의 id라면 성공적으로 정보를 수정한다")
+    @Test
+    void successOptionUpdateTest() {
+        Option originOption = new Option(null, OPTION_NAME, PRICE, MAX_QUANTITY);
+        optionAdminService.createOption(originOption);
+
+        Option newOption = new Option(originOption.getId(), "바뀐 옵션", 300, 30);
+        optionAdminService.updateOption(newOption);
+
+        List<Option> findOptions = optionAdminService.getAllOption(new Page(DEFAULT_OFFSET, DEFAULT_LIMIT));
+        Option findOption = findOptions.get(0);
+
+        assertThat(findOption.getId()).isEqualTo(originOption.getId());
+        assertThat(findOption.getName()).isEqualTo("바뀐 옵션");
+        assertThat(findOption.getPrice()).isEqualTo(300);
+        assertThat(findOption.getMaxQuantity()).isEqualTo(30);
+    }
+
 }
