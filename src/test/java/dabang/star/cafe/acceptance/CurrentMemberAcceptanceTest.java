@@ -26,7 +26,6 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:/clean.sql")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DisplayName("마이 페이지 관련 시나리오")
 public class CurrentMemberAcceptanceTest {
 
