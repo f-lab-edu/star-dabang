@@ -1,6 +1,5 @@
 package dabang.star.cafe.domain.admin;
 
-import dabang.star.cafe.api.exception.MemberNotFoundException;
 import dabang.star.cafe.api.exception.OptionNotFoundException;
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.utils.Page;
@@ -53,7 +52,7 @@ class OptionAdminServiceTest {
         assertThat(options.size()).isEqualTo(2);
     }
 
-    @DisplayName("요청에 대하여 온션들을 조회한 결과가 없다면 NotFoundException을 발생시킨다")
+    @DisplayName("요청에 대하여 온션들을 조회한 결과가 없다면 OptionNotFoundException을 발생시킨다")
     @Test
     void notFoundOptionTest() {
 
