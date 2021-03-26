@@ -29,6 +29,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @WebMvcTest(OptionAdminApi.class)
 class OptionAdminApiTest {
 
+    private final String OPTION_NAME = "새로운 옵션";
+    private final int PRICE = 100;
+    private final int MAX_QUANTITY = 10;
+
     @Autowired
     MockMvc mockMvc;
 
@@ -56,9 +60,9 @@ class OptionAdminApiTest {
     @Test
     void successfulCreateOptionTest() {
 
-        OptionCreateRequest optionCreateRequest = new OptionCreateRequest("option", 500, 10);
+        OptionCreateRequest optionCreateRequest = new OptionCreateRequest(OPTION_NAME, PRICE, MAX_QUANTITY);
         Option option = OptionFactory.from(optionCreateRequest);
-        Option newOption = new Option(1, "option", 500, 10);
+        Option newOption = new Option(1, OPTION_NAME, PRICE, MAX_QUANTITY);
 
         when(OptionFactory.from(optionCreateRequest)).thenReturn(option);
         when(optionAdminService.createOption(option)).thenReturn(newOption);
@@ -71,8 +75,8 @@ class OptionAdminApiTest {
                 .post("/options")
                 .then()
                 .body("id", equalTo(1))
-                .body("name", equalTo("option"))
-                .body("price", equalTo(500))
+                .body("name", equalTo("새로운 옵션"))
+                .body("price", equalTo(100))
                 .body("maxQuantity", equalTo(10));
 
         verify(optionAdminService).createOption(option);
@@ -82,7 +86,7 @@ class OptionAdminApiTest {
     @Test
     void noNegativePriceTest() {
 
-        OptionCreateRequest optionCreateRequest = new OptionCreateRequest("option", -100, 10);
+        OptionCreateRequest optionCreateRequest = new OptionCreateRequest(OPTION_NAME, -100, MAX_QUANTITY);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
@@ -99,7 +103,7 @@ class OptionAdminApiTest {
     @Test
     void notNullPriceCreateOptionTest() {
 
-        OptionCreateRequest optionCreateRequest = new OptionCreateRequest("option", null, 10);
+        OptionCreateRequest optionCreateRequest = new OptionCreateRequest(OPTION_NAME, null, MAX_QUANTITY);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
@@ -116,7 +120,7 @@ class OptionAdminApiTest {
     @Test
     void noNegativeMaxQuantityTest() {
 
-        OptionCreateRequest optionCreateRequest = new OptionCreateRequest("option", 500, -10);
+        OptionCreateRequest optionCreateRequest = new OptionCreateRequest(OPTION_NAME, PRICE, -10);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
@@ -133,7 +137,7 @@ class OptionAdminApiTest {
     @Test
     void notNullMaxQuantityCreateOptionTest() {
 
-        OptionCreateRequest optionCreateRequest = new OptionCreateRequest("option", 500, null);
+        OptionCreateRequest optionCreateRequest = new OptionCreateRequest(OPTION_NAME, PRICE, null);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
@@ -166,7 +170,7 @@ class OptionAdminApiTest {
     void successGetOptionTest() {
 
         List<Option> response = new ArrayList<>();
-        response.add(new Option(1, "option1", 100, 10));
+        response.add(new Option(1, OPTION_NAME, PRICE, MAX_QUANTITY));
 
         when(optionAdminService.getAllOption(any(Page.class)))
                 .thenReturn(response);
@@ -176,7 +180,7 @@ class OptionAdminApiTest {
                 .then()
                 .statusCode(OK.value())
                 .body("[0].id", equalTo(1))
-                .body("[0].name", equalTo("option1"))
+                .body("[0].name", equalTo("새로운 옵션"))
                 .body("[0].price", equalTo(100))
                 .body("[0].maxQuantity", equalTo(10));
     }

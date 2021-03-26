@@ -24,10 +24,16 @@ class OptionAdminServiceTest {
     @Autowired
     OptionAdminService optionAdminService;
 
+    private final String OPTION_NAME = "새로운 옵션";
+    private final int PRICE = 100;
+    private final int MAX_QUANTITY = 10;
+    private final int DEFAULT_OFFSET = 0;
+    private final int DEFAULT_LIMIT = 20;
+
     @DisplayName("id가 null인 옵션 객체로 새로운 옵션을 추가하고 아이디가 생긴 옵션 객체를 반환한다")
     @Test
     void addOptionTest() {
-        Option option = new Option(null, "새로운옵션", 100, 10);
+        Option option = new Option(null, OPTION_NAME, PRICE, MAX_QUANTITY);
 
         Option newOption = optionAdminService.createOption(option);
 
@@ -37,12 +43,12 @@ class OptionAdminServiceTest {
     @DisplayName("요청에 대하여 옵션들을 성공적으로 조회하면 옵션 목록을 반환한다")
     @Test
     void getAllOptionTest() {
-        Option option = new Option(null, "새로운 옵션", 100, 10);
-        Option option2 = new Option(null, "새로운 옵션", 100, 10);
+        Option option = new Option(null, "새로운 옵션1", PRICE, MAX_QUANTITY);
+        Option option2 = new Option(null, "새로운 옵션2", PRICE, MAX_QUANTITY);
         optionAdminService.createOption(option);
         optionAdminService.createOption(option2);
 
-        List<Option> options = optionAdminService.getAllOption(new Page(0, 20));
+        List<Option> options = optionAdminService.getAllOption(new Page(DEFAULT_OFFSET, DEFAULT_LIMIT));
 
         assertThat(options.size()).isEqualTo(2);
     }
@@ -51,7 +57,8 @@ class OptionAdminServiceTest {
     @Test
     void notFoundOptionTest() {
 
-        assertThrows(OptionNotFoundException.class, () -> optionAdminService.getAllOption(new Page(0, 20)));
+        assertThrows(OptionNotFoundException.class,
+                () -> optionAdminService.getAllOption(new Page(DEFAULT_OFFSET, DEFAULT_LIMIT)));
     }
 
 }
