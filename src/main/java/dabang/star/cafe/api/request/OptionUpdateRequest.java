@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -14,11 +13,11 @@ import javax.validation.constraints.PositiveOrZero;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class OptionUpdateRequest {
-    
+
     @NotNull(message = "blank option id")
     private Integer id;
 
-    @NotBlank(message = "blank option name")
+    @NotNull(message = "blank option name")
     private String name;
 
     @NotNull(message = "blank option price")
