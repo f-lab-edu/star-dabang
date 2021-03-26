@@ -11,4 +11,6 @@ public interface OptionAdminService {
 
     List<Option> getAllOption(Page page);
 
+    void updateOption(Option option);
+
 }

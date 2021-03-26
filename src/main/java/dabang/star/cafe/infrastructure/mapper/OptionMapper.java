@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface OptionMapper {
@@ -15,5 +16,7 @@ public interface OptionMapper {
     void update(Option option);
 
     List<Option> selectAllOption(@Param("page") Page page);
+
+    Optional<Option> getById(@Param("id") int id);
 
 }

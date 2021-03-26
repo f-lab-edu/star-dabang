@@ -1,6 +1,5 @@
 package dabang.star.cafe.domain.admin;
 
-import dabang.star.cafe.api.exception.MemberNotFoundException;
 import dabang.star.cafe.api.exception.OptionNotFoundException;
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.domain.option.OptionRepository;
@@ -38,6 +37,16 @@ public class OptionAdminServiceImpl implements OptionAdminService {
         if (options.size() == 0) {
             throw new OptionNotFoundException("No options were found");
         }
+    }
+
+    @Override
+    public void updateOption(Option option) {
+
+        optionRepository.findById(option.getId()).orElseThrow(
+                () -> new OptionNotFoundException("option not found")
+        );
+
+        optionRepository.save(option);
     }
 
 }
