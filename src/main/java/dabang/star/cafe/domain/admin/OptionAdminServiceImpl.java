@@ -54,4 +54,13 @@ public class OptionAdminServiceImpl implements OptionAdminService {
         );
     }
 
+    @Override
+
+    public void deleteOption(int optionId) {
+
+        loadById(optionId);
+
+        optionRepository.deleteById(optionId);
+    }
+
 }

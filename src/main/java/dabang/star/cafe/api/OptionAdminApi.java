@@ -60,4 +60,12 @@ public class OptionAdminApi {
 
         optionAdminService.updateOption(OptionFactory.from(optionUpdateRequest));
     }
+
+    @LoginCheck(role = Role.ADMIN)
+    @DeleteMapping("/{optionId}")
+    public void deleteOption(@PathVariable Integer optionId) {
+
+        optionAdminService.deleteOption(optionId);
+    }
+
 }

@@ -37,4 +37,10 @@ public class MybatisOptionRepository implements OptionRepository {
         return optionMapper.getById(id);
     }
 
+    @Override
+    public void deleteById(int id) {
+
+        optionMapper.removeById(id);
+    }
+    
 }
