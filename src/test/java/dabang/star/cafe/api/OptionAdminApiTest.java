@@ -307,4 +307,40 @@ class OptionAdminApiTest {
                 .body("status", equalTo(422));
     }
 
+    @DisplayName("옵션을 삭제할 때 존재하지 않는 옵션이라면 option not found를 반환한다")
+    @Test
+    void noExistsDeleteOptionTest() {
+
+        int noExistsOptionId = 1;
+
+        doThrow(new OptionNotFoundException("option not found"))
+                .when(optionAdminService)
+                .deleteOption(noExistsOptionId);
+
+        RestAssuredMockMvc.given()
+                .contentType(APPLICATION_JSON_VALUE)
+                .when()
+                .delete("/options/1")
+                .then()
+                .statusCode(NOT_FOUND.value())
+                .body("message", equalTo("option not found"))
+                .body("status", equalTo(404));
+
+        verify(optionAdminService).deleteOption(1);
+    }
+
+    @DisplayName("옵션을 삭제할 때 존재하는 옵션이라면 성공적으로 삭제를 한다")
+    @Test
+    void successDeleteOptionTest() {
+
+        RestAssuredMockMvc.given()
+                .contentType(APPLICATION_JSON_VALUE)
+                .when()
+                .delete("/options/1")
+                .then()
+                .statusCode(OK.value());
+
+        verify(optionAdminService).deleteOption(1);
+    }
+
 }

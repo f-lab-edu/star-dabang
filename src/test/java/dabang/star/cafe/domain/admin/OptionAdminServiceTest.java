@@ -87,4 +87,25 @@ class OptionAdminServiceTest {
         assertThat(findOption.getMaxQuantity()).isEqualTo(30);
     }
 
+    @DisplayName("옵션을 삭제할 때 존재하지 않는 옵션이라면 OptionNotFoundException을 발생시킨다")
+    @Test
+    void failDeleteOptionTest() {
+        int noExistsOptionId = 1;
+
+        assertThrows(OptionNotFoundException.class,
+                () -> optionAdminService.deleteOption(noExistsOptionId));
+    }
+
+    @DisplayName("옵션을 삭제할 때 존재하는 옵션에 대해서 성공적으로 옵션을 삭제한다")
+    @Test
+    void successDeleteOptionTest() {
+        Option option = new Option(null, OPTION_NAME, PRICE, MAX_QUANTITY);
+        Option saveOption = optionAdminService.createOption(option);
+
+        optionAdminService.deleteOption(saveOption.getId());
+
+        assertThrows(OptionNotFoundException.class,
+                () -> optionAdminService.getAllOption(new Page(DEFAULT_OFFSET, DEFAULT_LIMIT)));
+    }
+
 }
