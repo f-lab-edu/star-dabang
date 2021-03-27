@@ -60,7 +60,7 @@ class OptionAdminServiceTest {
                 () -> optionAdminService.getAllOption(new Page(DEFAULT_OFFSET, DEFAULT_LIMIT)));
     }
 
-    @DisplayName("옵션의 정보 수정할 때 존재하지 않는 옵션의 id라면 OptionNotFoundException을 발생시킨다")
+    @DisplayName("옵션의 정보 수정할 때 존재하지 않는 옵션 이라면 OptionNotFoundException을 발생시킨다")
     @Test
     void failOptionUpdateTest() {
         Option newOption = new Option(1, "바뀐 옵션", PRICE, MAX_QUANTITY);
@@ -69,7 +69,7 @@ class OptionAdminServiceTest {
                 () -> optionAdminService.updateOption(newOption));
     }
 
-    @DisplayName("옵션의 정보를 수정할 때 존재하는 옵션의 id라면 성공적으로 정보를 수정한다")
+    @DisplayName("옵션의 정보를 수정할 때 존재하는 옵션 이라면 성공적으로 정보를 수정한다")
     @Test
     void successOptionUpdateTest() {
         Option originOption = new Option(null, OPTION_NAME, PRICE, MAX_QUANTITY);
