@@ -39,7 +39,7 @@ CREATE TABLE manager
     office_id  INT          NOT NULL,
     name       VARCHAR(20)  NOT NULL,
     passwd     VARCHAR(255) NOT NULL,
-    rule       VARCHAR(10)  NOT NULL,
+    role       VARCHAR(10)  NOT NULL,
 
     PRIMARY KEY (manager_id),
     FOREIGN KEY (office_id) REFERENCES office (office_id)
