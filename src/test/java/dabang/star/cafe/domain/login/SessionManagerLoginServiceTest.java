@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 class SessionManagerLoginServiceTest {
 
     private final Long MANAGER_ID = 1L;
-    private final Long OFFICE_ID = 1L;
+    private final Integer OFFICE_ID = 1;
     private final String MANAGER_NAME = "admin";
     private final String ENCRYPTED_PASSWORD = "1q2w3e4r!";
     private final String ORIGINAL_PASSWORD = "11aa";

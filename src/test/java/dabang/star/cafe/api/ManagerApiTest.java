@@ -30,7 +30,7 @@ class ManagerApiTest {
     private final String MANAGER_NAME = "name";
     private final String MANAGER_PASSWORD = "password";
     private final Long MANAGER_ID = 1L;
-    private final Long OFFICE_ID = 1L;
+    private final Integer OFFICE_ID = 1;
 
     @Autowired
     private MockMvc mockMvc;
