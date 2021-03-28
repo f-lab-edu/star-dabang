@@ -11,7 +11,7 @@ public class Manager {
 
     private Long id;
 
-    private Long officeId;
+    private Integer officeId;
 
     private String name;
 
