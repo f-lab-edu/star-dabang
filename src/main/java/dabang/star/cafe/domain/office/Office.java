@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class Office {
 
-    private Long id;
+    private Integer id;
 
     private String name;
 

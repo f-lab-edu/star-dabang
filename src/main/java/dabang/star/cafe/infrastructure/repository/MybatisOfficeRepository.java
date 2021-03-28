@@ -1,6 +1,7 @@
 package dabang.star.cafe.infrastructure.repository;
 
 import dabang.star.cafe.domain.office.Office;
+import dabang.star.cafe.domain.office.OfficeData;
 import dabang.star.cafe.domain.office.OfficeRepository;
 import dabang.star.cafe.infrastructure.mapper.OfficeMapper;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ public class MybatisOfficeRepository implements OfficeRepository {
     private final OfficeMapper officeMapper;
 
     @Override
-    public Long save(Office office) {
+    public Integer save(Office office) {
 
         if (office.getId() == null) {
             officeMapper.insert(office);
@@ -27,13 +28,17 @@ public class MybatisOfficeRepository implements OfficeRepository {
     }
 
     @Override
-    public Optional<Office> findById(long id) {
+    public Optional<Office> findById(int id) {
         return officeMapper.getById(id);
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(int id) {
         officeMapper.removeById(id);
     }
 
+    @Override
+    public Optional<OfficeData> findByName(String officeName) {
+        return officeMapper.getByName(officeName);
+    }
 }

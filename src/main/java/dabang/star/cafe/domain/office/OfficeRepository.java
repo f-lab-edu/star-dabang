@@ -4,9 +4,11 @@ import java.util.Optional;
 
 public interface OfficeRepository {
 
-    Long save(Office office);
+    Integer save(Office office);
 
-    Optional<Office> findById(long id);
+    Optional<Office> findById(int id);
 
-    void deleteById(long id);
+    void deleteById(int id);
+
+    Optional<OfficeData> findByName(String officeName);
 }
