@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@Builder
 @AllArgsConstructor
 public class MemberData {
 

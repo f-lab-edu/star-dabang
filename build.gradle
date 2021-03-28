@@ -39,8 +39,14 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+//    =================================================================================
+
     // 테스트 환경을 위한 인메모리 DB 의존성 추가
     testRuntimeOnly 'com.h2database:h2'
+
+    // 테스트 환경을 위한 embedded-redis 의존성 추가
+    testImplementation 'it.ozimov:embedded-redis:0.7.2'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // 순수 MyBatis 컴포넌트에 대한 테스트를 도와주는 mybatis-spring-boot-starter-test 의존성 추가

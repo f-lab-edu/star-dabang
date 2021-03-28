@@ -4,7 +4,7 @@ public interface MemberService {
 
     MemberData join(String email, String password, String nickname, String telephone, String birth);
 
-    void checkDuplicatedMemberEmail(String email);
+    void checkDuplicatedEmail(String email);
 
     void update(Member member);
 

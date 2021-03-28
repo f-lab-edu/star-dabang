@@ -18,10 +18,9 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberData join(String email, String password, String nickname, String telephone, String birth) {
 
-        checkDuplicatedMemberEmail(email);
+        checkDuplicatedEmail(email);
 
         String encryptedPassword = encryptService.encrypt(password);
-
         Member member = Member.builder()
                 .email(email)
                 .password(encryptedPassword)
@@ -29,17 +28,16 @@ public class MemberServiceImpl implements MemberService {
                 .telephone(telephone)
                 .birth(birth)
                 .build();
-
         memberRepository.save(member);
 
         return MemberData.from(member);
     }
 
     @Override
-    public void checkDuplicatedMemberEmail(String email) {
+    public void checkDuplicatedEmail(String email) {
 
-        if (memberRepository.isExist(email)) {
-            throw new DuplicatedException("duplicated Email");
+        if (memberRepository.existsByEmail(email)) {
+            throw new DuplicatedException("duplicated email");
         }
     }
 

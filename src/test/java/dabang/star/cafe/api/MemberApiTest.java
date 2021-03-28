@@ -1,244 +1,248 @@
 package dabang.star.cafe.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import dabang.star.cafe.api.exception.ErrorResponse;
+import dabang.star.cafe.api.exception.DuplicatedException;
+import dabang.star.cafe.api.request.MemberLoginRequest;
 import dabang.star.cafe.api.request.SignUpRequest;
+import dabang.star.cafe.domain.login.MemberLoginService;
 import dabang.star.cafe.domain.member.Member;
+import dabang.star.cafe.domain.member.MemberData;
+import dabang.star.cafe.domain.member.MemberService;
+import io.restassured.mapper.ObjectMapperType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
-@SpringBootTest
-@AutoConfigureMockMvc
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@WebMvcTest(MemberApi.class)
 class MemberApiTest {
 
-    private SignUpRequest signUpRequest;
-
     @Autowired
-    private MockMvc mockMvc;
+    MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    @MockBean
+    MemberService memberService;
+
+    @MockBean
+    MemberLoginService memberLoginService;
 
     @BeforeEach
     void before() {
         RestAssuredMockMvc.mockMvc(mockMvc);
     }
 
-    @DisplayName("회원가입시 정상적으로 가입이 완료되면 상태코드 200을 반환한다")
+    @DisplayName("회원가입이 성공하면 상태코드 201과 멤버 정보를 반환한다")
     @Test
-    @Order(1)
-    void signUpMemberTest() throws Exception {
+    void testSuccessSignUpRequest() throws Exception {
 
-        Member member = new Member(new SignUpRequest(
-                "test11@naver.com",
-                "1234",
-                "테스트",
-                "01055555555",
-                "19960909"));
-        String value = objectMapper.writeValueAsString(member);
+        SignUpRequest signUpRequest = prepareSignUpRequest(Collections.emptyMap());
+
+        Member member = Member.builder()
+                .email(signUpRequest.getEmail())
+                .nickname(signUpRequest.getNickname())
+                .password(signUpRequest.getPassword())
+                .telephone(signUpRequest.getTelephone())
+                .birth(signUpRequest.getBirth())
+                .build();
+        MemberData memberData = MemberData.from(member);
+
+        when(memberService.join(
+                signUpRequest.getEmail(),
+                signUpRequest.getPassword(),
+                signUpRequest.getNickname(),
+                signUpRequest.getTelephone(),
+                signUpRequest.getBirth()
+        )).thenReturn(memberData);
 
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(value)
+                .body(signUpRequest, ObjectMapperType.JACKSON_2)
                 .when()
                 .post("/members")
                 .then()
-                .statusCode(HttpStatus.CREATED.value());
+                .statusCode(HttpStatus.CREATED.value())
+                .body("email", equalTo(signUpRequest.getEmail()))
+                .body("nickname", equalTo(signUpRequest.getNickname()))
+        ;
+
     }
 
-    @DisplayName("회원가입시 중복된 이메일 입력하면 상태코드 409를 반환한다")
+    @DisplayName("중복된 이메일로 가입 요청시 상태코드 422와 'duplicated email' 을 반환합니다.")
     @Test
-    @Order(2)
     void duplicatedEmailCheckTest() throws Exception {
 
-        Member member = new Member(new SignUpRequest(
-                "test11@naver.com",
-                "1234",
-                "테스트",
-                "01055555555",
-                "19960909"));
-        String value = objectMapper.writeValueAsString(member);
+        SignUpRequest signUpRequest = prepareSignUpRequest(Collections.emptyMap());
 
-        ErrorResponse errorResponse = ErrorResponse.builder().message("duplicated Email").status(HttpStatus.CONFLICT.value()).build();
-        String error = objectMapper.writeValueAsString(errorResponse);
+        when(memberService.join(
+                signUpRequest.getEmail(),
+                signUpRequest.getPassword(),
+                signUpRequest.getNickname(),
+                signUpRequest.getTelephone(),
+                signUpRequest.getBirth()
+        )).thenThrow(new DuplicatedException("duplicated email"));
 
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(value)
+                .body(signUpRequest, ObjectMapperType.JACKSON_2)
                 .when()
                 .post("/members")
                 .then()
                 .statusCode(HttpStatus.CONFLICT.value())
-                .body(equalTo(error));
+                .body("message", equalTo("duplicated email"))
+                .body("status", equalTo(409))
+        ;
     }
 
-    @DisplayName("회원가입시 이메일을 입력하지 않으면 상태코드 400을 반환한다")
-    @Test
-    void validatedEmptyEmailTest() throws Exception {
+    @DisplayName("회원가입시 잘못된 이메일 형식을 입력하면 상태코드 422와 'not valid email format' 을 반환한다")
+    @ParameterizedTest
+    @ValueSource(strings = {"test.com"})
+    @NullAndEmptySource
+    void testEmailIsValid(String email) throws Exception {
 
-        Member member = new Member(new SignUpRequest(
-                "",
-                "1234",
-                "테스트",
-                "01055555555",
-                "19960909"));
-        String value = objectMapper.writeValueAsString(member);
-
-        ErrorResponse errorResponse = ErrorResponse.builder().message("blank email").status(HttpStatus.BAD_REQUEST.value()).build();
-        String error = objectMapper.writeValueAsString(errorResponse);
+        SignUpRequest signUpRequest = prepareSignUpRequest(new HashMap<>() {{
+            put("email", email);
+        }});
 
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(value)
+                .body(signUpRequest, ObjectMapperType.JACKSON_2)
                 .when()
                 .post("/members")
                 .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body(equalTo(error));
+                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .body("message", equalTo("not valid email"))
+                .body("status", equalTo(422))
+        ;
     }
 
-    @DisplayName("회원가입시 잘못된 이메일 형식을 입력하면 상태코드 400을 반환한다")
-    @Test
-    void validatedNotEmailTest() throws Exception {
+    @DisplayName("회원가입시 잘못된 패스워드 형식을 입력하면 상태코드 422와 'not valid password' 을 반환한다")
+    @ParameterizedTest
+    @ValueSource(strings = {"t", "test password"})
+    @NullAndEmptySource
+    void testPasswordIsValid(String password) throws Exception {
 
-        Member member = new Member(new SignUpRequest(
-                "test@",
-                "1234",
-                "테스트",
-                "01055555555",
-                "19960909"));
-        String value = objectMapper.writeValueAsString(member);
-
-        ErrorResponse errorResponse = ErrorResponse.builder().message("not valid email format").status(HttpStatus.BAD_REQUEST.value()).build();
-        String error = objectMapper.writeValueAsString(errorResponse);
+        SignUpRequest signUpRequest = prepareSignUpRequest(new HashMap<>() {{
+            put("password", password);
+        }});
 
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(value)
+                .body(signUpRequest, ObjectMapperType.JACKSON_2)
                 .when()
                 .post("/members")
                 .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body(equalTo(error));
+                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .body("message", equalTo("not valid password"))
+                .body("status", equalTo(422))
+        ;
     }
 
-    @DisplayName("회원가입시 패스워드에 공백을 포함하면 상태코드 400을 반환한다")
-    @Test
-    void validatedEmptyPasswdTest() throws Exception {
+    @DisplayName("회원가입시 잘못된 닉네임 형식을 입력하면 상태코드 422와 'not valid nickname' 을 반환한다")
+    @ParameterizedTest
+    @ValueSource(strings = {"테 스트", "테스트테스트테스트테스트테스트", "test"})
+    @NullAndEmptySource
+    void testNicknameIsValid(String nickname) throws Exception {
 
-        Member member = new Member(new SignUpRequest(
-                "test11@naver.com",
-                "12 3 4",
-                "테스트",
-                "01055555555",
-                "19960909"));
-        String value = objectMapper.writeValueAsString(member);
-
-        ErrorResponse errorResponse = ErrorResponse.builder().message("not valid password").status(HttpStatus.BAD_REQUEST.value()).build();
-        String error = objectMapper.writeValueAsString(errorResponse);
+        SignUpRequest signUpRequest = prepareSignUpRequest(new HashMap<>() {{
+            put("nickname", nickname);
+        }});
 
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(value)
+                .body(signUpRequest, ObjectMapperType.JACKSON_2)
                 .when()
                 .post("/members")
                 .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body(equalTo(error));
+                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .body("message", equalTo("not valid nickname"))
+                .body("status", equalTo(422))
+        ;
     }
 
-    @DisplayName("회원가입시 닉네임에 공백을 포함하면 상태코드 400을 반환한다")
-    @Test
-    void validatedEmptyNicknameTest() throws Exception {
+    @DisplayName("회원가입시 잘못된 핸드폰 번호 형식을 입력하면 상태코드 422와 'not valid telephone' 을 반환한다")
+    @ParameterizedTest
+    @ValueSource(strings = {"010 1234 5678", "010123456789"})
+    @NullAndEmptySource
+    void testTelephoneIsValid(String telephone) throws Exception {
 
-        Member member = new Member(new SignUpRequest(
-                "test11@naver.com",
-                "1234",
-                "테 스 트",
-                "01055555555",
-                "19960909"));
-        String value = objectMapper.writeValueAsString(member);
-
-        ErrorResponse errorResponse = ErrorResponse.builder().message("not valid nickname").status(HttpStatus.BAD_REQUEST.value()).build();
-        String error = objectMapper.writeValueAsString(errorResponse);
+        SignUpRequest signUpRequest = prepareSignUpRequest(new HashMap<>() {{
+            put("telephone", telephone);
+        }});
 
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(value)
+                .body(signUpRequest, ObjectMapperType.JACKSON_2)
                 .when()
                 .post("/members")
                 .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body(equalTo(error));
+                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .body("message", equalTo("not valid telephone"))
+                .body("status", equalTo(422))
+        ;
     }
 
-    @DisplayName("회원가입시 핸드폰번호에 공백을 포함하면 상태코드 400을 반환한다")
-    @Test
-    void validatedEmptyPhoneTest() throws Exception {
+    @DisplayName("회원가입시 잘못된 생일 형식을 입력하면 상태코드 422와 'not valid birthday' 을 반환한다")
+    @ParameterizedTest
+    @ValueSource(strings = {"1999 12 12", "1999-12-12"})
+    @NullAndEmptySource
+    void testBirthIsValid(String birthday) throws Exception {
 
-        Member member = new Member(new SignUpRequest(
-                "test11@naver.com",
-                "1234",
-                "테스트",
-                "010 5555 5555",
-                "19960909"));
-        String value = objectMapper.writeValueAsString(member);
-
-        ErrorResponse errorResponse = ErrorResponse.builder().message("not valid telephone").status(HttpStatus.BAD_REQUEST.value()).build();
-        String error = objectMapper.writeValueAsString(errorResponse);
+        SignUpRequest signUpRequest = prepareSignUpRequest(new HashMap<>() {{
+            put("birth", birthday);
+        }});
 
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(value)
+                .body(signUpRequest, ObjectMapperType.JACKSON_2)
                 .when()
                 .post("/members")
                 .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body(equalTo(error));
+                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .body("message", equalTo("not valid birthday"))
+                .body("status", equalTo(422))
+        ;
     }
 
-    @DisplayName("회원가입시 생일에 공백을 포함하면 상태코드 400을 반환한다")
-    @Test
-    void validatedEmptyBirthTest() throws Exception {
+    private SignUpRequest prepareSignUpRequest(final Map<String, String> info) {
+        String email = info.getOrDefault("email", "test@test.com");
+        String password = info.getOrDefault("password", "testpassword");
+        String nickname = info.getOrDefault("nickname", "테스트닉");
+        String telephone = info.getOrDefault("telephone", "01012345678");
+        String birth = info.getOrDefault("birth", LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE));
 
-        Member member = new Member(new SignUpRequest(
-                "test11@naver.com",
-                "1234",
-                "테스트",
-                "01055555555",
-                "1996 09 09"));
-        String value = objectMapper.writeValueAsString(member);
-
-        ErrorResponse errorResponse = ErrorResponse.builder().message("not valid birth day").status(HttpStatus.BAD_REQUEST.value()).build();
-        String error = objectMapper.writeValueAsString(errorResponse);
-
-        RestAssuredMockMvc
-                .given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(value)
-                .when()
-                .post("/members")
-                .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body(equalTo(error));
+        return new SignUpRequest(email, password, nickname, telephone, birth);
     }
 
+    private MemberLoginRequest prepareMemberLoginRequest(final Map<String, String> info) {
+        String email = info.getOrDefault("email", "test@test.com");
+        String password = info.getOrDefault("password", "testpassword");
+
+        return new MemberLoginRequest(email, password);
+    }
 }

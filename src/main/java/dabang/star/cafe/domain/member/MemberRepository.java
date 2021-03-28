@@ -6,7 +6,7 @@ public interface MemberRepository {
 
     void save(Member member);
 
-    boolean isExist(String email);
+    boolean existsByEmail(String email);
 
     Optional<MemberData> findByEmailAndPassword(String email, String password);
 

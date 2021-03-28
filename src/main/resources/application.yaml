@@ -39,6 +39,12 @@ spring:
     activate:
       on-profile: test
 
+  session:
+    store-type: redis
+    redis:
+      namespace: star_dabang:session
+
+
 mybatis:
   mapper-locations: classpath:mybatis-mapper/**/*.xml
   type-aliases-package: dabang.star.cafe.domain
