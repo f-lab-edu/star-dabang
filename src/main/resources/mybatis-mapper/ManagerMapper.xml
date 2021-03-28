@@ -3,8 +3,8 @@
 <mapper namespace="dabang.star.cafe.infrastructure.mapper.ManagerMapper">
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO manager (office_id, name, passwd, rule)
-        VALUES (#{officeId}, #{name}, #{password}, #{rule,typeHandler=org.apache.ibatis.type.EnumTypeHandler})
+        INSERT INTO manager (office_id, name, passwd, role)
+        VALUES (#{officeId}, #{name}, #{password}, #{role,typeHandler=org.apache.ibatis.type.EnumTypeHandler})
     </insert>
 
     <update id="update" keyProperty="id">
@@ -16,8 +16,8 @@
             <if test="password != null">
                 nickname=#{nickname},
             </if>
-            <if test="rule != null">
-                rule=#{rule,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+            <if test="role != null">
+                role=#{role,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
             </if>
         </set>
         where member_id=#{id}
@@ -27,7 +27,7 @@
         SELECT m.manager_id AS id,
                m.office_id  AS officeId,
                m.name       AS name,
-               m.rule       AS rule
+               m.role       AS role
         FROM manager m
         WHERE m.name = #{name}
           AND m.passwd = #{password}
