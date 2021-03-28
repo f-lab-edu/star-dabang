@@ -14,8 +14,8 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 public class SignUpRequest {
 
-    @NotBlank(message = "blank email")
-    @Email(message = "not valid email format")
+    @NotBlank(message = "not valid email")
+    @Email(message = "not valid email")
     private String email;
 
     @NotBlank(message = "not valid password")
@@ -30,7 +30,7 @@ public class SignUpRequest {
     @Pattern(regexp = "[0-9]{10,11}", message = "not valid telephone")
     private String telephone;
 
-    @NotBlank(message = "not valid birth day")
-    @Pattern(regexp = "[0-9]{8}", message = "not valid birth day")
+    @NotBlank(message = "not valid birthday")
+    @Pattern(regexp = "[0-9]{8}", message = "not valid birthday")
     private String birth;
 }

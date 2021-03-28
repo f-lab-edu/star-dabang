@@ -27,7 +27,7 @@ public class MybatisMemberRepository implements MemberRepository {
     }
 
     @Override
-    public boolean isExist(String email) {
+    public boolean existsByEmail(String email) {
         return memberMapper.exists(email);
     }
 

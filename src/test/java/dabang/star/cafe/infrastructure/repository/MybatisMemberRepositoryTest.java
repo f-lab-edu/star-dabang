@@ -1,7 +1,7 @@
 package dabang.star.cafe.infrastructure.repository;
 
-import dabang.star.cafe.domain.member.MemberData;
 import dabang.star.cafe.domain.member.Member;
+import dabang.star.cafe.domain.member.MemberData;
 import dabang.star.cafe.domain.member.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -51,7 +51,7 @@ class MybatisMemberRepositoryTest {
     @Test
     void isNotExistEmail() {
         memberRepository.save(member);
-        boolean result = memberRepository.isExist("test@naver.com");
+        boolean result = memberRepository.existsByEmail("test@naver.com");
 
         assertThat(result).isTrue();
     }
@@ -60,7 +60,7 @@ class MybatisMemberRepositoryTest {
     @Test
     void isExistEmail() {
         memberRepository.save(member);
-        boolean result = memberRepository.isExist("abcd@naver.com");
+        boolean result = memberRepository.existsByEmail("abcd@naver.com");
 
         assertThat(result).isFalse();
     }
