@@ -1,6 +1,7 @@
 package dabang.star.cafe.domain.admin;
 
 import dabang.star.cafe.api.exception.OfficeNotFoundException;
+import dabang.star.cafe.api.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.login.EncryptService;
 import dabang.star.cafe.domain.manager.Manager;
 import dabang.star.cafe.domain.manager.ManagerData;
@@ -38,5 +39,24 @@ public class ManagerAdminServiceImpl implements ManagerAdminService {
         managerRepository.save(manager);
 
         return ManagerData.from(manager);
+    }
+
+    @Override
+    public void updateManager(long id, String password, String officeName) {
+        OfficeData officeData = officeRepository.findByName(officeName).orElseThrow(
+                () -> new OfficeNotFoundException("office not found.")
+        );
+
+        managerRepository.findById(id).map(manager -> {
+            managerRepository.save(Manager.builder()
+                    .id(id)
+                    .officeId(manager.getOfficeId())
+                    .name(manager.getName())
+                    .password(password)
+                    .officeId(officeData.getId())
+                    .build()
+            );
+            return manager;
+        }).orElseThrow(() -> new ResourceNotFoundException("manager not found."));
     }
 }
