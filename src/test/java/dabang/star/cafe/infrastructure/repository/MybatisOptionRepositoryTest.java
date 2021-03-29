@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -68,16 +67,26 @@ class MybatisOptionRepositoryTest {
         assertThat(findOption.getMaxQuantity()).isEqualTo(20);
     }
 
-    @DisplayName("옵션을 삭제할 때 id가 주어지면 해당하는 옵션을 삭제한다")
+    @DisplayName("옵션을 삭제할 때 해당하는 옵션이 없어 삭제하지 못했다면 0을 반환한다")
     @Test
     void deleteOptionTest() {
+        int noOptionId = 1;
+
+        int result = optionRepository.deleteById(noOptionId);
+
+        assertThat(result).isEqualTo(0);
+    }
+
+    @DisplayName("옵션을 삭제할 때 삭제를 완료하면 삭제된 개수 1을 반환한다")
+    @Test
+    void deletedOptionTest() {
         Option option = new Option(null, OPTION_NAME, PRICE, MAX_QUANTITY);
         optionRepository.save(option);
 
-        optionRepository.deleteById(option.getId());
+        int result = optionRepository.deleteById(option.getId());
 
-        Optional<Option> findOption = optionRepository.findById(option.getId());
-        assertThat(findOption.isPresent()).isFalse();
+        assertThat(result).isEqualTo(1);
     }
+
 
 }
