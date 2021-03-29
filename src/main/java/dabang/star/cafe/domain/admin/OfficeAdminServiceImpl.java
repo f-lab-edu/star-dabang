@@ -36,12 +36,12 @@ public class OfficeAdminServiceImpl implements OfficeAdminService {
     }
 
     @Override
-    public void deleteOffice(Integer officeId) {
+    public void deleteOffice(int officeId) {
         officeRepository.deleteById(officeId);
     }
 
     @Override
-    public void updateOffice(Integer id, String name, String address, BigDecimal latitude, BigDecimal longitude) {
+    public void updateOffice(int id, String name, String address, BigDecimal latitude, BigDecimal longitude) {
 
         Office office = officeRepository.findById(id).orElseThrow(
                 () -> new OfficeNotFoundException("office not found")

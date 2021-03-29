@@ -61,7 +61,7 @@ public class OfficeAdminApi {
      */
     @LoginCheck(role = Role.ADMIN)
     @DeleteMapping("/{officeId}")
-    public void deleteOffice(@PathVariable Integer officeId) {
+    public void deleteOffice(@PathVariable int officeId) {
         officeAdminService.deleteOffice(officeId);
     }
 
