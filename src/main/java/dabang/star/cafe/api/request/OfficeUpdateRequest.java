@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Getter
@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class OfficeUpdateRequest {
 
-    @NotBlank(message="blank office id")
+    @NotNull(message="blank office id")
     private int id;
 
     @NotBlank(message = "blank office name")
@@ -23,9 +23,9 @@ public class OfficeUpdateRequest {
     @NotBlank(message = "blank office address")
     private String address;
 
-    @NotBlank(message = "blank office latitude")
+    @NotNull(message = "blank office latitude")
     private BigDecimal latitude;
 
-    @NotBlank(message = "blank office latitude")
+    @NotNull(message = "blank office latitude")
     private BigDecimal longitude;
 }
