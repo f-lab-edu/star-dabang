@@ -19,6 +19,6 @@ public interface OptionMapper {
 
     Optional<Option> getById(@Param("id") int id);
 
-    void removeById(@Param("id") int id);
+    int removeById(@Param("id") int id);
 
 }
