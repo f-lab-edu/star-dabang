@@ -24,7 +24,12 @@
                  FROM additional_option
                  ORDER BY option_id
              ) O
-        LIMIT #{page.limit} OFFSET #{page.offset}
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="getAllOptionCount" resultType="int">
+        SELECT COUNT(*)
+        FROM additional_option
     </select>
 
 </mapper>

@@ -6,13 +6,13 @@ import dabang.star.cafe.domain.admin.OptionAdminService;
 import dabang.star.cafe.domain.manager.Role;
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.domain.option.OptionFactory;
-import dabang.star.cafe.utils.Page;
+import dabang.star.cafe.utils.page.Page;
+import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -42,10 +42,9 @@ public class OptionAdminApi {
      */
     @LoginCheck(role = Role.ADMIN)
     @GetMapping
-    public List<Option> getAllOption(@RequestParam(value = "offset", defaultValue = "0") int offset,
-                                     @RequestParam(value = "limit", defaultValue = "20") int limit) {
+    public Page<Option> getAllOption(Pagination pagination) {
 
-        return optionAdminService.getAllOption(new Page(offset, limit));
+        return optionAdminService.getAllOption(pagination);
     }
-    
+
 }
