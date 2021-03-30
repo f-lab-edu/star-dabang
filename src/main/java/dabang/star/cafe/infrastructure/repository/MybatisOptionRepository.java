@@ -34,4 +34,10 @@ public class MybatisOptionRepository implements OptionRepository {
         return new Page<>(options, totalCount);
     }
 
+    @Override
+    public List<Option> findByName(String name) {
+
+        return optionMapper.selectByName(name);
+    }
+
 }

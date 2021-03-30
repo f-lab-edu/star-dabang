@@ -27,10 +27,10 @@ public class OptionAdminServiceImpl implements OptionAdminService {
     @Override
     public Page<Option> getAllOption(Pagination pagination) {
 
-        Page<Option> options = optionRepository.findAll(pagination);
-        verifyExitsOption(options.getContent());
+        Page<Option> optionPage = optionRepository.findAll(pagination);
+        verifyExitsOption(optionPage.getContent());
 
-        return options;
+        return optionPage;
     }
 
     private void verifyExitsOption(List<Option> options) {
@@ -38,6 +38,15 @@ public class OptionAdminServiceImpl implements OptionAdminService {
         if (options.size() == 0) {
             throw new OptionNotFoundException("No options were found");
         }
+    }
+
+    @Override
+    public List<Option> getOptionByName(String optionName) {
+
+        List<Option> options = optionRepository.findByName(optionName);
+        verifyExitsOption(options);
+
+        return options;
     }
 
 }

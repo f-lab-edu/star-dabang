@@ -16,4 +16,6 @@ public interface OptionMapper {
 
     int getAllOptionCount();
 
+    List<Option> selectByName(String name);
+
 }

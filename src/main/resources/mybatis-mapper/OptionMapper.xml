@@ -20,7 +20,10 @@
     <select id="selectAllOption" resultType="Option">
         SELECT O.*
         FROM (
-                 SELECT option_id AS id, option_name AS name, option_price AS price, max_quantity AS maxQuantity
+                 SELECT option_id    AS id,
+                        option_name  AS name,
+                        option_price AS price,
+                        max_quantity AS maxQuantity
                  FROM additional_option
                  ORDER BY option_id
              ) O
@@ -30,6 +33,15 @@
     <select id="getAllOptionCount" resultType="int">
         SELECT COUNT(*)
         FROM additional_option
+    </select>
+
+    <select id="selectByName" resultType="Option">
+        SELECT option_id    AS id,
+               option_name  AS name,
+               option_price AS price,
+               max_quantity AS maxQuantity
+        FROM additional_option
+        WHERE option_name LIKE CONCAT('%', #{name}, '%')
     </select>
 
 </mapper>

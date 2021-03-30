@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -36,15 +37,29 @@ public class OptionAdminApi {
     }
 
     /**
-     * 새로운 상품을 추가하거나 수정할 때 설정을위해서 옵션 정보를 조회
+     * 새로운 옵션을 추가하거나 수정할 때 설정을위해서 옵션 정보를 조회
      *
-     * @return 조회 완료시 HttpStatus.OK (List<Option>) 반환
+     * @param pagination (page, size)
+     * @return 조회 완료시 HttpStatus.OK (Page<Option>) 반환
      */
     @LoginCheck(role = Role.ADMIN)
     @GetMapping
     public Page<Option> getAllOption(Pagination pagination) {
 
         return optionAdminService.getAllOption(pagination);
+    }
+
+    /**
+     * 새로운 상품을 추가할 때 옵션이름으로 검색한 정보를 가져와서 추가하기 위한 조회
+     *
+     * @param name
+     * @return 조회 완료시 HttpStatus.OK (Option) 반환
+     */
+    @LoginCheck(role = Role.ADMIN)
+    @GetMapping("/search")
+    public List<Option> getOptionByName(@RequestParam String name) {
+
+        return optionAdminService.getOptionByName(name);
     }
 
 }
