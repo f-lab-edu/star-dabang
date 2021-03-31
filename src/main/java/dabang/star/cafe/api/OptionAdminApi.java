@@ -61,6 +61,11 @@ public class OptionAdminApi {
         optionAdminService.updateOption(OptionFactory.from(optionUpdateRequest));
     }
 
+    /**
+     * 특정 옵션을 삭제
+     *
+     * @param optionId
+     */
     @LoginCheck(role = Role.ADMIN)
     @DeleteMapping("/{optionId}")
     public void deleteOption(@PathVariable Integer optionId) {
