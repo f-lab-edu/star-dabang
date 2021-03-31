@@ -50,7 +50,6 @@ public class ManagerAdminServiceImpl implements ManagerAdminService {
         managerRepository.findById(id).map(manager -> {
             managerRepository.save(Manager.builder()
                     .id(id)
-                    .officeId(manager.getOfficeId())
                     .name(manager.getName())
                     .password(password)
                     .officeId(officeData.getId())
