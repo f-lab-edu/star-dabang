@@ -32,4 +32,8 @@ public class MybatisManagerRepository implements ManagerRepository {
         return managerMapper.getByNameAndPassword(name, password);
     }
 
+    @Override
+    public Optional<Manager> findById(long id) {
+        return managerMapper.getById(id);
+    }
 }
