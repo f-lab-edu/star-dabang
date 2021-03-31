@@ -58,4 +58,9 @@ public class ManagerAdminServiceImpl implements ManagerAdminService {
             return manager;
         }).orElseThrow(() -> new ResourceNotFoundException("manager not found."));
     }
+
+    @Override
+    public void deleteManager(long id) {
+        managerRepository.deleteById(id);
+    }
 }
