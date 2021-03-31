@@ -50,7 +50,7 @@ public class OptionAdminServiceImpl implements OptionAdminService {
     private Option loadById(int optionId) {
 
         return optionRepository.findById(optionId).orElseThrow(
-                () -> new OptionNotFoundException("option not found by id")
+                () -> new OptionNotFoundException("option not found by id : " + optionId)
         );
     }
 
