@@ -16,4 +16,5 @@ public interface ManagerMapper {
 
     Optional<ManagerData> getByNameAndPassword(@Param("name") String name, @Param("password") String password);
 
+    Optional<Manager> getById(Long id);
 }

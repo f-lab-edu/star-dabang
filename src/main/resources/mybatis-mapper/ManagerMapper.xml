@@ -20,7 +20,7 @@
                 role=#{role,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
             </if>
         </set>
-        where member_id=#{id}
+        where manager_id=#{id}
     </update>
 
     <select id="getByNameAndPassword" resultType="ManagerData">
@@ -31,6 +31,12 @@
         FROM manager m
         WHERE m.name = #{name}
           AND m.passwd = #{password}
+    </select>
+
+    <select id="getById" resultType="Manager">
+        SELECT m.manager_id, m.office_id, m.name, m.passwd, m.role
+        FROM manager m
+        WHERE m.manager_id = #{id}
     </select>
 
 </mapper>
