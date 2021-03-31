@@ -67,4 +67,26 @@ class MybatisOptionRepositoryTest {
         assertThat(findOption.getMaxQuantity()).isEqualTo(20);
     }
 
+    @DisplayName("옵션을 삭제할 때 해당하는 옵션이 없어 삭제하지 못했다면 0을 반환한다")
+    @Test
+    void deleteOptionTest() {
+        int noOptionId = 1;
+
+        int result = optionRepository.deleteById(noOptionId);
+
+        assertThat(result).isEqualTo(0);
+    }
+
+    @DisplayName("옵션을 삭제할 때 삭제를 완료하면 삭제된 개수 1을 반환한다")
+    @Test
+    void deletedOptionTest() {
+        Option option = new Option(null, OPTION_NAME, PRICE, MAX_QUANTITY);
+        optionRepository.save(option);
+
+        int result = optionRepository.deleteById(option.getId());
+
+        assertThat(result).isEqualTo(1);
+    }
+
+
 }

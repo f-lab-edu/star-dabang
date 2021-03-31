@@ -13,4 +13,6 @@ public interface OptionAdminService {
 
     void updateOption(Option option);
 
+    void deleteOption(int optionId);
+
 }

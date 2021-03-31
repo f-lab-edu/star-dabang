@@ -39,4 +39,10 @@
         WHERE o.option_id = #{id}
     </select>
 
+    <delete id="removeById">
+        DELETE
+        FROM additional_option
+        WHERE option_id = #{id}
+    </delete>
+
 </mapper>

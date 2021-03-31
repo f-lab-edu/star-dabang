@@ -13,4 +13,6 @@ public interface OptionRepository {
 
     Optional<Option> findById(int id);
 
+    int deleteById(int id);
+
 }

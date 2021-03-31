@@ -54,4 +54,13 @@ public class OptionAdminServiceImpl implements OptionAdminService {
         );
     }
 
+    @Override
+    public void deleteOption(int optionId) {
+
+        if (optionRepository.deleteById(optionId) == 0) {
+            throw new OptionNotFoundException("option not found by id");
+        }
+
+    }
+
 }
