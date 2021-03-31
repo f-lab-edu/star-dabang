@@ -19,9 +19,15 @@
     </update>
 
     <select id="getById" resultType="Office" parameterType="map">
-        SELECT o.office_id, o.office_name
+        SELECT o.office_id, o.office_name, o.address, o.latitude, o.longitude
         FROM office o
         WHERE o.office_id = #{id}
+    </select>
+
+    <select id="getByName" resultType="OfficeData" parameterType="map">
+        SELECT o.office_id, o.office_name, o.address
+        FROM office o
+        WHERE o.office_name = #{officeName}
     </select>
 
     <delete id="removeById">

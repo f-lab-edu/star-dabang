@@ -9,10 +9,13 @@ public class ManagerData {
 
     private Long id;
 
-    private Long officeId;
+    private Integer officeId;
 
     private String name;
 
     private Role role;
 
+    public static ManagerData from(Manager manager) {
+        return new ManagerData(manager.getId(), manager.getOfficeId(), manager.getName(), manager.getRole());
+    }
 }

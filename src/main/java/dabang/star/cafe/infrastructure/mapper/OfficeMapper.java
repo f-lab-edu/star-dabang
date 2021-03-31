@@ -1,6 +1,7 @@
 package dabang.star.cafe.infrastructure.mapper;
 
 import dabang.star.cafe.domain.office.Office;
+import dabang.star.cafe.domain.office.OfficeData;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,7 +14,9 @@ public interface OfficeMapper {
 
     void update(Office office);
 
-    Optional<Office> getById(@Param("id") Long id);
+    Optional<Office> getById(@Param("id") Integer id);
 
-    void removeById(@Param("id") Long id);
+    void removeById(@Param("id") Integer id);
+
+    Optional<OfficeData> getByName(String officeName);
 }

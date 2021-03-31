@@ -1,0 +1,42 @@
+package dabang.star.cafe.domain.admin;
+
+import dabang.star.cafe.api.exception.OfficeNotFoundException;
+import dabang.star.cafe.domain.login.EncryptService;
+import dabang.star.cafe.domain.manager.Manager;
+import dabang.star.cafe.domain.manager.ManagerData;
+import dabang.star.cafe.domain.manager.ManagerRepository;
+import dabang.star.cafe.domain.manager.Role;
+import dabang.star.cafe.domain.office.OfficeData;
+import dabang.star.cafe.domain.office.OfficeRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class ManagerAdminServiceImpl implements ManagerAdminService {
+
+    private final EncryptService encryptService;
+
+    private final ManagerRepository managerRepository;
+
+    private final OfficeRepository officeRepository;
+
+    @Override
+    public ManagerData createManager(String name, String password, String officeName) {
+
+        OfficeData officeData = officeRepository.findByName(officeName).orElseThrow(
+                () -> new OfficeNotFoundException("office not found.")
+        );
+
+        String encryptedPassword = encryptService.encrypt(password);
+        Manager manager = Manager.builder()
+                .officeId(officeData.getId())
+                .name(name)
+                .password(encryptedPassword)
+                .role(Role.MANAGER)
+                .build();
+        managerRepository.save(manager);
+
+        return ManagerData.from(manager);
+    }
+}
