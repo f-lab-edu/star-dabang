@@ -52,6 +52,11 @@ public class ManagerAdminApi {
         );
     }
 
+    /**
+     * 매장관리자 삭제하기
+     *
+     * @param managerId (id)
+     */
     @LoginCheck(role = Role.ADMIN)
     @DeleteMapping("/{managerId}")
     public void deleteManager(@PathVariable long managerId) {
