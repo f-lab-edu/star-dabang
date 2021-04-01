@@ -49,7 +49,7 @@ class OptionAdminServiceTest {
         Page<Option> optionPage = optionAdminService.getAllOption(new Pagination(DEFAULT_PAGE, DEFAULT_SIZE));
 
         assertThat(optionPage.getContent().size()).isEqualTo(2);
-        assertThat(optionPage.getTotalCount()).isEqualTo(2);
+        assertThat(optionPage.getTotalElements()).isEqualTo(2);
     }
 
     @DisplayName("요청에 대하여 온션들을 조회한 결과가 없다면 OptionNotFoundException을 발생시킨다")

@@ -22,7 +22,7 @@ class MybatisOptionRepositoryTest {
     private final String OPTION_NAME = "새로운 옵션";
     private final int PRICE = 100;
     private final int MAX_QUANTITY = 10;
-    private final int DEFAULT_PAGE = 0;
+    private final int DEFAULT_PAGE = 1;
     private final int DEFAULT_SIZE = 20;
 
     @Autowired
@@ -49,7 +49,7 @@ class MybatisOptionRepositoryTest {
         Page<Option> optionPage = optionRepository.findAll(new Pagination(DEFAULT_PAGE, DEFAULT_SIZE));
 
         Assertions.assertThat(optionPage.getContent().size()).isEqualTo(2);
-        Assertions.assertThat(optionPage.getTotalCount()).isEqualTo(2);
+        Assertions.assertThat(optionPage.getTotalElements()).isEqualTo(2);
     }
 
 }

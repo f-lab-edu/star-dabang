@@ -32,6 +32,8 @@ class OptionAdminApiTest {
     private final String OPTION_NAME = "새로운 옵션";
     private final int PRICE = 100;
     private final int MAX_QUANTITY = 10;
+    private final int DEFAULT_PAGE = 1;
+    private final int DEFAULT_SIZE = 20;
 
     @Autowired
     MockMvc mockMvc;
@@ -171,7 +173,7 @@ class OptionAdminApiTest {
 
         List<Option> response = new ArrayList<>();
         response.add(new Option(1, OPTION_NAME, PRICE, MAX_QUANTITY));
-        Page<Option> page = new Page<>(response, response.size());
+        Page<Option> page = new Page<>(response, response.size(), DEFAULT_SIZE, DEFAULT_PAGE);
 
         when(optionAdminService.getAllOption(any(Pagination.class)))
                 .thenReturn(page);
