@@ -28,10 +28,14 @@ public class MybatisOptionRepository implements OptionRepository {
     @Override
     public Page<Option> findAll(Pagination pagination) {
 
-        List<Option> options = optionMapper.selectAllOption(pagination.getSize(), pagination.getOffset());
+        int size = pagination.getSize();
+        int offset = pagination.getOffset();
+        int page = pagination.getPage();
+
+        List<Option> options = optionMapper.selectAllOption(size, offset);
         int totalCount = optionMapper.getAllOptionCount();
 
-        return new Page<>(options, totalCount);
+        return new Page<>(options, totalCount, size, page);
     }
 
     @Override
