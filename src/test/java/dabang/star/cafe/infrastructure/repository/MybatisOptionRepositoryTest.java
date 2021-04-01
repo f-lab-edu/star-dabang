@@ -2,15 +2,15 @@ package dabang.star.cafe.infrastructure.repository;
 
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.domain.option.OptionRepository;
-import dabang.star.cafe.utils.Page;
+import dabang.star.cafe.utils.page.Page;
+import dabang.star.cafe.utils.page.Pagination;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,8 +22,8 @@ class MybatisOptionRepositoryTest {
     private final String OPTION_NAME = "새로운 옵션";
     private final int PRICE = 100;
     private final int MAX_QUANTITY = 10;
-    private final int DEFAULT_OFFSET = 0;
-    private final int DEFAULT_LIMIT = 20;
+    private final int DEFAULT_PAGE = 1;
+    private final int DEFAULT_SIZE = 20;
 
     @Autowired
     OptionRepository optionRepository;
@@ -46,9 +46,10 @@ class MybatisOptionRepositoryTest {
         optionRepository.save(option);
         optionRepository.save(option2);
 
-        List<Option> options = optionRepository.findAll(new Page(DEFAULT_OFFSET, DEFAULT_LIMIT));
+        Page<Option> optionPage = optionRepository.findAll(new Pagination(DEFAULT_PAGE, DEFAULT_SIZE));
 
-        assertThat(options.size()).isEqualTo(2);
+        Assertions.assertThat(optionPage.getContent().size()).isEqualTo(2);
+        Assertions.assertThat(optionPage.getTotalElements()).isEqualTo(2);
     }
 
     @DisplayName("옵션을 저장할 때 옵션의 id를 가지고 있으면 옵션 정보를 성공적으로 수정한다")

@@ -1,9 +1,7 @@
 package dabang.star.cafe.infrastructure.mapper;
 
 import dabang.star.cafe.domain.option.Option;
-import dabang.star.cafe.utils.Page;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +13,11 @@ public interface OptionMapper {
 
     void update(Option option);
 
-    List<Option> selectAllOption(@Param("page") Page page);
+    List<Option> selectAllOption(int limit, int offset);
+
+    int getAllOptionCount();
+
+    List<Option> selectByName(String name);
 
     Optional<Option> getById(@Param("id") int id);
 

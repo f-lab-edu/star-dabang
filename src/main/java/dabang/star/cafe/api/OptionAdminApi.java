@@ -7,7 +7,8 @@ import dabang.star.cafe.domain.admin.OptionAdminService;
 import dabang.star.cafe.domain.manager.Role;
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.domain.option.OptionFactory;
-import dabang.star.cafe.utils.Page;
+import dabang.star.cafe.utils.page.Page;
+import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -37,17 +38,31 @@ public class OptionAdminApi {
     }
 
     /**
-     * 새로운 상품을 추가하거나 수정할 때 설정을위해서 옵션 정보를 조회
+     * 새로운 옵션을 추가하거나 수정할 때 설정을위해서 옵션 정보를 조회
      *
-     * @return 조회 완료시 HttpStatus.OK (List<Option>) 반환
+     * @param pagination (page, size)
+     * @return 조회 완료시 HttpStatus.OK (Page<Option>) 반환
      */
     @LoginCheck(role = Role.ADMIN)
     @GetMapping
-    public List<Option> getAllOption(@RequestParam(value = "offset", defaultValue = "0") int offset,
-                                     @RequestParam(value = "limit", defaultValue = "20") int limit) {
+    public Page<Option> getAllOption(Pagination pagination) {
 
-        return optionAdminService.getAllOption(new Page(offset, limit));
+        return optionAdminService.getAllOption(pagination);
     }
+
+    /**
+     * 새로운 상품을 추가할 때 옵션이름으로 검색한 정보를 가져와서 추가하기 위한 조회
+     *
+     * @param name
+     * @return 조회 완료시 HttpStatus.OK (Option) 반환
+     */
+    @LoginCheck(role = Role.ADMIN)
+    @GetMapping("/search")
+    public List<Option> getOptionByName(@RequestParam String name) {
+
+        return optionAdminService.getOptionByName(name);
+    }
+
 
     /**
      * 특정 옵션 정보를 수정

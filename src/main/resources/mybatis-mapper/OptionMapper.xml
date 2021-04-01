@@ -27,7 +27,21 @@
                  FROM additional_option
                  ORDER BY option_id
              ) O
-        LIMIT #{page.limit} OFFSET #{page.offset}
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="getAllOptionCount" resultType="int">
+        SELECT COUNT(*)
+        FROM additional_option
+    </select>
+
+    <select id="selectByName" resultType="Option">
+        SELECT option_id    AS id,
+               option_name  AS name,
+               option_price AS price,
+               max_quantity AS maxQuantity
+        FROM additional_option
+        WHERE option_name LIKE CONCAT('%', #{name}, '%')
     </select>
 
     <select id="getById" resultType="Option">

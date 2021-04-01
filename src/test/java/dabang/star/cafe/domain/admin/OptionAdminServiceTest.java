@@ -2,15 +2,14 @@ package dabang.star.cafe.domain.admin;
 
 import dabang.star.cafe.api.exception.OptionNotFoundException;
 import dabang.star.cafe.domain.option.Option;
-import dabang.star.cafe.utils.Page;
+import dabang.star.cafe.utils.page.Page;
+import dabang.star.cafe.utils.page.Pagination;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -26,8 +25,8 @@ class OptionAdminServiceTest {
     private final String OPTION_NAME = "새로운 옵션";
     private final int PRICE = 100;
     private final int MAX_QUANTITY = 10;
-    private final int DEFAULT_OFFSET = 0;
-    private final int DEFAULT_LIMIT = 20;
+    private final int DEFAULT_PAGE = 0;
+    private final int DEFAULT_SIZE = 20;
 
     @DisplayName("id가 null인 옵션 객체로 새로운 옵션을 추가하고 아이디가 생긴 옵션 객체를 반환한다")
     @Test
@@ -47,9 +46,10 @@ class OptionAdminServiceTest {
         optionAdminService.createOption(option);
         optionAdminService.createOption(option2);
 
-        List<Option> options = optionAdminService.getAllOption(new Page(DEFAULT_OFFSET, DEFAULT_LIMIT));
+        Page<Option> optionPage = optionAdminService.getAllOption(new Pagination(DEFAULT_PAGE, DEFAULT_SIZE));
 
-        assertThat(options.size()).isEqualTo(2);
+        assertThat(optionPage.getContent().size()).isEqualTo(2);
+        assertThat(optionPage.getTotalElements()).isEqualTo(2);
     }
 
     @DisplayName("요청에 대하여 온션들을 조회한 결과가 없다면 OptionNotFoundException을 발생시킨다")
@@ -57,7 +57,7 @@ class OptionAdminServiceTest {
     void notFoundOptionTest() {
 
         assertThrows(OptionNotFoundException.class,
-                () -> optionAdminService.getAllOption(new Page(DEFAULT_OFFSET, DEFAULT_LIMIT)));
+                () -> optionAdminService.getAllOption(new Pagination(DEFAULT_PAGE, DEFAULT_SIZE)));
     }
 
     @DisplayName("옵션의 정보 수정할 때 존재하지 않는 옵션 이라면 OptionNotFoundException을 발생시킨다")

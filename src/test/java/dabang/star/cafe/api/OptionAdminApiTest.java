@@ -6,7 +6,8 @@ import dabang.star.cafe.api.request.OptionUpdateRequest;
 import dabang.star.cafe.domain.admin.OptionAdminService;
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.domain.option.OptionFactory;
-import dabang.star.cafe.utils.Page;
+import dabang.star.cafe.utils.page.Page;
+import dabang.star.cafe.utils.page.Pagination;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.*;
 import org.mockito.MockedStatic;
@@ -32,6 +33,8 @@ class OptionAdminApiTest {
     private final String OPTION_NAME = "새로운 옵션";
     private final int PRICE = 100;
     private final int MAX_QUANTITY = 10;
+    private final int DEFAULT_PAGE = 1;
+    private final int DEFAULT_SIZE = 20;
 
     @Autowired
     MockMvc mockMvc;
@@ -154,7 +157,7 @@ class OptionAdminApiTest {
     @Test
     void failedGetOptionTest() {
 
-        when(optionAdminService.getAllOption(any(Page.class)))
+        when(optionAdminService.getAllOption(any(Pagination.class)))
                 .thenThrow(new OptionNotFoundException("No options were found"));
 
         RestAssuredMockMvc.when()
@@ -171,18 +174,19 @@ class OptionAdminApiTest {
 
         List<Option> response = new ArrayList<>();
         response.add(new Option(1, OPTION_NAME, PRICE, MAX_QUANTITY));
+        Page<Option> page = new Page<>(response, response.size(), DEFAULT_SIZE, DEFAULT_PAGE);
 
-        when(optionAdminService.getAllOption(any(Page.class)))
-                .thenReturn(response);
+        when(optionAdminService.getAllOption(any(Pagination.class)))
+                .thenReturn(page);
 
         RestAssuredMockMvc.when()
                 .get("/options")
                 .then()
                 .statusCode(OK.value())
-                .body("[0].id", equalTo(1))
-                .body("[0].name", equalTo("새로운 옵션"))
-                .body("[0].price", equalTo(100))
-                .body("[0].maxQuantity", equalTo(10));
+                .body("content[0].id", equalTo(1))
+                .body("content[0].name", equalTo("새로운 옵션"))
+                .body("content[0].price", equalTo(100))
+                .body("content[0].maxQuantity", equalTo(10));
     }
 
     @DisplayName("옵션을 성공적으로 수정하면 상태코드 200을 반환한다")
