@@ -6,11 +6,14 @@ import dabang.star.cafe.api.request.ManagerUpdateRequest;
 import dabang.star.cafe.domain.admin.ManagerAdminService;
 import dabang.star.cafe.domain.manager.ManagerData;
 import dabang.star.cafe.domain.manager.Role;
+import dabang.star.cafe.utils.page.Page;
+import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/managers")
@@ -61,5 +64,31 @@ public class ManagerAdminApi {
     @DeleteMapping("/{managerId}")
     public void deleteManager(@PathVariable long managerId) {
         managerAdminService.deleteManager(managerId);
+    }
+
+    /**
+     * 매장관리자 조회하기
+     *
+     * @param page (페이지)
+     * @param size (사이즈)
+     * @return Page (List, totalCount) 반환
+     */
+    @LoginCheck(role = Role.ADMIN)
+    @GetMapping
+    public Page<ManagerData> readManagers(@RequestParam Integer page,
+                                          @RequestParam Integer size) {
+        return managerAdminService.findManagers(new Pagination(page, size));
+    }
+
+    /**
+     * 매장관리자 검색하기
+     *
+     * @param name (이름)
+     * @return ManagerData List 반환
+     */
+    @LoginCheck(role = Role.ADMIN)
+    @GetMapping("/search")
+    public List<ManagerData> searchManagerByName(@RequestParam String name) {
+        return managerAdminService.searchManager(name);
     }
 }

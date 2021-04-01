@@ -1,5 +1,9 @@
 package dabang.star.cafe.domain.manager;
 
+import dabang.star.cafe.utils.page.Page;
+import dabang.star.cafe.utils.page.Pagination;
+
+import java.util.List;
 import java.util.Optional;
 
 public interface ManagerRepository {
@@ -11,4 +15,8 @@ public interface ManagerRepository {
     Optional<Manager> findById(long id);
 
     void deleteById(long id);
+
+    Page<ManagerData> findAll(Pagination pagination);
+
+    List<ManagerData> findByName(String name);
 }
