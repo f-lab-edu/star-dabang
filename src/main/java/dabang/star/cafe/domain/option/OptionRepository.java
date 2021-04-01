@@ -13,6 +13,7 @@ public interface OptionRepository {
     Page<Option> findAll(Pagination pagination);
 
     List<Option> findByName(String optionName);
+
     Optional<Option> findById(int id);
 
     int deleteById(int id);

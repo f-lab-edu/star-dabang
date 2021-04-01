@@ -78,8 +78,8 @@ class OptionAdminServiceTest {
         Option newOption = new Option(originOption.getId(), "바뀐 옵션", 300, 30);
         optionAdminService.updateOption(newOption);
 
-        List<Option> findOptions = optionAdminService.getAllOption(new Page(DEFAULT_OFFSET, DEFAULT_LIMIT));
-        Option findOption = findOptions.get(0);
+        Page<Option> findOptions = optionAdminService.getAllOption(new Pagination(DEFAULT_PAGE, DEFAULT_SIZE));
+        Option findOption = findOptions.getContent().get(0);
 
         assertThat(findOption.getId()).isEqualTo(originOption.getId());
         assertThat(findOption.getName()).isEqualTo("바뀐 옵션");
@@ -105,7 +105,7 @@ class OptionAdminServiceTest {
         optionAdminService.deleteOption(saveOption.getId());
 
         assertThrows(OptionNotFoundException.class,
-                () -> optionAdminService.getAllOption(new Page(DEFAULT_OFFSET, DEFAULT_LIMIT)));
+                () -> optionAdminService.getAllOption(new Pagination(DEFAULT_PAGE, DEFAULT_SIZE)));
     }
 
 }

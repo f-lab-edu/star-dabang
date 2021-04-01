@@ -28,7 +28,7 @@ public class OptionAdminServiceImpl implements OptionAdminService {
     public Page<Option> getAllOption(Pagination pagination) {
 
         Page<Option> optionPage = optionRepository.findAll(pagination);
-        verifyExitsOption(optionPage.getContent());
+        verifyExistsOption(optionPage.getContent());
 
         return optionPage;
     }
@@ -44,7 +44,7 @@ public class OptionAdminServiceImpl implements OptionAdminService {
     public List<Option> getOptionByName(String optionName) {
 
         List<Option> options = optionRepository.findByName(optionName);
-        verifyExitsOption(options);
+        verifyExistsOption(options);
 
         return options;
     }

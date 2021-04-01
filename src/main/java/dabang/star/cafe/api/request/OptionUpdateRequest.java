@@ -15,17 +15,17 @@ import javax.validation.constraints.PositiveOrZero;
 public class OptionUpdateRequest {
 
     @NotNull(message = "blank option id")
-    private int id;
+    private Integer id;
 
     @NotNull(message = "blank option name")
     private String name;
 
     @NotNull(message = "blank option price")
     @PositiveOrZero(message = "not valid option price")
-    private int price;
+    private Integer price;
 
     @NotNull(message = "blank option max quantity")
     @Positive(message = "not valid option max quantity")
-    private int maxQuantity;
+    private Integer maxQuantity;
 
 }
