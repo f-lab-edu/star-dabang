@@ -8,11 +8,11 @@ public interface MemberRepository {
 
     boolean isExist(String email);
 
-    Optional<MemberData> findMemberByEmailAndPassword(String email, String password);
+    Optional<MemberData> findByEmailAndPassword(String email, String password);
 
-    Optional<MemberData> findMemberByIdAndPassword(long id, String password);
+    Optional<MemberData> findByIdAndPassword(long id, String password);
 
-    Optional<MemberData> findMemberById(long id);
+    Optional<MemberData> findById(long id);
 
     void deleteById(long id);
 }

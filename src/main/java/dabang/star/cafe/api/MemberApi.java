@@ -2,9 +2,8 @@ package dabang.star.cafe.api;
 
 import dabang.star.cafe.api.request.MemberLoginRequest;
 import dabang.star.cafe.api.request.SignUpRequest;
-import dabang.star.cafe.domain.login.MemberLoginService;
-import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.domain.member.MemberData;
+import dabang.star.cafe.domain.login.MemberLoginService;
 import dabang.star.cafe.domain.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,7 +28,13 @@ public class MemberApi {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public MemberData signUpMember(@Valid @RequestBody SignUpRequest signUpRequest) {
-        return memberService.join(new Member(signUpRequest));
+        return memberService.join(
+                signUpRequest.getEmail(),
+                signUpRequest.getPassword(),
+                signUpRequest.getNickname(),
+                signUpRequest.getTelephone(),
+                signUpRequest.getBirth()
+        );
     }
 
     /**

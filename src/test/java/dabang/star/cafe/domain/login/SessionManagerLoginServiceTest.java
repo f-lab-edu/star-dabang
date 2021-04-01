@@ -51,7 +51,7 @@ class SessionManagerLoginServiceTest {
         ManagerData managerData = new ManagerData(MANAGER_ID, OFFICE_ID, MANAGER_NAME, Role.MANAGER);
 
         when(encryptService.encrypt(ORIGINAL_PASSWORD)).thenReturn(ENCRYPTED_PASSWORD);
-        when(managerRepository.findManagerByNameAndPassword(MANAGER_NAME, ENCRYPTED_PASSWORD))
+        when(managerRepository.findByNameAndPassword(MANAGER_NAME, ENCRYPTED_PASSWORD))
                 .thenReturn(Optional.ofNullable(managerData));
 
         sessionManagerLoginService.login(MANAGER_NAME, ORIGINAL_PASSWORD);
@@ -65,7 +65,7 @@ class SessionManagerLoginServiceTest {
     @Test
     void failedLoginTest() {
         when(encryptService.encrypt(ORIGINAL_PASSWORD)).thenReturn(ENCRYPTED_PASSWORD);
-        when(managerRepository.findManagerByNameAndPassword(MANAGER_NAME, ENCRYPTED_PASSWORD))
+        when(managerRepository.findByNameAndPassword(MANAGER_NAME, ENCRYPTED_PASSWORD))
                 .thenReturn(Optional.empty());
 
         Assertions.assertThrows(NoAuthenticationException.class, () -> {

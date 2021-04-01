@@ -1,7 +1,7 @@
 package dabang.star.cafe.infrastructure.repository;
 
-import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.domain.member.MemberData;
+import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.domain.member.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -42,7 +42,7 @@ class MybatisMemberRepositoryTest {
         memberRepository.save(member);
         MemberData saveMember = MemberData.from(member);
 
-        Optional<MemberData> findMember = memberRepository.findMemberByEmailAndPassword(this.member.getEmail(), this.member.getPassword());
+        Optional<MemberData> findMember = memberRepository.findByEmailAndPassword(this.member.getEmail(), this.member.getPassword());
 
         assertThat(findMember.get().getEmail()).isEqualTo(saveMember.getEmail());
     }
@@ -71,7 +71,7 @@ class MybatisMemberRepositoryTest {
         memberRepository.save(member);
         memberRepository.deleteById(member.getId());
 
-        Optional<MemberData> findMember = memberRepository.findMemberById(member.getId());
+        Optional<MemberData> findMember = memberRepository.findById(member.getId());
 
         assertThat(findMember).isEmpty();
     }

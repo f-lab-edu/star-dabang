@@ -10,11 +10,53 @@
     <update id="update" keyProperty="id">
         UPDATE additional_option
         <set>
-            <if test="option_name != null">option_name=#{name},</if>
-            <if test="option_price != null">option_price=#{price},</if>
-            <if test="max_quantity != null">max_quantity=#{maxQuantity},</if>
+            <if test="name != null">option_name=#{name},</if>
+            <if test="price != null">option_price=#{price},</if>
+            <if test="maxQuantity != null">max_quantity=#{maxQuantity},</if>
         </set>
         WHERE option_id=#{id}
     </update>
+
+    <select id="selectAllOption" resultType="Option">
+        SELECT O.*
+        FROM (
+                 SELECT option_id    AS id,
+                        option_name  AS name,
+                        option_price AS price,
+                        max_quantity AS maxQuantity
+                 FROM additional_option
+                 ORDER BY option_id
+             ) O
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="getAllOptionCount" resultType="int">
+        SELECT COUNT(*)
+        FROM additional_option
+    </select>
+
+    <select id="selectByName" resultType="Option">
+        SELECT option_id    AS id,
+               option_name  AS name,
+               option_price AS price,
+               max_quantity AS maxQuantity
+        FROM additional_option
+        WHERE option_name LIKE CONCAT('%', #{name}, '%')
+    </select>
+
+    <select id="getById" resultType="Option">
+        SELECT o.option_id    AS id,
+               o.option_name  AS name,
+               o.option_price AS price,
+               o.max_quantity AS maxQuantity
+        FROM additional_option o
+        WHERE o.option_id = #{id}
+    </select>
+
+    <delete id="removeById">
+        DELETE
+        FROM additional_option
+        WHERE option_id = #{id}
+    </delete>
 
 </mapper>

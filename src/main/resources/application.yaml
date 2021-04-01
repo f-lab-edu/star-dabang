@@ -17,7 +17,6 @@ spring:
     initialization-mode: always
     data: classpath:data-dev.sql
 
-
   session:
     store-type: redis
     redis:
@@ -28,10 +27,9 @@ spring:
     #    host: 172.18.0.2
     port: 6379
 
-
 mybatis:
   mapper-locations: classpath:mybatis-mapper/**/*.xml
-  type-aliases-package: dabang.star.cafe.domain, dabang.star.cafe.api.response
+  type-aliases-package: dabang.star.cafe.domain
 
 ---
 spring:
@@ -41,6 +39,6 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mybatis-mapper/**/*.xml
-  type-aliases-package: dabang.star.cafe.domain, dabang.star.cafe.api.response
+  type-aliases-package: dabang.star.cafe.domain
   type-handlers-package: dabang.star.cafe.utils
 
