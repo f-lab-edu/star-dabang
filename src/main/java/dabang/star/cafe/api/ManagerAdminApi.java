@@ -69,15 +69,13 @@ public class ManagerAdminApi {
     /**
      * 매장관리자 조회하기
      *
-     * @param page (페이지)
-     * @param size (사이즈)
+     * @param pagination (page, size)
      * @return Page (List, totalCount) 반환
      */
     @LoginCheck(role = Role.ADMIN)
     @GetMapping
-    public Page<ManagerData> readManagers(@RequestParam Integer page,
-                                          @RequestParam Integer size) {
-        return managerAdminService.findManagers(new Pagination(page, size));
+    public Page<ManagerData> readManagers(@RequestParam Pagination pagination) {
+        return managerAdminService.findManagers(pagination);
     }
 
     /**
