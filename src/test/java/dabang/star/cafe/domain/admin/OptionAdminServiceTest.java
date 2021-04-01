@@ -60,4 +60,52 @@ class OptionAdminServiceTest {
                 () -> optionAdminService.getAllOption(new Pagination(DEFAULT_PAGE, DEFAULT_SIZE)));
     }
 
+    @DisplayName("옵션의 정보 수정할 때 존재하지 않는 옵션 이라면 OptionNotFoundException을 발생시킨다")
+    @Test
+    void failOptionUpdateTest() {
+        Option newOption = new Option(1, "바뀐 옵션", PRICE, MAX_QUANTITY);
+
+        assertThrows(OptionNotFoundException.class,
+                () -> optionAdminService.updateOption(newOption));
+    }
+
+    @DisplayName("옵션의 정보를 수정할 때 존재하는 옵션 이라면 성공적으로 정보를 수정한다")
+    @Test
+    void successOptionUpdateTest() {
+        Option originOption = new Option(null, OPTION_NAME, PRICE, MAX_QUANTITY);
+        optionAdminService.createOption(originOption);
+
+        Option newOption = new Option(originOption.getId(), "바뀐 옵션", 300, 30);
+        optionAdminService.updateOption(newOption);
+
+        Page<Option> findOptions = optionAdminService.getAllOption(new Pagination(DEFAULT_PAGE, DEFAULT_SIZE));
+        Option findOption = findOptions.getContent().get(0);
+
+        assertThat(findOption.getId()).isEqualTo(originOption.getId());
+        assertThat(findOption.getName()).isEqualTo("바뀐 옵션");
+        assertThat(findOption.getPrice()).isEqualTo(300);
+        assertThat(findOption.getMaxQuantity()).isEqualTo(30);
+    }
+
+    @DisplayName("옵션을 삭제할 때 존재하지 않는 옵션이라면 OptionNotFoundException을 발생시킨다")
+    @Test
+    void failDeleteOptionTest() {
+        int noExistsOptionId = 1;
+
+        assertThrows(OptionNotFoundException.class,
+                () -> optionAdminService.deleteOption(noExistsOptionId));
+    }
+
+    @DisplayName("옵션을 삭제할 때 존재하는 옵션에 대해서 성공적으로 옵션을 삭제한다")
+    @Test
+    void successDeleteOptionTest() {
+        Option option = new Option(null, OPTION_NAME, PRICE, MAX_QUANTITY);
+        Option saveOption = optionAdminService.createOption(option);
+
+        optionAdminService.deleteOption(saveOption.getId());
+
+        assertThrows(OptionNotFoundException.class,
+                () -> optionAdminService.getAllOption(new Pagination(DEFAULT_PAGE, DEFAULT_SIZE)));
+    }
+
 }

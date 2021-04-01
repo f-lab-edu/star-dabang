@@ -28,12 +28,12 @@ public class OptionAdminServiceImpl implements OptionAdminService {
     public Page<Option> getAllOption(Pagination pagination) {
 
         Page<Option> optionPage = optionRepository.findAll(pagination);
-        verifyExitsOption(optionPage.getContent());
+        verifyExistsOption(optionPage.getContent());
 
         return optionPage;
     }
 
-    private void verifyExitsOption(List<Option> options) {
+    private void verifyExistsOption(List<Option> options) {
 
         if (options.size() == 0) {
             throw new OptionNotFoundException("No options were found");
@@ -44,9 +44,33 @@ public class OptionAdminServiceImpl implements OptionAdminService {
     public List<Option> getOptionByName(String optionName) {
 
         List<Option> options = optionRepository.findByName(optionName);
-        verifyExitsOption(options);
+        verifyExistsOption(options);
 
         return options;
+    }
+
+    @Override
+    public void updateOption(Option option) {
+
+        loadById(option.getId());
+
+        optionRepository.save(option);
+    }
+
+    private Option loadById(int optionId) {
+
+        return optionRepository.findById(optionId).orElseThrow(
+                () -> new OptionNotFoundException("option not found by id : " + optionId)
+        );
+    }
+
+    @Override
+    public void deleteOption(int optionId) {
+
+        if (optionRepository.deleteById(optionId) == 0) {
+            throw new OptionNotFoundException("option not found by id : " + optionId);
+        }
+
     }
 
 }

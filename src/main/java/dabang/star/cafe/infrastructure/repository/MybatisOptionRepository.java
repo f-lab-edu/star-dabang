@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
@@ -42,6 +43,18 @@ public class MybatisOptionRepository implements OptionRepository {
     public List<Option> findByName(String name) {
 
         return optionMapper.selectByName(name);
+    }
+
+    @Override
+    public Optional<Option> findById(int id) {
+
+        return optionMapper.getById(id);
+    }
+
+    @Override
+    public int deleteById(int id) {
+
+        return optionMapper.removeById(id);
     }
 
 }

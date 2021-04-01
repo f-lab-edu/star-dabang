@@ -52,4 +52,42 @@ class MybatisOptionRepositoryTest {
         Assertions.assertThat(optionPage.getTotalElements()).isEqualTo(2);
     }
 
+    @DisplayName("옵션을 저장할 때 옵션의 id를 가지고 있으면 옵션 정보를 성공적으로 수정한다")
+    @Test
+    void updateOptionTest() {
+        Option originOption = new Option(null, OPTION_NAME, PRICE, MAX_QUANTITY);
+        optionRepository.save(originOption);
+
+        Option newOption = new Option(originOption.getId(), "바뀐 옵션", 500, 20);
+        optionRepository.save(newOption);
+
+        Option findOption = optionRepository.findById(originOption.getId()).get();
+        assertThat(findOption.getId()).isEqualTo(originOption.getId());
+        assertThat(findOption.getName()).isEqualTo("바뀐 옵션");
+        assertThat(findOption.getPrice()).isEqualTo(500);
+        assertThat(findOption.getMaxQuantity()).isEqualTo(20);
+    }
+
+    @DisplayName("옵션을 삭제할 때 해당하는 옵션이 없어 삭제하지 못했다면 0을 반환한다")
+    @Test
+    void deleteOptionTest() {
+        int noOptionId = 1;
+
+        int result = optionRepository.deleteById(noOptionId);
+
+        assertThat(result).isEqualTo(0);
+    }
+
+    @DisplayName("옵션을 삭제할 때 삭제를 완료하면 삭제된 개수 1을 반환한다")
+    @Test
+    void deletedOptionTest() {
+        Option option = new Option(null, OPTION_NAME, PRICE, MAX_QUANTITY);
+        optionRepository.save(option);
+
+        int result = optionRepository.deleteById(option.getId());
+
+        assertThat(result).isEqualTo(1);
+    }
+
+
 }

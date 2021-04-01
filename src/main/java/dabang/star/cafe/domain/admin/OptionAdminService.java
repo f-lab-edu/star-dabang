@@ -14,4 +14,8 @@ public interface OptionAdminService {
 
     List<Option> getOptionByName(String name);
     
+    void updateOption(Option option);
+
+    void deleteOption(int optionId);
+
 }

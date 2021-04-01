@@ -2,6 +2,7 @@ package dabang.star.cafe.api;
 
 import dabang.star.cafe.api.aop.LoginCheck;
 import dabang.star.cafe.api.request.OptionCreateRequest;
+import dabang.star.cafe.api.request.OptionUpdateRequest;
 import dabang.star.cafe.domain.admin.OptionAdminService;
 import dabang.star.cafe.domain.manager.Role;
 import dabang.star.cafe.domain.option.Option;
@@ -60,6 +61,31 @@ public class OptionAdminApi {
     public List<Option> getOptionByName(@RequestParam String name) {
 
         return optionAdminService.getOptionByName(name);
+    }
+
+
+    /**
+     * 특정 옵션 정보를 수정
+     *
+     * @param optionUpdateRequest (id, name, price, maxQuantity)
+     */
+    @LoginCheck(role = Role.ADMIN)
+    @PatchMapping
+    public void updateOption(@Valid @RequestBody OptionUpdateRequest optionUpdateRequest) {
+
+        optionAdminService.updateOption(OptionFactory.from(optionUpdateRequest));
+    }
+
+    /**
+     * 특정 옵션을 삭제
+     *
+     * @param optionId
+     */
+    @LoginCheck(role = Role.ADMIN)
+    @DeleteMapping("/{optionId}")
+    public void deleteOption(@PathVariable Integer optionId) {
+
+        optionAdminService.deleteOption(optionId);
     }
 
 }
