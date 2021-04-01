@@ -23,6 +23,12 @@
         where manager_id=#{id}
     </update>
 
+    <delete id="removeById">
+        DELETE
+        FROM manager
+        WHERE manager_id = #{id}
+    </delete>
+
     <select id="getByNameAndPassword" resultType="ManagerData">
         SELECT m.manager_id AS id,
                m.office_id  AS officeId,

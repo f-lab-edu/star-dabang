@@ -9,4 +9,6 @@ public interface ManagerRepository {
     Optional<ManagerData> findByNameAndPassword(String name, String password);
 
     Optional<Manager> findById(long id);
+
+    void deleteById(long id);
 }

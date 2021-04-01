@@ -21,6 +21,7 @@ public class ManagerAdminApi {
 
     /**
      * 매장관리자 등록하기
+     *
      * @param managerCreateRequest (name, password, officeName)
      * @return 등록 완료시 HttpStatus.CREATED (ManagerData) 반환
      */
@@ -37,6 +38,7 @@ public class ManagerAdminApi {
 
     /**
      * 매장관리자 수정하기
+     *
      * @param managerUpdateRequest (id, password, officeName)
      */
     @LoginCheck(role = Role.ADMIN)
@@ -50,4 +52,14 @@ public class ManagerAdminApi {
         );
     }
 
+    /**
+     * 매장관리자 삭제하기
+     *
+     * @param managerId (id)
+     */
+    @LoginCheck(role = Role.ADMIN)
+    @DeleteMapping("/{managerId}")
+    public void deleteManager(@PathVariable long managerId) {
+        managerAdminService.deleteManager(managerId);
+    }
 }

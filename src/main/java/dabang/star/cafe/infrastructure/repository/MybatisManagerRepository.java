@@ -36,4 +36,9 @@ public class MybatisManagerRepository implements ManagerRepository {
     public Optional<Manager> findById(long id) {
         return managerMapper.getById(id);
     }
+
+    @Override
+    public void deleteById(long id) {
+        managerMapper.removeById(id);
+    }
 }
