@@ -9,8 +9,12 @@ import dabang.star.cafe.domain.manager.ManagerRepository;
 import dabang.star.cafe.domain.manager.Role;
 import dabang.star.cafe.domain.office.OfficeData;
 import dabang.star.cafe.domain.office.OfficeRepository;
+import dabang.star.cafe.utils.page.Page;
+import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -62,5 +66,15 @@ public class ManagerAdminServiceImpl implements ManagerAdminService {
     @Override
     public void deleteManager(long id) {
         managerRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<ManagerData> findManagers(Pagination pagination) {
+        return managerRepository.findAll(pagination);
+    }
+
+    @Override
+    public List<ManagerData> searchManager(String name) {
+        return managerRepository.findByName(name);
     }
 }

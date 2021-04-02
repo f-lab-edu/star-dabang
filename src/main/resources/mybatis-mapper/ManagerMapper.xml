@@ -45,4 +45,31 @@
         WHERE m.manager_id = #{id}
     </select>
 
+    <select id="getByPagination" resultType="ManagerData">
+        SELECT M.*
+        FROM (
+                 SELECT manager_id AS id,
+                        office_id  AS officeId,
+                        name       AS name,
+                        role       AS role
+                 FROM manager
+                 ORDER BY manager_id
+             ) M
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="getByName" resultType="ManagerData">
+        SELECT manager_id AS id,
+               office_id  AS officeId,
+               name       AS name,
+               role       AS role
+        FROM manager
+        WHERE manager.name LIKE CONCAT('%', #{name}, '%')
+    </select>
+
+    <select id="getCountAll" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM manager
+    </select>
+
 </mapper>
