@@ -30,6 +30,23 @@
         WHERE o.office_name = #{officeName}
     </select>
 
+    <select id="getCountAll" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM office
+    </select>
+
+    <select id="getByPagination" resultType="OfficeData">
+        SELECT O.*
+        FROM (
+                 SELECT office_id   AS id,
+                        office_name AS name,
+                        address     AS address
+                 FROM office
+                 ORDER BY office_id
+             ) O
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
     <delete id="removeById">
         DELETE
         FROM office

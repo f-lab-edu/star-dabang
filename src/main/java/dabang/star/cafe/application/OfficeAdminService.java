@@ -4,21 +4,18 @@ import dabang.star.cafe.api.exception.OfficeNotFoundException;
 import dabang.star.cafe.domain.office.Office;
 import dabang.star.cafe.domain.office.OfficeData;
 import dabang.star.cafe.domain.office.OfficeRepository;
-import dabang.star.cafe.infrastructure.mapper.OfficeReadService;
-import dabang.star.cafe.utils.Page;
+import dabang.star.cafe.utils.page.Page;
+import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class OfficeAdminService {
 
     private final OfficeRepository officeRepository;
-
-    private final OfficeReadService officeReadService;
 
     public OfficeData createOffice(String name, String address, BigDecimal latitude, BigDecimal longitude) {
 
@@ -54,7 +51,7 @@ public class OfficeAdminService {
         );
     }
 
-    public List<OfficeData> findOffices(Page page) {
-        return officeReadService.findOffices(page);
+    public Page<OfficeData> findOffices(Pagination pagination) {
+        return officeRepository.findAll(pagination);
     }
 }

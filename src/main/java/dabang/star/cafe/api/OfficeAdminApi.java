@@ -6,12 +6,12 @@ import dabang.star.cafe.api.request.OfficeUpdateRequest;
 import dabang.star.cafe.domain.manager.Role;
 import dabang.star.cafe.domain.office.OfficeData;
 import dabang.star.cafe.application.OfficeAdminService;
-import dabang.star.cafe.utils.Page;
+import dabang.star.cafe.utils.page.Page;
+import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -67,15 +67,14 @@ public class OfficeAdminApi {
 
     /**
      * 매장 조회
-     * @param offset
-     * @param limit
+     *
+     * @param pagination
      * @return HttpStatus.OK (List<OfficeData) 반환
      */
     @LoginCheck(role = Role.ADMIN)
     @GetMapping
-    public List<OfficeData> getOffices(@RequestParam(value = "offset", defaultValue = "0") int offset,
-                                       @RequestParam(value = "limit", defaultValue = "20") int limit) {
-        return officeAdminService.findOffices(new Page(offset, limit));
+    public Page<OfficeData> getOffices(@ModelAttribute Pagination pagination) {
+        return officeAdminService.findOffices(pagination);
     }
 
 }
