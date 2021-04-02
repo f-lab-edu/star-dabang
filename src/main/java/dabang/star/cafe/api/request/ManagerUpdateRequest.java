@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 public class ManagerUpdateRequest {
 
     @NotNull(message = "blank id")
-    private long id;
+    private Long id;
 
     @NotBlank(message = "blank password")
     private String password;
