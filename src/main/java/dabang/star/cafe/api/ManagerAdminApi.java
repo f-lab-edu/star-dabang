@@ -74,7 +74,7 @@ public class ManagerAdminApi {
      */
     @LoginCheck(role = Role.ADMIN)
     @GetMapping
-    public Page<ManagerData> readManagers(@RequestParam Pagination pagination) {
+    public Page<ManagerData> readManagers(@ModelAttribute Pagination pagination) {
         return managerAdminService.findManagers(pagination);
     }
 
