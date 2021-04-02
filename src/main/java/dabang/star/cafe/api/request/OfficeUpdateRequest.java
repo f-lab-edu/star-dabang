@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 public class OfficeUpdateRequest {
 
     @NotNull(message="blank office id")
-    private int id;
+    private Integer id;
 
     @NotBlank(message = "blank office name")
     private String name;
