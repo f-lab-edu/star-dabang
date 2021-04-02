@@ -2,12 +2,12 @@ package dabang.star.cafe.application;
 
 import dabang.star.cafe.api.exception.OfficeNotFoundException;
 import dabang.star.cafe.api.exception.ResourceNotFoundException;
+import dabang.star.cafe.application.data.ManagerData;
+import dabang.star.cafe.application.data.OfficeData;
 import dabang.star.cafe.domain.authentication.EncryptService;
 import dabang.star.cafe.domain.manager.Manager;
-import dabang.star.cafe.domain.manager.ManagerData;
 import dabang.star.cafe.domain.manager.ManagerRepository;
 import dabang.star.cafe.domain.manager.Role;
-import dabang.star.cafe.domain.office.OfficeData;
 import dabang.star.cafe.domain.office.OfficeRepository;
 import dabang.star.cafe.utils.page.Page;
 import dabang.star.cafe.utils.page.Pagination;

@@ -4,7 +4,7 @@ import dabang.star.cafe.api.aop.LoginCheck;
 import dabang.star.cafe.api.request.ManagerCreateRequest;
 import dabang.star.cafe.api.request.ManagerUpdateRequest;
 import dabang.star.cafe.application.ManagerAdminService;
-import dabang.star.cafe.domain.manager.ManagerData;
+import dabang.star.cafe.application.data.ManagerData;
 import dabang.star.cafe.domain.manager.Role;
 import dabang.star.cafe.utils.page.Page;
 import dabang.star.cafe.utils.page.Pagination;

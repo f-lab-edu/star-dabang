@@ -1,6 +1,6 @@
 package dabang.star.cafe.domain.authentication;
 
-import dabang.star.cafe.domain.manager.ManagerData;
+import dabang.star.cafe.application.data.ManagerData;
 
 public interface ManagerLoginService {
 

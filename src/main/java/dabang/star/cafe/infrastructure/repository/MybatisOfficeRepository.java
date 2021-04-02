@@ -1,7 +1,7 @@
 package dabang.star.cafe.infrastructure.repository;
 
 import dabang.star.cafe.domain.office.Office;
-import dabang.star.cafe.domain.office.OfficeData;
+import dabang.star.cafe.application.data.OfficeData;
 import dabang.star.cafe.domain.office.OfficeRepository;
 import dabang.star.cafe.infrastructure.mapper.OfficeMapper;
 import dabang.star.cafe.utils.page.Page;

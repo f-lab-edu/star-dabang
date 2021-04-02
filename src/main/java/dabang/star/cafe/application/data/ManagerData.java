@@ -1,5 +1,7 @@
-package dabang.star.cafe.domain.manager;
+package dabang.star.cafe.application.data;
 
+import dabang.star.cafe.domain.manager.Manager;
+import dabang.star.cafe.domain.manager.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

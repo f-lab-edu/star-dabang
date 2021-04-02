@@ -1,5 +1,6 @@
-package dabang.star.cafe.domain.member;
+package dabang.star.cafe.application.data;
 
+import dabang.star.cafe.domain.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

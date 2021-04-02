@@ -2,9 +2,9 @@ package dabang.star.cafe.application;
 
 import dabang.star.cafe.api.exception.DuplicatedException;
 import dabang.star.cafe.api.exception.MemberNotFoundException;
+import dabang.star.cafe.application.data.MemberData;
 import dabang.star.cafe.domain.authentication.EncryptService;
 import dabang.star.cafe.domain.member.Member;
-import dabang.star.cafe.domain.member.MemberData;
 import dabang.star.cafe.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

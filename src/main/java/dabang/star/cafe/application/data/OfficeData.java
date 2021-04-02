@@ -1,5 +1,6 @@
-package dabang.star.cafe.domain.office;
+package dabang.star.cafe.application.data;
 
+import dabang.star.cafe.domain.office.Office;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

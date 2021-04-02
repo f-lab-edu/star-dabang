@@ -4,7 +4,7 @@ import dabang.star.cafe.api.aop.LoginCheck;
 import dabang.star.cafe.api.request.OfficeCreateRequest;
 import dabang.star.cafe.api.request.OfficeUpdateRequest;
 import dabang.star.cafe.domain.manager.Role;
-import dabang.star.cafe.domain.office.OfficeData;
+import dabang.star.cafe.application.data.OfficeData;
 import dabang.star.cafe.application.OfficeAdminService;
 import dabang.star.cafe.utils.page.Page;
 import dabang.star.cafe.utils.page.Pagination;

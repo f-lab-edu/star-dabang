@@ -1,5 +1,6 @@
 package dabang.star.cafe.domain.office;
 
+import dabang.star.cafe.application.data.OfficeData;
 import dabang.star.cafe.utils.page.Page;
 import dabang.star.cafe.utils.page.Pagination;
 

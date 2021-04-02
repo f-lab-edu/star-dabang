@@ -1,8 +1,8 @@
 package dabang.star.cafe.application;
 
 import dabang.star.cafe.api.exception.OfficeNotFoundException;
+import dabang.star.cafe.application.data.OfficeData;
 import dabang.star.cafe.domain.office.Office;
-import dabang.star.cafe.domain.office.OfficeData;
 import dabang.star.cafe.domain.office.OfficeRepository;
 import dabang.star.cafe.utils.page.Page;
 import dabang.star.cafe.utils.page.Pagination;

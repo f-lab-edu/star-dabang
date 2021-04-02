@@ -1,7 +1,7 @@
 package dabang.star.cafe.infrastructure.mapper;
 
 import dabang.star.cafe.domain.office.Office;
-import dabang.star.cafe.domain.office.OfficeData;
+import dabang.star.cafe.application.data.OfficeData;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

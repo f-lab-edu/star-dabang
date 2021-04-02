@@ -3,7 +3,7 @@ package dabang.star.cafe.api;
 import dabang.star.cafe.api.request.MemberLoginRequest;
 import dabang.star.cafe.api.request.SignUpRequest;
 import dabang.star.cafe.domain.authentication.MemberLoginService;
-import dabang.star.cafe.domain.member.MemberData;
+import dabang.star.cafe.application.data.MemberData;
 import dabang.star.cafe.application.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
