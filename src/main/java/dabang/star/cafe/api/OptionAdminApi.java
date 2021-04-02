@@ -3,7 +3,7 @@ package dabang.star.cafe.api;
 import dabang.star.cafe.api.aop.LoginCheck;
 import dabang.star.cafe.api.request.OptionCreateRequest;
 import dabang.star.cafe.api.request.OptionUpdateRequest;
-import dabang.star.cafe.domain.admin.OptionAdminService;
+import dabang.star.cafe.application.OptionAdminService;
 import dabang.star.cafe.domain.manager.Role;
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.domain.option.OptionFactory;

@@ -3,7 +3,7 @@ package dabang.star.cafe.api;
 import dabang.star.cafe.api.aop.LoginCheck;
 import dabang.star.cafe.api.request.ManagerCreateRequest;
 import dabang.star.cafe.api.request.ManagerUpdateRequest;
-import dabang.star.cafe.domain.admin.ManagerAdminService;
+import dabang.star.cafe.application.ManagerAdminService;
 import dabang.star.cafe.domain.manager.ManagerData;
 import dabang.star.cafe.domain.manager.Role;
 import dabang.star.cafe.utils.page.Page;

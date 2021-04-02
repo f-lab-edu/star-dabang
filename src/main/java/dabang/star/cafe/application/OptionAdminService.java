@@ -1,4 +1,4 @@
-package dabang.star.cafe.domain.admin;
+package dabang.star.cafe.application;
 
 import dabang.star.cafe.api.exception.OptionNotFoundException;
 import dabang.star.cafe.domain.option.Option;
@@ -12,11 +12,10 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class OptionAdminServiceImpl implements OptionAdminService {
+public class OptionAdminService {
 
     private final OptionRepository optionRepository;
 
-    @Override
     public Option createOption(Option option) {
 
         optionRepository.save(option);
@@ -24,7 +23,6 @@ public class OptionAdminServiceImpl implements OptionAdminService {
         return option;
     }
 
-    @Override
     public Page<Option> getAllOption(Pagination pagination) {
 
         Page<Option> optionPage = optionRepository.findAll(pagination);
@@ -40,7 +38,6 @@ public class OptionAdminServiceImpl implements OptionAdminService {
         }
     }
 
-    @Override
     public List<Option> getOptionByName(String optionName) {
 
         List<Option> options = optionRepository.findByName(optionName);
@@ -49,7 +46,6 @@ public class OptionAdminServiceImpl implements OptionAdminService {
         return options;
     }
 
-    @Override
     public void updateOption(Option option) {
 
         loadById(option.getId());
@@ -64,7 +60,6 @@ public class OptionAdminServiceImpl implements OptionAdminService {
         );
     }
 
-    @Override
     public void deleteOption(int optionId) {
 
         if (optionRepository.deleteById(optionId) == 0) {

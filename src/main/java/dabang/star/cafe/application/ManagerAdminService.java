@@ -1,8 +1,8 @@
-package dabang.star.cafe.domain.admin;
+package dabang.star.cafe.application;
 
 import dabang.star.cafe.api.exception.OfficeNotFoundException;
 import dabang.star.cafe.api.exception.ResourceNotFoundException;
-import dabang.star.cafe.domain.login.EncryptService;
+import dabang.star.cafe.domain.authentication.EncryptService;
 import dabang.star.cafe.domain.manager.Manager;
 import dabang.star.cafe.domain.manager.ManagerData;
 import dabang.star.cafe.domain.manager.ManagerRepository;
@@ -18,7 +18,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ManagerAdminServiceImpl implements ManagerAdminService {
+public class ManagerAdminService {
 
     private final EncryptService encryptService;
 
@@ -26,7 +26,6 @@ public class ManagerAdminServiceImpl implements ManagerAdminService {
 
     private final OfficeRepository officeRepository;
 
-    @Override
     public ManagerData createManager(String name, String password, String officeName) {
 
         OfficeData officeData = officeRepository.findByName(officeName).orElseThrow(
@@ -45,7 +44,6 @@ public class ManagerAdminServiceImpl implements ManagerAdminService {
         return ManagerData.from(manager);
     }
 
-    @Override
     public void updateManager(long id, String password, String officeName) {
         OfficeData officeData = officeRepository.findByName(officeName).orElseThrow(
                 () -> new OfficeNotFoundException("office not found.")
@@ -63,17 +61,14 @@ public class ManagerAdminServiceImpl implements ManagerAdminService {
         }).orElseThrow(() -> new ResourceNotFoundException("manager not found."));
     }
 
-    @Override
     public void deleteManager(long id) {
         managerRepository.deleteById(id);
     }
 
-    @Override
     public Page<ManagerData> findManagers(Pagination pagination) {
         return managerRepository.findAll(pagination);
     }
 
-    @Override
     public List<ManagerData> searchManager(String name) {
         return managerRepository.findByName(name);
     }

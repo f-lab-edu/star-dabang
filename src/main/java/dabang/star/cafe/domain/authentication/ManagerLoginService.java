@@ -1,4 +1,4 @@
-package dabang.star.cafe.domain.login;
+package dabang.star.cafe.domain.authentication;
 
 import dabang.star.cafe.domain.manager.ManagerData;
 

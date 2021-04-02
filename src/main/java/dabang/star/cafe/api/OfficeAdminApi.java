@@ -5,7 +5,7 @@ import dabang.star.cafe.api.request.OfficeCreateRequest;
 import dabang.star.cafe.api.request.OfficeUpdateRequest;
 import dabang.star.cafe.domain.manager.Role;
 import dabang.star.cafe.domain.office.OfficeData;
-import dabang.star.cafe.domain.admin.OfficeAdminService;
+import dabang.star.cafe.application.OfficeAdminService;
 import dabang.star.cafe.utils.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package dabang.star.cafe.domain.admin;
+package dabang.star.cafe.application;
 
 import dabang.star.cafe.api.exception.OfficeNotFoundException;
 import dabang.star.cafe.domain.office.Office;
@@ -14,13 +14,12 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class OfficeAdminServiceImpl implements OfficeAdminService {
+public class OfficeAdminService {
 
     private final OfficeRepository officeRepository;
 
     private final OfficeReadService officeReadService;
 
-    @Override
     public OfficeData createOffice(String name, String address, BigDecimal latitude, BigDecimal longitude) {
 
         Office office = Office.builder()
@@ -35,12 +34,10 @@ public class OfficeAdminServiceImpl implements OfficeAdminService {
         return OfficeData.from(office);
     }
 
-    @Override
     public void deleteOffice(int officeId) {
         officeRepository.deleteById(officeId);
     }
 
-    @Override
     public void updateOffice(int id, String name, String address, BigDecimal latitude, BigDecimal longitude) {
 
         Office office = officeRepository.findById(id).orElseThrow(
@@ -57,7 +54,6 @@ public class OfficeAdminServiceImpl implements OfficeAdminService {
         );
     }
 
-    @Override
     public List<OfficeData> findOffices(Page page) {
         return officeReadService.findOffices(page);
     }
