@@ -1,5 +1,6 @@
-package dabang.star.cafe.api.request;
+package dabang.star.cafe.application.command;
 
+import dabang.star.cafe.domain.office.Office;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,10 +13,7 @@ import java.math.BigDecimal;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
-public class OfficeUpdateRequest {
-
-    @NotNull(message="blank office id")
-    private Integer id;
+public class OfficeCreateCommand {
 
     @NotBlank(message = "blank office name")
     private String name;
@@ -28,4 +26,15 @@ public class OfficeUpdateRequest {
 
     @NotNull(message = "blank office latitude")
     private BigDecimal longitude;
+
+    public Office toOffice() {
+
+        return Office.builder()
+                .name(name)
+                .address(address)
+                .latitude(latitude)
+                .longitude(longitude)
+                .build();
+    }
+    
 }

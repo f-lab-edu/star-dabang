@@ -1,5 +1,6 @@
-package dabang.star.cafe.api.request;
+package dabang.star.cafe.application.command;
 
+import dabang.star.cafe.domain.option.Option;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import javax.validation.constraints.PositiveOrZero;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
-public class OptionCreateRequest {
+public class OptionCreateCommand {
 
     @NotNull(message = "blank name")
     private String name;
@@ -25,4 +26,13 @@ public class OptionCreateRequest {
     @Positive(message = "not valid max quantity")
     private Integer maxQuantity;
 
+    public Option toOption() {
+
+        return Option.builder()
+                .name(name)
+                .price(price)
+                .maxQuantity(maxQuantity)
+                .build();
+    }
+    
 }
