@@ -1,9 +1,9 @@
 package dabang.star.cafe.api;
 
 import dabang.star.cafe.api.aop.LoginCheck;
-import dabang.star.cafe.api.request.ManagerCreateRequest;
-import dabang.star.cafe.api.request.ManagerUpdateRequest;
 import dabang.star.cafe.application.ManagerAdminService;
+import dabang.star.cafe.application.command.ManagerCreateCommand;
+import dabang.star.cafe.application.command.ManagerUpdateCommand;
 import dabang.star.cafe.application.data.ManagerData;
 import dabang.star.cafe.domain.manager.Role;
 import dabang.star.cafe.utils.page.Page;
@@ -25,34 +25,26 @@ public class ManagerAdminApi {
     /**
      * 매장관리자 등록하기
      *
-     * @param managerCreateRequest (name, password, officeName)
+     * @param managerCreateCommand (name, password, officeName)
      * @return 등록 완료시 HttpStatus.CREATED (ManagerData) 반환
      */
     @LoginCheck(role = Role.ADMIN)
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ManagerData registerManager(@Valid @RequestBody ManagerCreateRequest managerCreateRequest) {
-        return managerAdminService.createManager(
-                managerCreateRequest.getName(),
-                managerCreateRequest.getPassword(),
-                managerCreateRequest.getOfficeName()
-        );
+    public ManagerData registerManager(@Valid @RequestBody ManagerCreateCommand managerCreateCommand) {
+        return managerAdminService.createManager(managerCreateCommand);
     }
 
     /**
      * 매장관리자 수정하기
      *
-     * @param managerUpdateRequest (id, password, officeName)
+     * @param managerUpdateCommand (id, password, officeName)
      */
     @LoginCheck(role = Role.ADMIN)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping
-    public void updateManager(@Valid @RequestBody ManagerUpdateRequest managerUpdateRequest) {
-        managerAdminService.updateManager(
-                managerUpdateRequest.getId(),
-                managerUpdateRequest.getPassword(),
-                managerUpdateRequest.getOfficeName()
-        );
+    public void updateManager(@Valid @RequestBody ManagerUpdateCommand managerUpdateCommand) {
+        managerAdminService.updateManager(managerUpdateCommand);
     }
 
     /**

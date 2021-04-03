@@ -1,6 +1,8 @@
 package dabang.star.cafe.application;
 
 import dabang.star.cafe.api.exception.OfficeNotFoundException;
+import dabang.star.cafe.application.command.OfficeCreateCommand;
+import dabang.star.cafe.application.command.OfficeUpdateCommand;
 import dabang.star.cafe.application.data.OfficeData;
 import dabang.star.cafe.domain.office.Office;
 import dabang.star.cafe.domain.office.OfficeRepository;
@@ -9,23 +11,15 @@ import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-
 @RequiredArgsConstructor
 @Service
 public class OfficeAdminService {
 
     private final OfficeRepository officeRepository;
 
-    public OfficeData createOffice(String name, String address, BigDecimal latitude, BigDecimal longitude) {
+    public OfficeData createOffice(OfficeCreateCommand officeCreateCommand) {
 
-        Office office = Office.builder()
-                .name(name)
-                .address(address)
-                .latitude(latitude)
-                .longitude(longitude)
-                .build();
-
+        Office office = officeCreateCommand.toOffice();
         officeRepository.save(office);
 
         return OfficeData.from(office);
@@ -35,20 +29,13 @@ public class OfficeAdminService {
         officeRepository.deleteById(officeId);
     }
 
-    public void updateOffice(int id, String name, String address, BigDecimal latitude, BigDecimal longitude) {
+    public void updateOffice(OfficeUpdateCommand officeUpdateCommand) {
 
-        Office office = officeRepository.findById(id).orElseThrow(
+        officeRepository.findById(officeUpdateCommand.getId()).orElseThrow(
                 () -> new OfficeNotFoundException("office not found")
         );
 
-        officeRepository.save(Office.builder()
-                .id(office.getId())
-                .name(name)
-                .address(address)
-                .latitude(latitude)
-                .longitude(longitude)
-                .build()
-        );
+        officeRepository.save(officeUpdateCommand.toOffice());
     }
 
     public Page<OfficeData> findOffices(Pagination pagination) {

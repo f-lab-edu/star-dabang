@@ -10,11 +10,11 @@
     <update id="update" keyProperty="id">
         UPDATE manager
         <set>
-            <if test="name != null">
-                passwd=#{password},
+            <if test="officeId != null">
+                office_id=#{officeId},
             </if>
             <if test="password != null">
-                nickname=#{nickname},
+                passwd=#{password},
             </if>
             <if test="role != null">
                 role=#{role,typeHandler=org.apache.ibatis.type.EnumTypeHandler},

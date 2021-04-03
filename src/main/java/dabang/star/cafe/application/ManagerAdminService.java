@@ -2,12 +2,13 @@ package dabang.star.cafe.application;
 
 import dabang.star.cafe.api.exception.OfficeNotFoundException;
 import dabang.star.cafe.api.exception.ResourceNotFoundException;
+import dabang.star.cafe.application.command.ManagerCreateCommand;
+import dabang.star.cafe.application.command.ManagerUpdateCommand;
 import dabang.star.cafe.application.data.ManagerData;
 import dabang.star.cafe.application.data.OfficeData;
 import dabang.star.cafe.domain.authentication.EncryptService;
 import dabang.star.cafe.domain.manager.Manager;
 import dabang.star.cafe.domain.manager.ManagerRepository;
-import dabang.star.cafe.domain.manager.Role;
 import dabang.star.cafe.domain.office.OfficeRepository;
 import dabang.star.cafe.utils.page.Page;
 import dabang.star.cafe.utils.page.Pagination;
@@ -26,37 +27,28 @@ public class ManagerAdminService {
 
     private final OfficeRepository officeRepository;
 
-    public ManagerData createManager(String name, String password, String officeName) {
+    public ManagerData createManager(ManagerCreateCommand managerCreateCommand) {
 
-        OfficeData officeData = officeRepository.findByName(officeName).orElseThrow(
+        OfficeData officeData = officeRepository.findByName(managerCreateCommand.getOfficeName()).orElseThrow(
                 () -> new OfficeNotFoundException("office not found.")
         );
+        String encryptedPassword = encryptService.encrypt(managerCreateCommand.getPassword());
 
-        String encryptedPassword = encryptService.encrypt(password);
-        Manager manager = Manager.builder()
-                .officeId(officeData.getId())
-                .name(name)
-                .password(encryptedPassword)
-                .role(Role.MANAGER)
-                .build();
+        Manager manager = managerCreateCommand.toManager(officeData.getId(), encryptedPassword);
         managerRepository.save(manager);
 
         return ManagerData.from(manager);
     }
 
-    public void updateManager(long id, String password, String officeName) {
-        OfficeData officeData = officeRepository.findByName(officeName).orElseThrow(
+    public void updateManager(ManagerUpdateCommand managerUpdateCommand) {
+
+        OfficeData officeData = officeRepository.findByName(managerUpdateCommand.getOfficeName()).orElseThrow(
                 () -> new OfficeNotFoundException("office not found.")
         );
 
-        managerRepository.findById(id).map(manager -> {
-            managerRepository.save(Manager.builder()
-                    .id(id)
-                    .name(manager.getName())
-                    .password(password)
-                    .officeId(officeData.getId())
-                    .build()
-            );
+        String encryptedPassword = encryptService.encrypt(managerUpdateCommand.getPassword());
+        managerRepository.findById(managerUpdateCommand.getId()).map(manager -> {
+            managerRepository.save(managerUpdateCommand.toManager(officeData.getId(), encryptedPassword));
             return manager;
         }).orElseThrow(() -> new ResourceNotFoundException("manager not found."));
     }

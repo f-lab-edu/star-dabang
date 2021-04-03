@@ -1,6 +1,8 @@
 package dabang.star.cafe.application;
 
 import dabang.star.cafe.api.exception.OptionNotFoundException;
+import dabang.star.cafe.application.command.OptionCreateCommand;
+import dabang.star.cafe.application.command.OptionUpdateCommand;
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.domain.option.OptionRepository;
 import dabang.star.cafe.utils.page.Page;
@@ -16,8 +18,9 @@ public class OptionAdminService {
 
     private final OptionRepository optionRepository;
 
-    public Option createOption(Option option) {
+    public Option createOption(OptionCreateCommand optionCreateCommand) {
 
+        Option option = optionCreateCommand.toOption();
         optionRepository.save(option);
 
         return option;
@@ -46,10 +49,11 @@ public class OptionAdminService {
         return options;
     }
 
-    public void updateOption(Option option) {
+    public void updateOption(OptionUpdateCommand optionUpdateCommand) {
 
-        loadById(option.getId());
+        loadById(optionUpdateCommand.getId());
 
+        Option option = optionUpdateCommand.toOption();
         optionRepository.save(option);
     }
 

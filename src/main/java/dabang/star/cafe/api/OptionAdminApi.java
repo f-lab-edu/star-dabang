@@ -1,12 +1,11 @@
 package dabang.star.cafe.api;
 
 import dabang.star.cafe.api.aop.LoginCheck;
-import dabang.star.cafe.api.request.OptionCreateRequest;
-import dabang.star.cafe.api.request.OptionUpdateRequest;
 import dabang.star.cafe.application.OptionAdminService;
+import dabang.star.cafe.application.command.OptionCreateCommand;
+import dabang.star.cafe.application.command.OptionUpdateCommand;
 import dabang.star.cafe.domain.manager.Role;
 import dabang.star.cafe.domain.option.Option;
-import dabang.star.cafe.domain.option.OptionFactory;
 import dabang.star.cafe.utils.page.Page;
 import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
@@ -26,15 +25,15 @@ public class OptionAdminApi {
     /**
      * 새로운 옵션 추가하기
      *
-     * @param optionCreateRequest (name, price, quantity)
+     * @param optionCreateCommand (name, price, quantity)
      * @return 생성 완료시 HttpStatus.CREATED (Option) 반환
      */
     @LoginCheck(role = Role.ADMIN)
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Option createOption(@Valid @RequestBody OptionCreateRequest optionCreateRequest) {
+    public Option createOption(@Valid @RequestBody OptionCreateCommand optionCreateCommand) {
 
-        return optionAdminService.createOption(OptionFactory.from(optionCreateRequest));
+        return optionAdminService.createOption(optionCreateCommand);
     }
 
     /**
@@ -67,13 +66,13 @@ public class OptionAdminApi {
     /**
      * 특정 옵션 정보를 수정
      *
-     * @param optionUpdateRequest (id, name, price, maxQuantity)
+     * @param optionUpdateCommand (id, name, price, maxQuantity)
      */
     @LoginCheck(role = Role.ADMIN)
     @PatchMapping
-    public void updateOption(@Valid @RequestBody OptionUpdateRequest optionUpdateRequest) {
+    public void updateOption(@Valid @RequestBody OptionUpdateCommand optionUpdateCommand) {
 
-        optionAdminService.updateOption(OptionFactory.from(optionUpdateRequest));
+        optionAdminService.updateOption(optionUpdateCommand);
     }
 
     /**

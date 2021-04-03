@@ -2,6 +2,8 @@ package dabang.star.cafe.application;
 
 import dabang.star.cafe.api.exception.DuplicatedException;
 import dabang.star.cafe.api.exception.MemberNotFoundException;
+import dabang.star.cafe.application.command.MemberUpdateCommand;
+import dabang.star.cafe.application.command.SignUpCommand;
 import dabang.star.cafe.application.data.MemberData;
 import dabang.star.cafe.domain.authentication.EncryptService;
 import dabang.star.cafe.domain.member.Member;
@@ -16,18 +18,12 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final EncryptService encryptService;
 
-    public MemberData join(String email, String password, String nickname, String telephone, String birth) {
+    public MemberData join(SignUpCommand signUpCommand) {
 
-        checkDuplicatedEmail(email);
+        checkDuplicatedEmail(signUpCommand.getEmail());
+        String encryptedPassword = encryptService.encrypt(signUpCommand.getPassword());
 
-        String encryptedPassword = encryptService.encrypt(password);
-        Member member = Member.builder()
-                .email(email)
-                .password(encryptedPassword)
-                .nickname(nickname)
-                .telephone(telephone)
-                .birth(birth)
-                .build();
+        Member member = signUpCommand.toMember(encryptedPassword);
         memberRepository.save(member);
 
         return MemberData.from(member);
@@ -40,8 +36,11 @@ public class MemberService {
         }
     }
 
-    public void update(Member member) {
-        member.setPassword(encryptService.encrypt(member.getPassword()));
+    public void update(MemberUpdateCommand memberUpdateCommand, long memberId) {
+
+        String encryptPassword = encryptService.encrypt(memberUpdateCommand.getPassword());
+
+        Member member = memberUpdateCommand.toMember(memberId, encryptPassword);
         memberRepository.save(member);
     }
 
