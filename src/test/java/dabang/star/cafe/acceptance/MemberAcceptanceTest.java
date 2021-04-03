@@ -1,7 +1,7 @@
 package dabang.star.cafe.acceptance;
 
 import dabang.star.cafe.api.request.MemberLoginRequest;
-import dabang.star.cafe.api.request.SignUpRequest;
+import dabang.star.cafe.application.command.SignUpCommand;
 import io.restassured.RestAssured;
 import io.restassured.mapper.ObjectMapperType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
@@ -92,7 +92,7 @@ class MemberAcceptanceTest {
         return RestAssured
                 .given().log().all()
                 .contentType(APPLICATION_JSON_VALUE)
-                .body(new SignUpRequest(email, password, nickname, telephone, birth), ObjectMapperType.JACKSON_2)
+                .body(new SignUpCommand(email, password, nickname, telephone, birth), ObjectMapperType.JACKSON_2)
                 .when()
                 .post("/members")
                 .then().log().all()

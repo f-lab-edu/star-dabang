@@ -1,7 +1,7 @@
 package dabang.star.cafe.acceptance;
 
 import dabang.star.cafe.api.request.CurrentMemberRequest;
-import dabang.star.cafe.api.request.MemberUpdateRequest;
+import dabang.star.cafe.application.command.MemberUpdateCommand;
 import io.restassured.RestAssured;
 import io.restassured.mapper.ObjectMapperType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
@@ -120,7 +120,7 @@ public class CurrentMemberAcceptanceTest {
                 .given().log().all()
                 .contentType(APPLICATION_JSON_VALUE)
                 .cookie("SESSION", loginResponse.cookie("SESSION"))
-                .body(new MemberUpdateRequest(NEW_PASSWORD, NEW_NICKNAME, NEW_TELEPHONE), ObjectMapperType.JACKSON_2)
+                .body(new MemberUpdateCommand(NEW_PASSWORD, NEW_NICKNAME, NEW_TELEPHONE), ObjectMapperType.JACKSON_2)
                 .when()
                 .patch("/members/my-info")
                 .then().log().all()
