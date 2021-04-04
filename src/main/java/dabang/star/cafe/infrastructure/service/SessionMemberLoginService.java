@@ -1,6 +1,6 @@
 package dabang.star.cafe.infrastructure.service;
 
-import dabang.star.cafe.api.exception.NoAuthenticationException;
+import dabang.star.cafe.application.exception.NoAuthenticationException;
 import dabang.star.cafe.domain.authentication.EncryptService;
 import dabang.star.cafe.domain.authentication.MemberLoginService;
 import dabang.star.cafe.application.data.MemberData;

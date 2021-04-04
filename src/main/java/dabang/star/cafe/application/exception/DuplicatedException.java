@@ -1,4 +1,4 @@
-package dabang.star.cafe.api.exception;
+package dabang.star.cafe.application.exception;
 
 public class DuplicatedException extends RuntimeException {
 

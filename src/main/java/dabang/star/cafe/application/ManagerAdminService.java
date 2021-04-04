@@ -1,11 +1,10 @@
 package dabang.star.cafe.application;
 
-import dabang.star.cafe.api.exception.OfficeNotFoundException;
-import dabang.star.cafe.api.exception.ResourceNotFoundException;
 import dabang.star.cafe.application.command.ManagerCreateCommand;
 import dabang.star.cafe.application.command.ManagerUpdateCommand;
 import dabang.star.cafe.application.data.ManagerData;
 import dabang.star.cafe.application.data.OfficeData;
+import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.authentication.EncryptService;
 import dabang.star.cafe.domain.manager.Manager;
 import dabang.star.cafe.domain.manager.ManagerRepository;
@@ -30,7 +29,7 @@ public class ManagerAdminService {
     public ManagerData createManager(ManagerCreateCommand managerCreateCommand) {
 
         OfficeData officeData = officeRepository.findByName(managerCreateCommand.getOfficeName()).orElseThrow(
-                () -> new OfficeNotFoundException("office not found.")
+                () -> new ResourceNotFoundException("office not found.")
         );
         String encryptedPassword = encryptService.encrypt(managerCreateCommand.getPassword());
 
@@ -43,7 +42,7 @@ public class ManagerAdminService {
     public void updateManager(ManagerUpdateCommand managerUpdateCommand) {
 
         OfficeData officeData = officeRepository.findByName(managerUpdateCommand.getOfficeName()).orElseThrow(
-                () -> new OfficeNotFoundException("office not found.")
+                () -> new ResourceNotFoundException("office not found.")
         );
 
         String encryptedPassword = encryptService.encrypt(managerUpdateCommand.getPassword());

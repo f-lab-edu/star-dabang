@@ -1,9 +1,9 @@
 package dabang.star.cafe.application;
 
-import dabang.star.cafe.api.exception.OfficeNotFoundException;
 import dabang.star.cafe.application.command.OfficeCreateCommand;
 import dabang.star.cafe.application.command.OfficeUpdateCommand;
 import dabang.star.cafe.application.data.OfficeData;
+import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.office.Office;
 import dabang.star.cafe.domain.office.OfficeRepository;
 import dabang.star.cafe.utils.page.Page;
@@ -32,7 +32,7 @@ public class OfficeAdminService {
     public void updateOffice(OfficeUpdateCommand officeUpdateCommand) {
 
         officeRepository.findById(officeUpdateCommand.getId()).orElseThrow(
-                () -> new OfficeNotFoundException("office not found")
+                () -> new ResourceNotFoundException("office not found")
         );
 
         officeRepository.save(officeUpdateCommand.toOffice());

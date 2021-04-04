@@ -1,5 +1,11 @@
-package dabang.star.cafe.api.exception;
+package dabang.star.cafe.api;
 
+import dabang.star.cafe.application.exception.DuplicatedException;
+import dabang.star.cafe.application.exception.NoAuthenticationException;
+import dabang.star.cafe.application.exception.NoAuthorizationException;
+import dabang.star.cafe.application.exception.ResourceNotFoundException;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -53,11 +59,11 @@ public class CustomExceptionHandler {
     }
 
     /**
-     * 요청에 대해 멤버를 찾지 못한 예외를 처리하며 Http Status 404을 반환한다.
+     * 요청에 대해 리소스를 찾지 못한 예외를 처리하며 Http Status 404을 반환한다.
      */
-    @ExceptionHandler(MemberNotFoundException.class)
+    @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleNotFoundException(MemberNotFoundException e) {
+    public ErrorResponse handleNotFoundException(ResourceNotFoundException e) {
 
         ErrorResponse response = ErrorResponse.builder()
                 .status(HttpStatus.NOT_FOUND.value())
@@ -104,20 +110,12 @@ public class CustomExceptionHandler {
         return response;
     }
 
-    /**
-     * 요청에 대해 옵션을 찾지 못한 예외를 처리하며 Http Status 404을 반환한다.
-     */
-    @ExceptionHandler(OptionNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleNotFoundException(OptionNotFoundException e) {
+    @Getter
+    @Builder
+    public static class ErrorResponse {
 
-        ErrorResponse response = ErrorResponse.builder()
-                .status(HttpStatus.NOT_FOUND.value())
-                .message(e.getMessage())
-                .build();
+        private String message;
 
-        log.warn("Option were not found", e);
-
-        return response;
+        private int status;
     }
 }

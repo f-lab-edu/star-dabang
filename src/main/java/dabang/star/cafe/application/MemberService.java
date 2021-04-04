@@ -1,10 +1,10 @@
 package dabang.star.cafe.application;
 
-import dabang.star.cafe.api.exception.DuplicatedException;
-import dabang.star.cafe.api.exception.MemberNotFoundException;
 import dabang.star.cafe.application.command.MemberUpdateCommand;
 import dabang.star.cafe.application.command.SignUpCommand;
 import dabang.star.cafe.application.data.MemberData;
+import dabang.star.cafe.application.exception.DuplicatedException;
+import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.authentication.EncryptService;
 import dabang.star.cafe.domain.member.Member;
 import dabang.star.cafe.domain.member.MemberRepository;
@@ -46,7 +46,7 @@ public class MemberService {
 
     public MemberData loadById(long id) {
         return memberRepository.findById(id).orElseThrow(
-                () -> new MemberNotFoundException("member not found")
+                () -> new ResourceNotFoundException("member not found")
         );
     }
 
