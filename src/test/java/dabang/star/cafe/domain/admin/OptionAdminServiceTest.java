@@ -1,9 +1,9 @@
 package dabang.star.cafe.domain.admin;
 
-import dabang.star.cafe.api.exception.OptionNotFoundException;
 import dabang.star.cafe.application.OptionAdminService;
 import dabang.star.cafe.application.command.OptionCreateCommand;
 import dabang.star.cafe.application.command.OptionUpdateCommand;
+import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.utils.page.Page;
 import dabang.star.cafe.utils.page.Pagination;
@@ -59,7 +59,7 @@ class OptionAdminServiceTest {
     @Test
     void notFoundOptionTest() {
 
-        assertThrows(OptionNotFoundException.class,
+        assertThrows(ResourceNotFoundException.class,
                 () -> optionAdminService.getAllOption(new Pagination(DEFAULT_PAGE, DEFAULT_SIZE)));
     }
 
@@ -68,7 +68,7 @@ class OptionAdminServiceTest {
     void failOptionUpdateTest() {
         OptionUpdateCommand newOption = new OptionUpdateCommand(1, "바뀐 옵션", PRICE, MAX_QUANTITY);
 
-        assertThrows(OptionNotFoundException.class,
+        assertThrows(ResourceNotFoundException.class,
                 () -> optionAdminService.updateOption(newOption));
     }
 
@@ -95,7 +95,7 @@ class OptionAdminServiceTest {
     void failDeleteOptionTest() {
         int noExistsOptionId = 1;
 
-        assertThrows(OptionNotFoundException.class,
+        assertThrows(ResourceNotFoundException.class,
                 () -> optionAdminService.deleteOption(noExistsOptionId));
     }
 
@@ -107,7 +107,7 @@ class OptionAdminServiceTest {
 
         optionAdminService.deleteOption(saveOption.getId());
 
-        assertThrows(OptionNotFoundException.class,
+        assertThrows(ResourceNotFoundException.class,
                 () -> optionAdminService.getAllOption(new Pagination(DEFAULT_PAGE, DEFAULT_SIZE)));
     }
 

@@ -1,9 +1,9 @@
 package dabang.star.cafe.api;
 
-import dabang.star.cafe.api.exception.OptionNotFoundException;
 import dabang.star.cafe.application.OptionAdminService;
 import dabang.star.cafe.application.command.OptionCreateCommand;
 import dabang.star.cafe.application.command.OptionUpdateCommand;
+import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.utils.page.Page;
 import dabang.star.cafe.utils.page.Pagination;
@@ -144,7 +144,7 @@ class OptionAdminApiTest {
     void failedGetOptionTest() {
 
         when(optionAdminService.getAllOption(any(Pagination.class)))
-                .thenThrow(new OptionNotFoundException("No options were found"));
+                .thenThrow(new ResourceNotFoundException("No options were found"));
 
         RestAssuredMockMvc.when()
                 .get("/options")
@@ -300,7 +300,7 @@ class OptionAdminApiTest {
 
         int noExistsOptionId = 1;
 
-        doThrow(new OptionNotFoundException("option not found"))
+        doThrow(new ResourceNotFoundException("option not found"))
                 .when(optionAdminService)
                 .deleteOption(noExistsOptionId);
 

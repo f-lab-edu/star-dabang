@@ -1,6 +1,6 @@
 package dabang.star.cafe.api;
 
-import dabang.star.cafe.api.exception.DuplicatedException;
+import dabang.star.cafe.application.exception.DuplicatedException;
 import dabang.star.cafe.application.MemberService;
 import dabang.star.cafe.application.command.SignUpCommand;
 import dabang.star.cafe.application.data.MemberData;

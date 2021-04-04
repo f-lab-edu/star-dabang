@@ -1,6 +1,6 @@
 package dabang.star.cafe.domain.authentication;
 
-import dabang.star.cafe.api.exception.NoAuthenticationException;
+import dabang.star.cafe.application.exception.NoAuthenticationException;
 import dabang.star.cafe.application.data.ManagerData;
 import dabang.star.cafe.domain.manager.ManagerRepository;
 import dabang.star.cafe.domain.manager.Role;
