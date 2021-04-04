@@ -55,7 +55,7 @@ class OptionAdminServiceTest {
         assertThat(optionPage.getTotalElements()).isEqualTo(2);
     }
 
-    @DisplayName("요청에 대하여 온션들을 조회한 결과가 없다면 OptionNotFoundException을 발생시킨다")
+    @DisplayName("요청에 대하여 온션들을 조회한 결과가 없다면 ResourceNotFoundException을 발생시킨다")
     @Test
     void notFoundOptionTest() {
 
@@ -63,7 +63,7 @@ class OptionAdminServiceTest {
                 () -> optionAdminService.getAllOption(new Pagination(DEFAULT_PAGE, DEFAULT_SIZE)));
     }
 
-    @DisplayName("옵션의 정보 수정할 때 존재하지 않는 옵션 이라면 OptionNotFoundException을 발생시킨다")
+    @DisplayName("옵션의 정보 수정할 때 존재하지 않는 옵션 이라면 ResourceNotFoundException을 발생시킨다")
     @Test
     void failOptionUpdateTest() {
         OptionUpdateCommand newOption = new OptionUpdateCommand(1, "바뀐 옵션", PRICE, MAX_QUANTITY);
@@ -90,7 +90,7 @@ class OptionAdminServiceTest {
         assertThat(findOption.getMaxQuantity()).isEqualTo(30);
     }
 
-    @DisplayName("옵션을 삭제할 때 존재하지 않는 옵션이라면 OptionNotFoundException을 발생시킨다")
+    @DisplayName("옵션을 삭제할 때 존재하지 않는 옵션이라면 ResourceNotFoundException을 발생시킨다")
     @Test
     void failDeleteOptionTest() {
         int noExistsOptionId = 1;
