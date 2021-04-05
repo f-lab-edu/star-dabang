@@ -48,8 +48,8 @@ CREATE TABLE manager
 CREATE TABLE product_category
 (
     category_id   INT         NOT NULL AUTO_INCREMENT,
-    category_name VARCHAR(10) NOT NULL,
-    type          VARCHAR(10) NOT NULL,
+    category_name VARCHAR(20) NOT NULL UNIQUE,
+    category_type VARCHAR(10) NOT NULL,
 
     PRIMARY KEY (category_id)
 );
