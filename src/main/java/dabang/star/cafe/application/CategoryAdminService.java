@@ -1,6 +1,11 @@
 package dabang.star.cafe.application;
 
+import dabang.star.cafe.application.command.CategoryCreateCommand;
+import dabang.star.cafe.application.data.CategoryData;
 import dabang.star.cafe.application.data.EnumData;
+import dabang.star.cafe.application.exception.DuplicatedException;
+import dabang.star.cafe.domain.category.Category;
+import dabang.star.cafe.domain.category.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +18,28 @@ import static dabang.star.cafe.application.EnumMapperService.CATEGORY_TYPE;
 public class CategoryAdminService {
 
     private final EnumMapperService enumMapperService;
+    private final CategoryRepository categoryRepository;
 
     public List<EnumData> getCategoryTypes() {
 
         return enumMapperService.get(CATEGORY_TYPE);
+    }
+
+    public CategoryData createCategory(CategoryCreateCommand categoryCreateCommand) {
+
+        checkDuplicatedEmail(categoryCreateCommand.getName());
+
+        Category category = categoryCreateCommand.toCategory();
+        categoryRepository.save(category);
+
+        return CategoryData.from(category);
+    }
+
+    private void checkDuplicatedEmail(String name) {
+
+        if (categoryRepository.existsByName(name)) {
+            throw new DuplicatedException("duplicated category name");
+        }
     }
 
 }

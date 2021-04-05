@@ -2,13 +2,14 @@ package dabang.star.cafe.api;
 
 import dabang.star.cafe.api.aop.LoginCheck;
 import dabang.star.cafe.application.CategoryAdminService;
+import dabang.star.cafe.application.command.CategoryCreateCommand;
+import dabang.star.cafe.application.data.CategoryData;
 import dabang.star.cafe.application.data.EnumData;
 import dabang.star.cafe.domain.manager.Role;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -30,7 +31,13 @@ public class CategoryAdminApi {
         return categoryAdminService.getCategoryTypes();
 
     }
-    
+
+    @LoginCheck(role = Role.ADMIN)
+    @PostMapping
+    public CategoryData createCategory(@Valid @RequestBody CategoryCreateCommand categoryCreateCommand) {
+
+        return categoryAdminService.createCategory(categoryCreateCommand);
+    }
 
 }
 
