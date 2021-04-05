@@ -33,6 +33,13 @@ dependencies {
     // 스프링 부트 2.3부터 spring-boot-starter-web 에서 제외된 validation 의존성 추가
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    // AWS 관련 의존성 추가 (S3 관련 Bean 자동 생성)
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+    // JDK 9+ SE 에서 제외된 JAXB 의존성 추가 (URL 참고)
+    // https://github.com/aws/aws-sdk-java/blob/6a086cfd3e26f74592cf3a7cb96f43e51654a926/aws-java-sdk-core/src/main/java/com/amazonaws/util/Base64.java#L67
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+
     // MySQL 의존성 추가
     runtimeOnly 'mysql:mysql-connector-java'
 
