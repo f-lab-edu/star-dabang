@@ -45,22 +45,13 @@ CREATE TABLE manager
     FOREIGN KEY (office_id) REFERENCES office (office_id)
 );
 
-CREATE TABLE product_type
-(
-    product_type_id   INT         NOT NULL AUTO_INCREMENT,
-    product_type_name VARCHAR(10) NOT NULL UNIQUE,
-
-    PRIMARY KEY (product_type_id)
-);
-
 CREATE TABLE product_category
 (
-    category_id     INT         NOT NULL AUTO_INCREMENT,
-    category_name   VARCHAR(10) NOT NULL,
-    product_type_id INT         NOT NULL,
+    category_id   INT         NOT NULL AUTO_INCREMENT,
+    category_name VARCHAR(10) NOT NULL,
+    type          VARCHAR(10) NOT NULL,
 
-    PRIMARY KEY (category_id),
-    FOREIGN KEY (product_type_id) REFERENCES product_type (product_type_id)
+    PRIMARY KEY (category_id)
 );
 
 CREATE TABLE additional_option
