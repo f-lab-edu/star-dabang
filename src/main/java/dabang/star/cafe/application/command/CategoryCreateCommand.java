@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -15,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class CategoryCreateCommand {
 
-    @NotBlank(message = "invalid name")
+    @NotNull(message = "invalid name")
     private String name;
 
     @NotNull(message = "invalid category type")
