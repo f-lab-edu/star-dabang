@@ -8,6 +8,8 @@ import dabang.star.cafe.application.exception.DuplicatedException;
 import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.category.Category;
 import dabang.star.cafe.domain.category.CategoryRepository;
+import dabang.star.cafe.utils.page.Page;
+import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,5 +56,14 @@ public class CategoryAdminService {
 
         categoryRepository.save(categoryUpdateCommand.toCategory());
     }
-    
+
+    public Page<CategoryData> getCategories(Pagination pagination) {
+
+        Page<CategoryData> categories = categoryRepository.findAll(pagination);
+        if (categories.getContent().size() == 0) {
+            throw new ResourceNotFoundException("No Categories were found");
+        }
+
+        return categories;
+    }
 }

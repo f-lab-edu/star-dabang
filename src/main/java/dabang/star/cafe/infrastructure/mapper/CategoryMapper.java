@@ -4,6 +4,7 @@ import dabang.star.cafe.application.data.CategoryData;
 import dabang.star.cafe.domain.category.Category;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
 import java.util.Optional;
 
 @Mapper
@@ -18,5 +19,9 @@ public interface CategoryMapper {
     boolean exists(String name);
 
     Optional<Category> getById(int id);
+
+    List<CategoryData> selectAll(int limit, int offset);
+
+    int getAllCount();
 
 }
