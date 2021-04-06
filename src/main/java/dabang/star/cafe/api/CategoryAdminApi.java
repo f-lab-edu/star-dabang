@@ -74,5 +74,15 @@ public class CategoryAdminApi {
         return categoryAdminService.getCategories(pagination);
     }
 
+    /**
+     *
+     */
+    @LoginCheck(role = Role.ADMIN)
+    @DeleteMapping("/{categoryId}")
+    public void deleteCategory(@PathVariable int categoryId) {
+
+        categoryAdminService.deleteCategory(categoryId);
+    }
+
 }
 

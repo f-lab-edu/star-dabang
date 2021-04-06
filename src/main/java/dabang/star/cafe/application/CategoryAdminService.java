@@ -66,4 +66,12 @@ public class CategoryAdminService {
 
         return categories;
     }
+
+    public void deleteCategory(int categoryId) {
+
+        if (categoryRepository.deleteById(categoryId) == 0) {
+            throw new ResourceNotFoundException("category not found by id : " + categoryId);
+        }
+    }
+
 }

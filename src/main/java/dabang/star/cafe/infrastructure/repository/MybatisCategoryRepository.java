@@ -56,4 +56,9 @@ public class MybatisCategoryRepository implements CategoryRepository {
         return new Page<>(categories, totalCount, size, page);
     }
 
+    @Override
+    public int deleteById(int categoryId) {
+
+        return categoryMapper.removeById(categoryId);
+    }
 }

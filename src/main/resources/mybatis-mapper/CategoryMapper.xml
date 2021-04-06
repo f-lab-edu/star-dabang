@@ -47,4 +47,10 @@
         FROM product_category
     </select>
 
+    <delete id="removeById">
+        DELETE
+        FROM product_category
+        WHERE category_id = #{id}
+    </delete>
+
 </mapper>

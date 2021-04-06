@@ -22,4 +22,6 @@ public interface CategoryMapper {
 
     int getAllCount();
 
+    int removeById(int id);
+    
 }

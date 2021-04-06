@@ -15,5 +15,7 @@ public interface CategoryRepository {
     Optional<Category> findById(int id);
 
     Page<CategoryData> findAll(Pagination pagination);
-    
+
+    int deleteById(int categoryId);
+
 }
