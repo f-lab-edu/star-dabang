@@ -1,5 +1,6 @@
 package dabang.star.cafe.domain.manager;
 
+import dabang.star.cafe.application.data.ManagerData;
 import dabang.star.cafe.utils.page.Page;
 import dabang.star.cafe.utils.page.Pagination;
 

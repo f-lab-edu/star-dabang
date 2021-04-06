@@ -1,16 +1,16 @@
 package dabang.star.cafe.api;
 
-import dabang.star.cafe.api.exception.OptionNotFoundException;
-import dabang.star.cafe.api.request.OptionCreateRequest;
-import dabang.star.cafe.api.request.OptionUpdateRequest;
-import dabang.star.cafe.domain.admin.OptionAdminService;
+import dabang.star.cafe.application.OptionAdminService;
+import dabang.star.cafe.application.command.OptionCreateCommand;
+import dabang.star.cafe.application.command.OptionUpdateCommand;
+import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.option.Option;
-import dabang.star.cafe.domain.option.OptionFactory;
 import dabang.star.cafe.utils.page.Page;
 import dabang.star.cafe.utils.page.Pagination;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
-import org.junit.jupiter.api.*;
-import org.mockito.MockedStatic;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -42,38 +42,24 @@ class OptionAdminApiTest {
     @MockBean
     OptionAdminService optionAdminService;
 
-    static MockedStatic<OptionFactory> optionFactoryMockedStatic;
-
     @BeforeEach
     void setUp() {
         RestAssuredMockMvc.mockMvc(mockMvc);
-    }
-
-    @BeforeAll
-    static void before() {
-        optionFactoryMockedStatic = mockStatic(OptionFactory.class);
-    }
-
-    @AfterAll
-    static void after() {
-        optionFactoryMockedStatic.close();
     }
 
     @DisplayName("새로운 옵션을 추가에 성공한다면 상태코드 201과 Option 정보를 반환한다")
     @Test
     void successfulCreateOptionTest() {
 
-        OptionCreateRequest optionCreateRequest = new OptionCreateRequest(OPTION_NAME, PRICE, MAX_QUANTITY);
-        Option option = OptionFactory.from(optionCreateRequest);
+        OptionCreateCommand optionCreateCommand = new OptionCreateCommand(OPTION_NAME, PRICE, MAX_QUANTITY);
         Option newOption = new Option(1, OPTION_NAME, PRICE, MAX_QUANTITY);
 
-        when(OptionFactory.from(optionCreateRequest)).thenReturn(option);
-        when(optionAdminService.createOption(option)).thenReturn(newOption);
+        when(optionAdminService.createOption(any(OptionCreateCommand.class))).thenReturn(newOption);
 
         RestAssuredMockMvc
                 .given()
                 .contentType(APPLICATION_JSON_VALUE)
-                .body(optionCreateRequest, JACKSON_2)
+                .body(optionCreateCommand, JACKSON_2)
                 .when()
                 .post("/options")
                 .then()
@@ -82,18 +68,18 @@ class OptionAdminApiTest {
                 .body("price", equalTo(100))
                 .body("maxQuantity", equalTo(10));
 
-        verify(optionAdminService).createOption(option);
+        verify(optionAdminService).createOption(any(OptionCreateCommand.class));
     }
 
     @DisplayName("새로운 옵션을 추가할 때 price가 음수라면 상태코드 422와 not valid price를 반환한다")
     @Test
     void noNegativePriceTest() {
 
-        OptionCreateRequest optionCreateRequest = new OptionCreateRequest(OPTION_NAME, -100, MAX_QUANTITY);
+        OptionCreateCommand optionCreateCommand = new OptionCreateCommand(OPTION_NAME, -100, MAX_QUANTITY);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
-                .body(optionCreateRequest, JACKSON_2)
+                .body(optionCreateCommand, JACKSON_2)
                 .when()
                 .post("/options")
                 .then()
@@ -106,11 +92,11 @@ class OptionAdminApiTest {
     @Test
     void notNullPriceCreateOptionTest() {
 
-        OptionCreateRequest optionCreateRequest = new OptionCreateRequest(OPTION_NAME, null, MAX_QUANTITY);
+        OptionCreateCommand optionCreateCommand = new OptionCreateCommand(OPTION_NAME, null, MAX_QUANTITY);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
-                .body(optionCreateRequest, JACKSON_2)
+                .body(optionCreateCommand, JACKSON_2)
                 .when()
                 .post("/options")
                 .then()
@@ -123,11 +109,11 @@ class OptionAdminApiTest {
     @Test
     void noNegativeMaxQuantityTest() {
 
-        OptionCreateRequest optionCreateRequest = new OptionCreateRequest(OPTION_NAME, PRICE, -10);
+        OptionCreateCommand optionCreateCommand = new OptionCreateCommand(OPTION_NAME, PRICE, -10);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
-                .body(optionCreateRequest, JACKSON_2)
+                .body(optionCreateCommand, JACKSON_2)
                 .when()
                 .post("/options")
                 .then()
@@ -140,11 +126,11 @@ class OptionAdminApiTest {
     @Test
     void notNullMaxQuantityCreateOptionTest() {
 
-        OptionCreateRequest optionCreateRequest = new OptionCreateRequest(OPTION_NAME, PRICE, null);
+        OptionCreateCommand optionCreateCommand = new OptionCreateCommand(OPTION_NAME, PRICE, null);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
-                .body(optionCreateRequest, JACKSON_2)
+                .body(optionCreateCommand, JACKSON_2)
                 .when()
                 .post("/options")
                 .then()
@@ -158,7 +144,7 @@ class OptionAdminApiTest {
     void failedGetOptionTest() {
 
         when(optionAdminService.getAllOption(any(Pagination.class)))
-                .thenThrow(new OptionNotFoundException("No options were found"));
+                .thenThrow(new ResourceNotFoundException("No options were found"));
 
         RestAssuredMockMvc.when()
                 .get("/options")
@@ -193,31 +179,28 @@ class OptionAdminApiTest {
     @Test
     void successUpdateOptionTest() {
 
-        OptionUpdateRequest optionUpdateRequest = new OptionUpdateRequest(1, OPTION_NAME, PRICE, MAX_QUANTITY);
-        Option option = OptionFactory.from(optionUpdateRequest);
-
-        when(OptionFactory.from(optionUpdateRequest)).thenReturn(option);
+        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(1, OPTION_NAME, PRICE, MAX_QUANTITY);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
-                .body(optionUpdateRequest, JACKSON_2)
+                .body(optionUpdateCommand, JACKSON_2)
                 .when()
                 .patch("/options")
                 .then()
                 .statusCode(OK.value());
 
-        verify(optionAdminService).updateOption(option);
+        verify(optionAdminService).updateOption(any(OptionUpdateCommand.class));
     }
 
     @DisplayName("옵션정보를 수정할 때 id가 없으면 blank option id를 반환한다")
     @Test
     void notNullIdUpdateOptionTest() {
 
-        OptionUpdateRequest optionUpdateRequest = new OptionUpdateRequest(null, OPTION_NAME, PRICE, MAX_QUANTITY);
+        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(null, OPTION_NAME, PRICE, MAX_QUANTITY);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
-                .body(optionUpdateRequest, JACKSON_2)
+                .body(optionUpdateCommand, JACKSON_2)
                 .when()
                 .patch("/options")
                 .then()
@@ -230,11 +213,11 @@ class OptionAdminApiTest {
     @Test
     void notBlankNameUpdateOptionTest() {
 
-        OptionUpdateRequest optionUpdateRequest = new OptionUpdateRequest(1, null, PRICE, MAX_QUANTITY);
+        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(1, null, PRICE, MAX_QUANTITY);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
-                .body(optionUpdateRequest, JACKSON_2)
+                .body(optionUpdateCommand, JACKSON_2)
                 .when()
                 .patch("/options")
                 .then()
@@ -247,11 +230,11 @@ class OptionAdminApiTest {
     @Test
     void notNullPriceUpdateOptionTest() {
 
-        OptionUpdateRequest optionUpdateRequest = new OptionUpdateRequest(1, OPTION_NAME, null, MAX_QUANTITY);
+        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(1, OPTION_NAME, null, MAX_QUANTITY);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
-                .body(optionUpdateRequest, JACKSON_2)
+                .body(optionUpdateCommand, JACKSON_2)
                 .when()
                 .patch("/options")
                 .then()
@@ -264,11 +247,11 @@ class OptionAdminApiTest {
     @Test
     void notPositivePriceUpdateOptionTest() {
 
-        OptionUpdateRequest optionUpdateRequest = new OptionUpdateRequest(1, OPTION_NAME, -100, MAX_QUANTITY);
+        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(1, OPTION_NAME, -100, MAX_QUANTITY);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
-                .body(optionUpdateRequest, JACKSON_2)
+                .body(optionUpdateCommand, JACKSON_2)
                 .when()
                 .patch("/options")
                 .then()
@@ -281,11 +264,11 @@ class OptionAdminApiTest {
     @Test
     void notPositiveMaxQuantityUpdateOptionTest() {
 
-        OptionUpdateRequest optionUpdateRequest = new OptionUpdateRequest(1, OPTION_NAME, PRICE, -10);
+        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(1, OPTION_NAME, PRICE, -10);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
-                .body(optionUpdateRequest, JACKSON_2)
+                .body(optionUpdateCommand, JACKSON_2)
                 .when()
                 .patch("/options")
                 .then()
@@ -298,11 +281,11 @@ class OptionAdminApiTest {
     @Test
     void notNullMaxQuantityUpdateOptionTest() {
 
-        OptionUpdateRequest optionUpdateRequest = new OptionUpdateRequest(1, OPTION_NAME, PRICE, null);
+        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(1, OPTION_NAME, PRICE, null);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
-                .body(optionUpdateRequest, JACKSON_2)
+                .body(optionUpdateCommand, JACKSON_2)
                 .when()
                 .patch("/options")
                 .then()
@@ -317,7 +300,7 @@ class OptionAdminApiTest {
 
         int noExistsOptionId = 1;
 
-        doThrow(new OptionNotFoundException("option not found"))
+        doThrow(new ResourceNotFoundException("option not found"))
                 .when(optionAdminService)
                 .deleteOption(noExistsOptionId);
 

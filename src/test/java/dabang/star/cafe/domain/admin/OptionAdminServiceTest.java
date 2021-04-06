@@ -1,6 +1,9 @@
 package dabang.star.cafe.domain.admin;
 
-import dabang.star.cafe.api.exception.OptionNotFoundException;
+import dabang.star.cafe.application.OptionAdminService;
+import dabang.star.cafe.application.command.OptionCreateCommand;
+import dabang.star.cafe.application.command.OptionUpdateCommand;
+import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.utils.page.Page;
 import dabang.star.cafe.utils.page.Pagination;
@@ -31,9 +34,9 @@ class OptionAdminServiceTest {
     @DisplayName("id가 null인 옵션 객체로 새로운 옵션을 추가하고 아이디가 생긴 옵션 객체를 반환한다")
     @Test
     void addOptionTest() {
-        Option option = new Option(null, OPTION_NAME, PRICE, MAX_QUANTITY);
+        OptionCreateCommand optionCreateCommand = new OptionCreateCommand(OPTION_NAME, PRICE, MAX_QUANTITY);
 
-        Option newOption = optionAdminService.createOption(option);
+        Option newOption = optionAdminService.createOption(optionCreateCommand);
 
         assertThat(newOption.getId()).isNotNull();
     }
@@ -41,8 +44,8 @@ class OptionAdminServiceTest {
     @DisplayName("요청에 대하여 옵션들을 성공적으로 조회하면 옵션 목록을 반환한다")
     @Test
     void getAllOptionTest() {
-        Option option = new Option(null, "새로운 옵션1", PRICE, MAX_QUANTITY);
-        Option option2 = new Option(null, "새로운 옵션2", PRICE, MAX_QUANTITY);
+        OptionCreateCommand option = new OptionCreateCommand("새로운 옵션1", PRICE, MAX_QUANTITY);
+        OptionCreateCommand option2 = new OptionCreateCommand("새로운 옵션2", PRICE, MAX_QUANTITY);
         optionAdminService.createOption(option);
         optionAdminService.createOption(option2);
 
@@ -52,30 +55,30 @@ class OptionAdminServiceTest {
         assertThat(optionPage.getTotalElements()).isEqualTo(2);
     }
 
-    @DisplayName("요청에 대하여 온션들을 조회한 결과가 없다면 OptionNotFoundException을 발생시킨다")
+    @DisplayName("요청에 대하여 온션들을 조회한 결과가 없다면 ResourceNotFoundException을 발생시킨다")
     @Test
     void notFoundOptionTest() {
 
-        assertThrows(OptionNotFoundException.class,
+        assertThrows(ResourceNotFoundException.class,
                 () -> optionAdminService.getAllOption(new Pagination(DEFAULT_PAGE, DEFAULT_SIZE)));
     }
 
-    @DisplayName("옵션의 정보 수정할 때 존재하지 않는 옵션 이라면 OptionNotFoundException을 발생시킨다")
+    @DisplayName("옵션의 정보 수정할 때 존재하지 않는 옵션 이라면 ResourceNotFoundException을 발생시킨다")
     @Test
     void failOptionUpdateTest() {
-        Option newOption = new Option(1, "바뀐 옵션", PRICE, MAX_QUANTITY);
+        OptionUpdateCommand newOption = new OptionUpdateCommand(1, "바뀐 옵션", PRICE, MAX_QUANTITY);
 
-        assertThrows(OptionNotFoundException.class,
+        assertThrows(ResourceNotFoundException.class,
                 () -> optionAdminService.updateOption(newOption));
     }
 
     @DisplayName("옵션의 정보를 수정할 때 존재하는 옵션 이라면 성공적으로 정보를 수정한다")
     @Test
     void successOptionUpdateTest() {
-        Option originOption = new Option(null, OPTION_NAME, PRICE, MAX_QUANTITY);
-        optionAdminService.createOption(originOption);
+        OptionCreateCommand createOption = new OptionCreateCommand(OPTION_NAME, PRICE, MAX_QUANTITY);
+        Option originOption = optionAdminService.createOption(createOption);
 
-        Option newOption = new Option(originOption.getId(), "바뀐 옵션", 300, 30);
+        OptionUpdateCommand newOption = new OptionUpdateCommand(originOption.getId(), "바뀐 옵션", 300, 30);
         optionAdminService.updateOption(newOption);
 
         Page<Option> findOptions = optionAdminService.getAllOption(new Pagination(DEFAULT_PAGE, DEFAULT_SIZE));
@@ -87,24 +90,24 @@ class OptionAdminServiceTest {
         assertThat(findOption.getMaxQuantity()).isEqualTo(30);
     }
 
-    @DisplayName("옵션을 삭제할 때 존재하지 않는 옵션이라면 OptionNotFoundException을 발생시킨다")
+    @DisplayName("옵션을 삭제할 때 존재하지 않는 옵션이라면 ResourceNotFoundException을 발생시킨다")
     @Test
     void failDeleteOptionTest() {
         int noExistsOptionId = 1;
 
-        assertThrows(OptionNotFoundException.class,
+        assertThrows(ResourceNotFoundException.class,
                 () -> optionAdminService.deleteOption(noExistsOptionId));
     }
 
     @DisplayName("옵션을 삭제할 때 존재하는 옵션에 대해서 성공적으로 옵션을 삭제한다")
     @Test
     void successDeleteOptionTest() {
-        Option option = new Option(null, OPTION_NAME, PRICE, MAX_QUANTITY);
+        OptionCreateCommand option = new OptionCreateCommand(OPTION_NAME, PRICE, MAX_QUANTITY);
         Option saveOption = optionAdminService.createOption(option);
 
         optionAdminService.deleteOption(saveOption.getId());
 
-        assertThrows(OptionNotFoundException.class,
+        assertThrows(ResourceNotFoundException.class,
                 () -> optionAdminService.getAllOption(new Pagination(DEFAULT_PAGE, DEFAULT_SIZE)));
     }
 

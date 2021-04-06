@@ -1,12 +1,15 @@
 package dabang.star.cafe.infrastructure.repository;
 
 import dabang.star.cafe.domain.office.Office;
-import dabang.star.cafe.domain.office.OfficeData;
+import dabang.star.cafe.application.data.OfficeData;
 import dabang.star.cafe.domain.office.OfficeRepository;
 import dabang.star.cafe.infrastructure.mapper.OfficeMapper;
+import dabang.star.cafe.utils.page.Page;
+import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -40,5 +43,14 @@ public class MybatisOfficeRepository implements OfficeRepository {
     @Override
     public Optional<OfficeData> findByName(String officeName) {
         return officeMapper.getByName(officeName);
+    }
+
+    @Override
+    public Page<OfficeData> findAll(Pagination pagination) {
+        int size = pagination.getSize();
+        int totalCount = officeMapper.getCountAll();
+        List<OfficeData> officeDataList = officeMapper.getByPagination(size, pagination.getOffset());
+
+        return new Page<>(officeDataList, totalCount, size, pagination.getPage());
     }
 }

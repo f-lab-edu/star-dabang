@@ -4,11 +4,10 @@ import dabang.star.cafe.api.aop.CurrentMemberCheck;
 import dabang.star.cafe.api.aop.LoginCheck;
 import dabang.star.cafe.api.aop.SessionId;
 import dabang.star.cafe.api.request.CurrentMemberRequest;
-import dabang.star.cafe.api.request.MemberUpdateRequest;
-import dabang.star.cafe.domain.member.MemberData;
-import dabang.star.cafe.domain.login.MemberLoginService;
-import dabang.star.cafe.domain.member.Member;
-import dabang.star.cafe.domain.member.MemberService;
+import dabang.star.cafe.application.MemberService;
+import dabang.star.cafe.application.command.MemberUpdateCommand;
+import dabang.star.cafe.application.data.MemberData;
+import dabang.star.cafe.domain.authentication.MemberLoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -41,17 +40,17 @@ public class CurrentMemberApi {
     /**
      * 멤버 업데이트
      *
-     * @param memberUpdateRequest (password, nickname, telephone)
+     * @param memberUpdateCommand (password, nickname, telephone)
      * @param currentMemberId     현재 유저 ID: 스프링 AOP 통해 주입
      *                            완료시 HttpStatus.NO_CONTENT 반환
      */
     @CurrentMemberCheck
     @PatchMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateMember(@Valid @RequestBody MemberUpdateRequest memberUpdateRequest,
+    public void updateMember(@Valid @RequestBody MemberUpdateCommand memberUpdateCommand,
                              @SessionId Long currentMemberId) {
 
-        memberService.update(new Member(currentMemberId, memberUpdateRequest));
+        memberService.update(memberUpdateCommand, currentMemberId);
     }
 
     /**

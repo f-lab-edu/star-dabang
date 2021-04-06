@@ -1,7 +1,7 @@
 package dabang.star.cafe.api.aop;
 
-import dabang.star.cafe.api.exception.NoAuthenticationException;
-import dabang.star.cafe.api.exception.NoAuthorizationException;
+import dabang.star.cafe.application.exception.NoAuthenticationException;
+import dabang.star.cafe.application.exception.NoAuthorizationException;
 import dabang.star.cafe.domain.manager.Role;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;

@@ -1,10 +1,10 @@
 package dabang.star.cafe.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dabang.star.cafe.api.exception.NoAuthenticationException;
+import dabang.star.cafe.application.exception.NoAuthenticationException;
 import dabang.star.cafe.api.request.ManagerLoginRequest;
-import dabang.star.cafe.domain.login.ManagerLoginService;
-import dabang.star.cafe.domain.manager.ManagerData;
+import dabang.star.cafe.domain.authentication.ManagerLoginService;
+import dabang.star.cafe.application.data.ManagerData;
 import dabang.star.cafe.domain.manager.Role;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;

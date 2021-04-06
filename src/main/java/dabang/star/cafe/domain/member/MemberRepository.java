@@ -1,5 +1,7 @@
 package dabang.star.cafe.domain.member;
 
+import dabang.star.cafe.application.data.MemberData;
+
 import java.util.Optional;
 
 public interface MemberRepository {

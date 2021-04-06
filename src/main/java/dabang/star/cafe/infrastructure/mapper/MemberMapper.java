@@ -1,6 +1,6 @@
 package dabang.star.cafe.infrastructure.mapper;
 
-import dabang.star.cafe.domain.member.MemberData;
+import dabang.star.cafe.application.data.MemberData;
 import dabang.star.cafe.domain.member.Member;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

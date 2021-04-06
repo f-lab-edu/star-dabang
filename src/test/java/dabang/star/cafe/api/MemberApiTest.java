@@ -1,12 +1,11 @@
 package dabang.star.cafe.api;
 
-import dabang.star.cafe.api.exception.DuplicatedException;
-import dabang.star.cafe.api.request.MemberLoginRequest;
-import dabang.star.cafe.api.request.SignUpRequest;
-import dabang.star.cafe.domain.login.MemberLoginService;
+import dabang.star.cafe.application.exception.DuplicatedException;
+import dabang.star.cafe.application.MemberService;
+import dabang.star.cafe.application.command.SignUpCommand;
+import dabang.star.cafe.application.data.MemberData;
+import dabang.star.cafe.domain.authentication.MemberLoginService;
 import dabang.star.cafe.domain.member.Member;
-import dabang.star.cafe.domain.member.MemberData;
-import dabang.star.cafe.domain.member.MemberService;
 import io.restassured.mapper.ObjectMapperType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
@@ -54,35 +54,23 @@ class MemberApiTest {
     @Test
     void testSuccessSignUpRequest() throws Exception {
 
-        SignUpRequest signUpRequest = prepareSignUpRequest(Collections.emptyMap());
+        SignUpCommand signUpCommand = prepareSignUpCommand(Collections.emptyMap());
 
-        Member member = Member.builder()
-                .email(signUpRequest.getEmail())
-                .nickname(signUpRequest.getNickname())
-                .password(signUpRequest.getPassword())
-                .telephone(signUpRequest.getTelephone())
-                .birth(signUpRequest.getBirth())
-                .build();
+        Member member = signUpCommand.toMember("encryptPassword");
         MemberData memberData = MemberData.from(member);
 
-        when(memberService.join(
-                signUpRequest.getEmail(),
-                signUpRequest.getPassword(),
-                signUpRequest.getNickname(),
-                signUpRequest.getTelephone(),
-                signUpRequest.getBirth()
-        )).thenReturn(memberData);
+        when(memberService.join(any(SignUpCommand.class))).thenReturn(memberData);
 
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(signUpRequest, ObjectMapperType.JACKSON_2)
+                .body(signUpCommand, ObjectMapperType.JACKSON_2)
                 .when()
                 .post("/members")
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
-                .body("email", equalTo(signUpRequest.getEmail()))
-                .body("nickname", equalTo(signUpRequest.getNickname()))
+                .body("email", equalTo(signUpCommand.getEmail()))
+                .body("nickname", equalTo(signUpCommand.getNickname()))
         ;
 
     }
@@ -91,20 +79,14 @@ class MemberApiTest {
     @Test
     void duplicatedEmailCheckTest() throws Exception {
 
-        SignUpRequest signUpRequest = prepareSignUpRequest(Collections.emptyMap());
+        SignUpCommand signUpCommand = prepareSignUpCommand(Collections.emptyMap());
 
-        when(memberService.join(
-                signUpRequest.getEmail(),
-                signUpRequest.getPassword(),
-                signUpRequest.getNickname(),
-                signUpRequest.getTelephone(),
-                signUpRequest.getBirth()
-        )).thenThrow(new DuplicatedException("duplicated email"));
+        when(memberService.join(any(SignUpCommand.class))).thenThrow(new DuplicatedException("duplicated email"));
 
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(signUpRequest, ObjectMapperType.JACKSON_2)
+                .body(signUpCommand, ObjectMapperType.JACKSON_2)
                 .when()
                 .post("/members")
                 .then()
@@ -120,14 +102,14 @@ class MemberApiTest {
     @NullAndEmptySource
     void testEmailIsValid(String email) throws Exception {
 
-        SignUpRequest signUpRequest = prepareSignUpRequest(new HashMap<>() {{
+        SignUpCommand signUpCommand = prepareSignUpCommand(new HashMap<>() {{
             put("email", email);
         }});
 
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(signUpRequest, ObjectMapperType.JACKSON_2)
+                .body(signUpCommand, ObjectMapperType.JACKSON_2)
                 .when()
                 .post("/members")
                 .then()
@@ -143,14 +125,14 @@ class MemberApiTest {
     @NullAndEmptySource
     void testPasswordIsValid(String password) throws Exception {
 
-        SignUpRequest signUpRequest = prepareSignUpRequest(new HashMap<>() {{
+        SignUpCommand signUpCommand = prepareSignUpCommand(new HashMap<>() {{
             put("password", password);
         }});
 
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(signUpRequest, ObjectMapperType.JACKSON_2)
+                .body(signUpCommand, ObjectMapperType.JACKSON_2)
                 .when()
                 .post("/members")
                 .then()
@@ -166,14 +148,14 @@ class MemberApiTest {
     @NullAndEmptySource
     void testNicknameIsValid(String nickname) throws Exception {
 
-        SignUpRequest signUpRequest = prepareSignUpRequest(new HashMap<>() {{
+        SignUpCommand signUpCommand = prepareSignUpCommand(new HashMap<>() {{
             put("nickname", nickname);
         }});
 
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(signUpRequest, ObjectMapperType.JACKSON_2)
+                .body(signUpCommand, ObjectMapperType.JACKSON_2)
                 .when()
                 .post("/members")
                 .then()
@@ -189,14 +171,14 @@ class MemberApiTest {
     @NullAndEmptySource
     void testTelephoneIsValid(String telephone) throws Exception {
 
-        SignUpRequest signUpRequest = prepareSignUpRequest(new HashMap<>() {{
+        SignUpCommand signUpCommand = prepareSignUpCommand(new HashMap<>() {{
             put("telephone", telephone);
         }});
 
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(signUpRequest, ObjectMapperType.JACKSON_2)
+                .body(signUpCommand, ObjectMapperType.JACKSON_2)
                 .when()
                 .post("/members")
                 .then()
@@ -212,14 +194,14 @@ class MemberApiTest {
     @NullAndEmptySource
     void testBirthIsValid(String birthday) throws Exception {
 
-        SignUpRequest signUpRequest = prepareSignUpRequest(new HashMap<>() {{
+        SignUpCommand signUpCommand = prepareSignUpCommand(new HashMap<>() {{
             put("birth", birthday);
         }});
 
         RestAssuredMockMvc
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(signUpRequest, ObjectMapperType.JACKSON_2)
+                .body(signUpCommand, ObjectMapperType.JACKSON_2)
                 .when()
                 .post("/members")
                 .then()
@@ -229,20 +211,14 @@ class MemberApiTest {
         ;
     }
 
-    private SignUpRequest prepareSignUpRequest(final Map<String, String> info) {
+    private SignUpCommand prepareSignUpCommand(final Map<String, String> info) {
         String email = info.getOrDefault("email", "test@test.com");
         String password = info.getOrDefault("password", "testpassword");
         String nickname = info.getOrDefault("nickname", "테스트닉");
         String telephone = info.getOrDefault("telephone", "01012345678");
         String birth = info.getOrDefault("birth", LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE));
 
-        return new SignUpRequest(email, password, nickname, telephone, birth);
+        return new SignUpCommand(email, password, nickname, telephone, birth);
     }
 
-    private MemberLoginRequest prepareMemberLoginRequest(final Map<String, String> info) {
-        String email = info.getOrDefault("email", "test@test.com");
-        String password = info.getOrDefault("password", "testpassword");
-
-        return new MemberLoginRequest(email, password);
-    }
 }

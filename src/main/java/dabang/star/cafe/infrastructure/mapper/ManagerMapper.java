@@ -1,7 +1,7 @@
 package dabang.star.cafe.infrastructure.mapper;
 
 import dabang.star.cafe.domain.manager.Manager;
-import dabang.star.cafe.domain.manager.ManagerData;
+import dabang.star.cafe.application.data.ManagerData;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

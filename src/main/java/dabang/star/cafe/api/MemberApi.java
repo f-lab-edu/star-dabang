@@ -1,10 +1,10 @@
 package dabang.star.cafe.api;
 
 import dabang.star.cafe.api.request.MemberLoginRequest;
-import dabang.star.cafe.api.request.SignUpRequest;
-import dabang.star.cafe.domain.login.MemberLoginService;
-import dabang.star.cafe.domain.member.MemberData;
-import dabang.star.cafe.domain.member.MemberService;
+import dabang.star.cafe.application.MemberService;
+import dabang.star.cafe.application.command.SignUpCommand;
+import dabang.star.cafe.application.data.MemberData;
+import dabang.star.cafe.domain.authentication.MemberLoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,19 +22,13 @@ public class MemberApi {
     /**
      * 멤버 회원가입
      *
-     * @param signUpRequest (email, password, nickname, telephone, birth)
+     * @param signUpCommand (email, password, nickname, telephone, birth)
      * @return 멤버 회원가입 완료시 HttpStatus.Ok (MemberData) 반환
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MemberData signUpMember(@Valid @RequestBody SignUpRequest signUpRequest) {
-        return memberService.join(
-                signUpRequest.getEmail(),
-                signUpRequest.getPassword(),
-                signUpRequest.getNickname(),
-                signUpRequest.getTelephone(),
-                signUpRequest.getBirth()
-        );
+    public MemberData signUpMember(@Valid @RequestBody SignUpCommand signUpCommand) {
+        return memberService.join(signUpCommand);
     }
 
     /**
