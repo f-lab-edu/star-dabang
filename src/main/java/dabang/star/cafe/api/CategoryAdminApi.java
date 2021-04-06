@@ -75,7 +75,9 @@ public class CategoryAdminApi {
     }
 
     /**
+     * Admin이 카테고리를 삭제
      *
+     * @param categoryId
      */
     @LoginCheck(role = Role.ADMIN)
     @DeleteMapping("/{categoryId}")
