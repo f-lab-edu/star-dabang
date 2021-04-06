@@ -6,6 +6,8 @@ import dabang.star.cafe.infrastructure.mapper.CategoryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Repository
 public class MybatisCategoryRepository implements CategoryRepository {
@@ -31,4 +33,9 @@ public class MybatisCategoryRepository implements CategoryRepository {
         return categoryMapper.exists(name);
     }
 
+    @Override
+    public Optional<Category> findById(int id) {
+
+        return categoryMapper.getById(id);
+    }
 }

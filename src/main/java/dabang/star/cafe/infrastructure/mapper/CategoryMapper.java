@@ -12,4 +12,6 @@ public interface CategoryMapper {
 
     boolean exists(String name);
 
+    Optional<Category> getById(int id);
+
 }

@@ -3,6 +3,7 @@ package dabang.star.cafe.api;
 import dabang.star.cafe.api.aop.LoginCheck;
 import dabang.star.cafe.application.CategoryAdminService;
 import dabang.star.cafe.application.command.CategoryCreateCommand;
+import dabang.star.cafe.application.command.CategoryUpdateCommand;
 import dabang.star.cafe.application.data.CategoryData;
 import dabang.star.cafe.application.data.EnumData;
 import dabang.star.cafe.domain.manager.Role;
@@ -44,6 +45,18 @@ public class CategoryAdminApi {
     public CategoryData createCategory(@Valid @RequestBody CategoryCreateCommand categoryCreateCommand) {
 
         return categoryAdminService.createCategory(categoryCreateCommand);
+    }
+
+    /**
+     * Admin이 카테고리의 이름과 유형을 수정
+     *
+     * @param categoryUpdateCommand (id, name, categoryType)
+     */
+    @LoginCheck(role = Role.ADMIN)
+    @PatchMapping
+    public void updateCategory(@Valid @RequestBody CategoryUpdateCommand categoryUpdateCommand) {
+
+        categoryAdminService.updateCategory(categoryUpdateCommand);
     }
 
 }
