@@ -6,14 +6,14 @@ import dabang.star.cafe.application.exception.NoAuthorizationException;
 import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@Slf4j
+@Log4j2
 @RestControllerAdvice
 public class CustomExceptionHandler {
 
