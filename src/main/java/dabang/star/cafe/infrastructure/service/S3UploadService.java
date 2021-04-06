@@ -42,7 +42,7 @@ public class S3UploadService implements UploadService {
                 .withCannedAcl(CannedAccessControlList.PublicRead)
         );
 
-        log.info(uploadFile.delete() ? "파일이 삭제되었습니다." : "파일이 삭제되지 않았습니다.");
+        log.debug(uploadFile.delete() ? "파일이 삭제되었습니다." : "파일이 삭제되지 않았습니다.");
 
         return s3Client.getUrl(bucket, fileName).toString();
     }
