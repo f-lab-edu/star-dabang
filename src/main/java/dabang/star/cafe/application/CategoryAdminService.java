@@ -49,10 +49,10 @@ public class CategoryAdminService {
     public void updateCategory(CategoryUpdateCommand categoryUpdateCommand) {
 
         categoryRepository.findById(categoryUpdateCommand.getId()).orElseThrow(
-                () -> new ResourceNotFoundException("category not found")
+                () -> new ResourceNotFoundException("category not found by id : " + categoryUpdateCommand.getId())
         );
 
         categoryRepository.save(categoryUpdateCommand.toCategory());
     }
-    
+
 }
