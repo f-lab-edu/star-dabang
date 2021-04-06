@@ -1,13 +1,16 @@
 package dabang.star.cafe.application;
 
 import dabang.star.cafe.application.command.CategoryCreateCommand;
+import dabang.star.cafe.application.command.CategoryUpdateCommand;
 import dabang.star.cafe.application.data.CategoryData;
 import dabang.star.cafe.application.data.EnumData;
 import dabang.star.cafe.application.exception.DuplicatedException;
+import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.category.Category;
 import dabang.star.cafe.domain.category.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,4 +45,14 @@ public class CategoryAdminService {
         }
     }
 
+    @Transactional
+    public void updateCategory(CategoryUpdateCommand categoryUpdateCommand) {
+
+        categoryRepository.findById(categoryUpdateCommand.getId()).orElseThrow(
+                () -> new ResourceNotFoundException("category not found")
+        );
+
+        categoryRepository.save(categoryUpdateCommand.toCategory());
+    }
+    
 }
