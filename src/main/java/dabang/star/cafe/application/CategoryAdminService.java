@@ -59,12 +59,7 @@ public class CategoryAdminService {
 
     public Page<CategoryData> getCategories(Pagination pagination) {
 
-        Page<CategoryData> categories = categoryRepository.findAll(pagination);
-        if (categories.getContent().size() == 0) {
-            throw new ResourceNotFoundException("No Categories were found");
-        }
-
-        return categories;
+        return categoryRepository.findAll(pagination);
     }
 
     public void deleteCategory(int categoryId) {
