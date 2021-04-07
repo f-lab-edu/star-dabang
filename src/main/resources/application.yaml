@@ -7,6 +7,7 @@ spring:
   config:
     activate:
       on-profile: dev
+    import: optional:aws.yaml
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -22,6 +23,11 @@ spring:
     redis:
       namespace: star_dabang:session
 
+cloud:
+  aws:
+    s3:
+      bucket: star-dabang
+
   redis:
     host: localhost
     #    host: 172.18.0.2
@@ -36,11 +42,17 @@ spring:
   config:
     activate:
       on-profile: test
+    import: optional:aws.yaml
 
   session:
     store-type: redis
     redis:
       namespace: star_dabang:session
+
+cloud:
+  aws:
+    s3:
+      bucket: star-dabang
 
 
 mybatis:
