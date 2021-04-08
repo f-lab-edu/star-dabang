@@ -7,6 +7,7 @@ import dabang.star.cafe.application.exception.DuplicatedException;
 import dabang.star.cafe.domain.category.Category;
 import dabang.star.cafe.domain.category.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,19 +28,15 @@ public class CategoryAdminService {
 
     public CategoryData createCategory(CategoryCreateCommand categoryCreateCommand) {
 
-        checkDuplicatedEmail(categoryCreateCommand.getName());
-
         Category category = categoryCreateCommand.toCategory();
-        categoryRepository.save(category);
+
+        try {
+            categoryRepository.save(category);
+        } catch (DuplicateKeyException e) {
+            throw new DuplicatedException(e.getCause().getMessage());
+        }
 
         return CategoryData.from(category);
-    }
-
-    private void checkDuplicatedEmail(String name) {
-
-        if (categoryRepository.existsByName(name)) {
-            throw new DuplicatedException("duplicated category name");
-        }
     }
 
 }
