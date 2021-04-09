@@ -2,12 +2,14 @@ package dabang.star.cafe.application;
 
 import dabang.star.cafe.application.command.OptionCreateCommand;
 import dabang.star.cafe.application.command.OptionUpdateCommand;
+import dabang.star.cafe.application.exception.DuplicatedException;
 import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.domain.option.OptionRepository;
 import dabang.star.cafe.utils.page.Page;
 import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,50 +23,35 @@ public class OptionAdminService {
     public Option createOption(OptionCreateCommand optionCreateCommand) {
 
         Option option = optionCreateCommand.toOption();
-        optionRepository.save(option);
+
+        try {
+            optionRepository.save(option);
+        } catch (DuplicateKeyException e) {
+            throw new DuplicatedException(e.getCause().getMessage());
+        }
 
         return option;
     }
 
     public Page<Option> getAllOption(Pagination pagination) {
-
-        Page<Option> optionPage = optionRepository.findAll(pagination);
-        verifyExistsOption(optionPage.getContent());
-
-        return optionPage;
-    }
-
-    private void verifyExistsOption(List<Option> options) {
-
-        if (options.size() == 0) {
-            throw new ResourceNotFoundException("No options were found");
-        }
+        return optionRepository.findAll(pagination);
     }
 
     public List<Option> getOptionByName(String optionName) {
-
-        List<Option> options = optionRepository.findByName(optionName);
-        verifyExistsOption(options);
-
-        return options;
+        return optionRepository.findByName(optionName);
     }
 
     public void updateOption(OptionUpdateCommand optionUpdateCommand) {
 
-        loadById(optionUpdateCommand.getId());
-
-        Option option = optionUpdateCommand.toOption();
-        optionRepository.save(option);
+        if (optionRepository.existsById(optionUpdateCommand.getId())) {
+            Option option = optionUpdateCommand.toOption();
+            optionRepository.save(option);
+        } else {
+            throw new ResourceNotFoundException("option not found by id: " + optionUpdateCommand.getId());
+        }
     }
 
-    private Option loadById(int optionId) {
-
-        return optionRepository.findById(optionId).orElseThrow(
-                () -> new ResourceNotFoundException("option not found by id : " + optionId)
-        );
-    }
-
-    public void deleteOption(int optionId) {
+    public void deleteOption(long optionId) {
 
         if (optionRepository.deleteById(optionId) == 0) {
             throw new ResourceNotFoundException("option not found by id : " + optionId);
