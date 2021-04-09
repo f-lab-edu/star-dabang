@@ -1,26 +1,21 @@
 package dabang.star.cafe.domain.category;
 
-import dabang.star.cafe.domain.common.EnumModel;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
 
-public enum CategoryType implements EnumModel {
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+@Getter
+public enum CategoryType {
 
     DRINK("음료"),
     FOOD("음식");
 
+    private String key;
     private String value;
 
     CategoryType(String value) {
+        this.key = name();
         this.value = value;
-    }
-
-    @Override
-    public String getKey() {
-        return name();
-    }
-
-    @Override
-    public String getValue() {
-        return value;
     }
 
 }

@@ -20,10 +20,6 @@
         where category_id=#{id}
     </update>
 
-    <select id="exists" resultType="boolean">
-        SELECT EXISTS(SELECT pc.category_id FROM product_category pc WHERE pc.category_name = #{name})
-    </select>
-
     <select id="getById" resultType="Category">
         SELECT pc.category_id, pc.category_name, pc.category_type
         FROM product_category pc

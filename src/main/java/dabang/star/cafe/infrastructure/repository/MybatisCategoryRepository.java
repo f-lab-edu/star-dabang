@@ -28,14 +28,9 @@ public class MybatisCategoryRepository implements CategoryRepository {
     }
 
     @Override
-    public boolean existsByName(String name) {
-
-        return categoryMapper.exists(name);
-    }
-
-    @Override
     public Optional<Category> findById(int id) {
 
         return categoryMapper.getById(id);
     }
+
 }
