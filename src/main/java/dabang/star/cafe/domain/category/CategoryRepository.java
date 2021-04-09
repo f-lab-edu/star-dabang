@@ -4,6 +4,4 @@ public interface CategoryRepository {
 
     Integer save(Category category);
 
-    boolean existsByName(String name);
-
 }
