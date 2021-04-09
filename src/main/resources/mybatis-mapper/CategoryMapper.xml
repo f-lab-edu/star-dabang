@@ -20,8 +20,4 @@
         where category_id=#{id}
     </update>
 
-    <select id="exists" resultType="boolean">
-        SELECT EXISTS(SELECT pc.category_id FROM product_category pc WHERE pc.category_name = #{name})
-    </select>
-
 </mapper>
