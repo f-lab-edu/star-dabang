@@ -13,7 +13,7 @@ public class CategoryData {
 
     private String name;
 
-    private CategoryType ctegoryType;
+    private CategoryType categoryType;
 
     public static CategoryData from(Category category) {
 

@@ -14,8 +14,6 @@ public interface CategoryMapper {
 
     void update(Category category);
 
-    boolean exists(String name);
-
     Optional<Category> getById(int id);
 
     List<CategoryData> selectAll(int limit, int offset);

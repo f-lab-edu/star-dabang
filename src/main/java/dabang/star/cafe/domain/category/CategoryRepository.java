@@ -10,8 +10,6 @@ public interface CategoryRepository {
 
     Integer save(Category category);
 
-    boolean existsByName(String name);
-
     Optional<Category> findById(int id);
 
     Page<CategoryData> findAll(Pagination pagination);
