@@ -26,4 +26,27 @@
         WHERE pc.category_id = #{id}
     </select>
 
+    <select id="selectAll" resultType="CategoryData">
+        SELECT pc.*
+        FROM (
+                 SELECT category_id   AS id,
+                        category_name AS name,
+                        category_type AS categoryType
+                 FROM product_category
+                 ORDER BY category_id
+             ) pc
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="getAllCount" resultType="int">
+        SELECT COUNT(*)
+        FROM product_category
+    </select>
+
+    <delete id="removeById">
+        DELETE
+        FROM product_category
+        WHERE category_id = #{id}
+    </delete>
+
 </mapper>

@@ -7,6 +7,8 @@ import dabang.star.cafe.application.command.CategoryUpdateCommand;
 import dabang.star.cafe.application.data.CategoryData;
 import dabang.star.cafe.domain.category.CategoryType;
 import dabang.star.cafe.domain.manager.Role;
+import dabang.star.cafe.utils.page.Page;
+import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +58,31 @@ public class CategoryAdminApi {
     public void updateCategory(@Valid @RequestBody CategoryUpdateCommand categoryUpdateCommand) {
 
         categoryAdminService.updateCategory(categoryUpdateCommand);
+    }
+
+    /**
+     * Admin이 카테고리 목록을 관리하기 위해 페이징으로 조회
+     *
+     * @param pagination (page, size)
+     * @return 조회 완료시 HttpStatus.Ok (Page<CategoryData>) 반환
+     */
+    @LoginCheck(role = Role.ADMIN)
+    @GetMapping
+    public Page<CategoryData> getCategories(Pagination pagination) {
+
+        return categoryAdminService.getCategories(pagination);
+    }
+
+    /**
+     * Admin이 카테고리를 삭제
+     *
+     * @param categoryId
+     */
+    @LoginCheck(role = Role.ADMIN)
+    @DeleteMapping("/{categoryId}")
+    public void deleteCategory(@PathVariable int categoryId) {
+
+        categoryAdminService.deleteCategory(categoryId);
     }
 
 }
