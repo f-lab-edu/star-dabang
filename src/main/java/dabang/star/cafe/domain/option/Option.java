@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Option {
 
-    private Integer id;
+    private Long id;
 
     private String name;
 

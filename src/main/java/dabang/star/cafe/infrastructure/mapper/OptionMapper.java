@@ -20,8 +20,9 @@ public interface OptionMapper {
 
     List<Option> selectByName(String name);
 
-    Optional<Option> getById(@Param("id") int id);
+    Optional<Option> getById(@Param("id") long id);
 
-    int removeById(@Param("id") int id);
+    int removeById(@Param("id") long id);
 
+    boolean containsKey(@Param("id") long id);
 }
