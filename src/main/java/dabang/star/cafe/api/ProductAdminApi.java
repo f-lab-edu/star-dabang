@@ -18,10 +18,10 @@ public class ProductAdminApi {
     private final ProductAdminService productAdminService;
 
     /**
-     * Admin은 상품 이미지를 업로드 한다
+     * 상품 이미지 업로드
      *
      * @param file (상품 이미지 파일)
-     * @return 이미지 파일 저장 경로
+     * @return 업로드 성공시 HttpStatus.Ok (이미지 파일 저장 경로) 반환
      */
     @LoginCheck(role = Role.ADMIN)
     @PostMapping("/images")
