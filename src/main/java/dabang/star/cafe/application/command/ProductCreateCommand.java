@@ -7,10 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,10 +23,12 @@ public class ProductCreateCommand {
 
     @NotNull(message = "blank category id")
     @Positive(message = "not valid category id")
+    @Max(value = 65535)
     private Integer categoryId;
 
     @NotNull(message = "blank price")
     @PositiveOrZero(message = "not valid price")
+    @Max(value = 65535)
     private Integer price;
 
     @NotNull(message = "blank description")
