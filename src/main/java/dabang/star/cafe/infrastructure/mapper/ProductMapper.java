@@ -8,4 +8,5 @@ public interface ProductMapper {
 
     void insert(Product product);
 
+    long removeById(long id);
 }

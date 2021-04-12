@@ -75,4 +75,10 @@ public class ProductAdminService {
         return product;
     }
 
+    public void deleteProduct(long productId) {
+        if (productRepository.deleteById(productId) == 0) {
+            throw new ResourceNotFoundException("product id does not exist : " + productId);
+        }
+    }
+
 }

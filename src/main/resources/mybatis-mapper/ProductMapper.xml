@@ -7,4 +7,10 @@
         VALUES (#{name}, #{categoryId}, #{price}, #{description}, #{image}, #{isActive}, #{createAt});
     </insert>
 
+    <delete id="removeById">
+        DELETE
+        FROM product
+        WHERE product_id = #{id}
+    </delete>
+
 </mapper>

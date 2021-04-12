@@ -44,4 +44,15 @@ public class ProductAdminApi {
         return productAdminService.createProduct(productCreateCommand);
     }
 
+    /**
+     * 상품을 포함하여 관련 옵션 설정까지 삭제
+     *
+     * @param productId (삭제할 상품 id)
+     */
+    @LoginCheck(role = Role.ADMIN)
+    @DeleteMapping("/{productId}")
+    public void deleteProduct(@PathVariable long productId) {
+        productAdminService.deleteProduct(productId);
+    }
+
 }
