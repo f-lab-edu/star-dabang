@@ -35,9 +35,6 @@
     </select>
 
     <resultMap id="productResult" type="ProductData">
-        <!--        <constructor>-->
-        <!--            <idArg column="product_id" javaType="long"/>-->
-        <!--        </constructor>-->
         <result property="id" column="product_id"/>
         <result property="name" column="product_name"/>
         <result property="categoryId" column="categoryId"/>
@@ -49,7 +46,8 @@
     </resultMap>
 
     <select id="getProductOptionById" resultType="ProductOptionData">
-        SELECT po.option_id    AS optionId,
+        SELECT po.product_id   AS productId,
+               po.option_id    AS optionId,
                po.quantity     AS quantity,
                ao.option_name  AS optionName,
                ao.max_quantity AS maxQuantity,

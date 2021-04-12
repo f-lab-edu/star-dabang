@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProductOptionData {
 
+    private Long productId;
+
     private Long optionId;
 
     private String optionName;
