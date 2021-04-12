@@ -1,6 +1,7 @@
 package dabang.star.cafe.application;
 
 import dabang.star.cafe.application.command.ProductCreateCommand;
+import dabang.star.cafe.application.exception.DuplicatedException;
 import dabang.star.cafe.application.exception.FileUploadException;
 import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.category.CategoryRepository;
@@ -11,6 +12,7 @@ import dabang.star.cafe.domain.product.ProductOption;
 import dabang.star.cafe.domain.product.ProductRepository;
 import dabang.star.cafe.domain.service.UploadService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -71,7 +73,12 @@ public class ProductAdminService {
             }
         }
 
-        productRepository.save(product);
+        try {
+            productRepository.save(product);
+        } catch (DuplicateKeyException e) {
+            throw new DuplicatedException(e.getCause().getMessage());
+        }
+
         return product;
     }
 
