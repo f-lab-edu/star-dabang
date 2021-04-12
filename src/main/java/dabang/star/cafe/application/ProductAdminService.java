@@ -12,7 +12,6 @@ import dabang.star.cafe.domain.product.ProductRepository;
 import dabang.star.cafe.domain.service.UploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ValidationException;
@@ -51,7 +50,6 @@ public class ProductAdminService {
         throw new ValidationException("upload file extension is not " + Arrays.toString(EXTENSIONS));
     }
 
-    @Transactional
     public Product createProduct(ProductCreateCommand productCreateCommand) {
         Product product = productCreateCommand.toProduct();
 
