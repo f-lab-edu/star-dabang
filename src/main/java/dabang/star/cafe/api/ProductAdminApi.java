@@ -3,8 +3,11 @@ package dabang.star.cafe.api;
 import dabang.star.cafe.api.aop.LoginCheck;
 import dabang.star.cafe.application.ProductAdminService;
 import dabang.star.cafe.application.command.ProductCreateCommand;
+import dabang.star.cafe.application.data.ProductData;
 import dabang.star.cafe.domain.manager.Role;
 import dabang.star.cafe.domain.product.Product;
+import dabang.star.cafe.utils.page.Page;
+import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +56,18 @@ public class ProductAdminApi {
     @DeleteMapping("/{productId}")
     public void deleteProduct(@PathVariable long productId) {
         productAdminService.deleteProduct(productId);
+    }
+
+    /**
+     * 상품을 관리하기 위해 상품 리스트를 모두 조회
+     *
+     * @param pagination (page, size)
+     * @return 조회 완료시 HttpStatus.OK (Page<ProductData>) 반환
+     */
+    @LoginCheck(role = Role.ADMIN)
+    @GetMapping
+    public Page<ProductData> getAllOption(Pagination pagination) {
+        return productAdminService.getAllProduct(pagination);
     }
 
 }

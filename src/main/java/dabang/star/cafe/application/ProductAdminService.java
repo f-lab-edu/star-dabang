@@ -1,6 +1,7 @@
 package dabang.star.cafe.application;
 
 import dabang.star.cafe.application.command.ProductCreateCommand;
+import dabang.star.cafe.application.data.ProductData;
 import dabang.star.cafe.application.exception.FileUploadException;
 import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.category.CategoryRepository;
@@ -10,6 +11,8 @@ import dabang.star.cafe.domain.product.Product;
 import dabang.star.cafe.domain.product.ProductOption;
 import dabang.star.cafe.domain.product.ProductRepository;
 import dabang.star.cafe.domain.service.UploadService;
+import dabang.star.cafe.utils.page.Page;
+import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -81,4 +84,7 @@ public class ProductAdminService {
         }
     }
 
+    public Page<ProductData> getAllProduct(Pagination pagination) {
+        return productRepository.findAll(pagination);
+    }
 }
