@@ -2,13 +2,15 @@ package dabang.star.cafe.api;
 
 import dabang.star.cafe.api.aop.LoginCheck;
 import dabang.star.cafe.application.ProductAdminService;
+import dabang.star.cafe.application.command.ProductCreateCommand;
 import dabang.star.cafe.domain.manager.Role;
+import dabang.star.cafe.domain.product.Product;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,6 +29,19 @@ public class ProductAdminApi {
     @PostMapping("/images")
     public String uploadProductImage(@RequestParam MultipartFile file) {
         return productAdminService.uploadProductImage(file);
+    }
+
+    /**
+     * 상품 등록
+     *
+     * @param productCreateCommand (name, categoryId, price, description, image, options)
+     * @return 상품 등록 완료시 HttpStatus.CREATED (Product) 반환
+     */
+    @LoginCheck(role = Role.ADMIN)
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    public Product createProduct(@Valid @RequestBody ProductCreateCommand productCreateCommand) {
+        return productAdminService.createProduct(productCreateCommand);
     }
 
 }
