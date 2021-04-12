@@ -25,7 +25,7 @@ public class MybatisProductRepository implements ProductRepository {
             productMapper.insert(product);
 
             List<ProductOption> options = product.getOptions();
-            if (options != null && options.size() != 0) {
+            if (options.size() != 0) {
                 options.forEach(option -> option.setProductId(product.getId()));
                 productOptionMapper.insertList(product.getOptions());
             }

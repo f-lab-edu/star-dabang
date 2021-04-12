@@ -59,17 +59,15 @@ public class ProductAdminService {
         );
 
         List<ProductOption> options = product.getOptions();
-        if (options != null && options.size() != 0) {
-            for (ProductOption option : options) {
-                Long optionId = option.getOptionId();
-                Option findOption = optionRepository.findById(optionId).orElseThrow(
-                        () -> new ResourceNotFoundException("option id does not exist : " + optionId)
-                );
+        for (ProductOption option : options) {
+            Long optionId = option.getOptionId();
+            Option findOption = optionRepository.findById(optionId).orElseThrow(
+                    () -> new ResourceNotFoundException("option id does not exist : " + optionId)
+            );
 
-                int quantity = option.getQuantity();
-                if (quantity > findOption.getMaxQuantity()) {
-                    throw new ValidationException("quantity exceeded maximum amount of option id : " + optionId);
-                }
+            int quantity = option.getQuantity();
+            if (quantity > findOption.getMaxQuantity()) {
+                throw new ValidationException("quantity exceeded maximum amount of option id : " + optionId);
             }
         }
 
