@@ -1,12 +1,13 @@
 package dabang.star.cafe.application.data;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProductData {
 
     private Long id;
