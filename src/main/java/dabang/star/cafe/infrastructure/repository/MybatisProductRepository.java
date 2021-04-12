@@ -32,10 +32,8 @@ public class MybatisProductRepository implements ProductRepository {
         }
     }
 
-    @Transactional
     @Override
     public long deleteById(long productId) {
-        productOptionMapper.removeByProductId(productId);
         return productMapper.removeById(productId);
     }
 

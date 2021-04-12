@@ -10,10 +10,4 @@
         </foreach>
     </insert>
 
-    <delete id="removeByProductId">
-        DELETE
-        FROM product_option
-        WHERE product_id = #{productId}
-    </delete>
-
 </mapper>

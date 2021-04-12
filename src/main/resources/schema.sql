@@ -24,21 +24,21 @@ CREATE TABLE member
 CREATE TABLE office
 (
     office_id   MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    office_name VARCHAR(50)     NOT NULL,
-    address     VARCHAR(255)    NOT NULL,
-    latitude    DECIMAL(16, 14) NOT NULL,
-    longitude   DECIMAL(17, 14) NOT NULL,
+    office_name VARCHAR(50)        NOT NULL,
+    address     VARCHAR(255)       NOT NULL,
+    latitude    DECIMAL(16, 14)    NOT NULL,
+    longitude   DECIMAL(17, 14)    NOT NULL,
 
     PRIMARY KEY (office_id)
 );
 
 CREATE TABLE manager
 (
-    manager_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    manager_id INT UNSIGNED       NOT NULL AUTO_INCREMENT,
     office_id  MEDIUMINT UNSIGNED NOT NULL,
-    name       VARCHAR(20)  NOT NULL,
-    passwd     VARCHAR(255) NOT NULL,
-    role       VARCHAR(10)  NOT NULL,
+    name       VARCHAR(20)        NOT NULL,
+    passwd     VARCHAR(255)       NOT NULL,
+    role       VARCHAR(10)        NOT NULL,
 
     PRIMARY KEY (manager_id),
     FOREIGN KEY (office_id) REFERENCES office (office_id)
@@ -47,31 +47,31 @@ CREATE TABLE manager
 CREATE TABLE product_category
 (
     category_id   MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    category_name VARCHAR(20) NOT NULL UNIQUE,
-    category_type VARCHAR(10) NOT NULL,
+    category_name VARCHAR(20)        NOT NULL UNIQUE,
+    category_type VARCHAR(10)        NOT NULL,
 
     PRIMARY KEY (category_id)
 );
 
 CREATE TABLE additional_option
 (
-    option_id    INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    option_name  VARCHAR(10) NOT NULL UNIQUE,
+    option_id    INT UNSIGNED      NOT NULL AUTO_INCREMENT,
+    option_name  VARCHAR(10)       NOT NULL UNIQUE,
     option_price SMALLINT UNSIGNED NOT NULL,
-    max_quantity TINYINT UNSIGNED NOT NULL,
+    max_quantity TINYINT UNSIGNED  NOT NULL,
 
     PRIMARY KEY (option_id)
 );
 
 CREATE TABLE product
 (
-    product_id   INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    product_name VARCHAR(20)  NOT NULL UNIQUE,
+    product_id   INT UNSIGNED       NOT NULL AUTO_INCREMENT,
+    product_name VARCHAR(20)        NOT NULL UNIQUE,
     category_id  MEDIUMINT UNSIGNED NOT NULL,
     price        MEDIUMINT UNSIGNED NOT NULL,
-    description  VARCHAR(255) NOT NULL,
-    image        VARCHAR(255) NOT NULL,
-    is_active    BOOLEAN      NOT NULL,
+    description  VARCHAR(255)       NOT NULL,
+    image        VARCHAR(255)       NOT NULL,
+    is_active    BOOLEAN            NOT NULL,
     created_at   DATE,
 
     PRIMARY KEY (product_id),
@@ -80,20 +80,20 @@ CREATE TABLE product
 
 CREATE TABLE product_option
 (
-    product_id INT UNSIGNED NOT NULL,
-    option_id  INT UNSIGNED NOT NULL,
+    product_id INT UNSIGNED     NOT NULL,
+    option_id  INT UNSIGNED     NOT NULL,
     quantity   TINYINT UNSIGNED NOT NULL,
 
     PRIMARY KEY (product_id, option_id),
-    FOREIGN KEY (option_id) REFERENCES additional_option (option_id),
-    FOREIGN KEY (product_id) REFERENCES product (product_id)
+    FOREIGN KEY (option_id) REFERENCES additional_option (option_id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES product (product_id) ON DELETE CASCADE
 );
 
 CREATE TABLE office_stock
 (
     office_id   MEDIUMINT UNSIGNED NOT NULL,
-    product_id  INT UNSIGNED NOT NULL,
-    stock_value SMALLINT UNSIGNED NOT NULL,
+    product_id  INT UNSIGNED       NOT NULL,
+    stock_value SMALLINT UNSIGNED  NOT NULL,
 
     PRIMARY KEY (office_id, product_id),
     FOREIGN KEY (office_id) REFERENCES office (office_id),
@@ -102,11 +102,11 @@ CREATE TABLE office_stock
 
 CREATE TABLE my_menu
 (
-    my_menu_id   BIGINT      NOT NULL AUTO_INCREMENT,
-    my_menu_name VARCHAR(10) NOT NULL,
+    my_menu_id   BIGINT       NOT NULL AUTO_INCREMENT,
+    my_menu_name VARCHAR(10)  NOT NULL,
     product_id   INT UNSIGNED NOT NULL,
-    member_id    BIGINT      NOT NULL,
-    option_info  JSON        NOT NULL,
+    member_id    BIGINT       NOT NULL,
+    option_info  JSON         NOT NULL,
 
     PRIMARY KEY (my_menu_id),
     FOREIGN KEY (member_id) REFERENCES member (member_id),
