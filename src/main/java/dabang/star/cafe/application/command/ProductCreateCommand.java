@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,17 +40,13 @@ public class ProductCreateCommand {
     private String image;
 
     // FOOD 같은 경우는 옵션이 존재하지 않을 수 있다.
-    private List<ProductOptionCommand> options;
+    private final List<ProductOptionCommand> options = new ArrayList<>();
 
     public Product toProduct() {
 
-        // product에 대한 option을 설정하였을 경우에만 값을 설정한다.
-        List<ProductOption> options = null;
-        if (this.options != null) {
-            options = this.options.stream()
-                    .map(ProductOptionCommand::toProductOption)
-                    .collect(Collectors.toList());
-        }
+        List<ProductOption> options = this.options.stream()
+                .map(ProductOptionCommand::toProductOption)
+                .collect(Collectors.toList());
 
         return Product.builder()
                 .name(name)
