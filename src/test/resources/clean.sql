@@ -1,10 +1,9 @@
 DELETE FROM my_menu;
 DELETE FROM office_stock;
-DELETE FROM product;
 DELETE FROM product_option;
+DELETE FROM product;
 DELETE FROM additional_option;
 DELETE FROM product_category;
-DELETE FROM product_type;
 DELETE FROM manager;
 DELETE FROM office;
-DELETE FROM members;
+DELETE FROM member;

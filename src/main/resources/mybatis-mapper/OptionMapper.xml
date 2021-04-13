@@ -59,4 +59,8 @@
         WHERE option_id = #{id}
     </delete>
 
+    <select id="containsKey" resultType="boolean">
+        SELECT EXISTS(SELECT o.option_id FROM additional_option o WHERE o.option_id = #{id})
+    </select>
+
 </mapper>

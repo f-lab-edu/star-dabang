@@ -1,15 +1,14 @@
 DROP TABLE IF EXISTS my_menu;
 DROP TABLE IF EXISTS office_stock;
-DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS product_option;
+DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS additional_option;
 DROP TABLE IF EXISTS product_category;
-DROP TABLE IF EXISTS product_type;
 DROP TABLE IF EXISTS manager;
 DROP TABLE IF EXISTS office;
-DROP TABLE IF EXISTS members;
+DROP TABLE IF EXISTS member;
 
-CREATE TABLE members
+CREATE TABLE member
 (
     member_id BIGINT       NOT NULL AUTO_INCREMENT,
     passwd    VARCHAR(255) NOT NULL,
@@ -24,7 +23,7 @@ CREATE TABLE members
 
 CREATE TABLE office
 (
-    office_id   INT             NOT NULL AUTO_INCREMENT,
+    office_id   MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
     office_name VARCHAR(50)     NOT NULL,
     address     VARCHAR(255)    NOT NULL,
     latitude    DECIMAL(16, 14) NOT NULL,
@@ -35,8 +34,8 @@ CREATE TABLE office
 
 CREATE TABLE manager
 (
-    manager_id BIGINT       NOT NULL AUTO_INCREMENT,
-    office_id  INT          NOT NULL,
+    manager_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    office_id  MEDIUMINT UNSIGNED NOT NULL,
     name       VARCHAR(20)  NOT NULL,
     passwd     VARCHAR(255) NOT NULL,
     role       VARCHAR(10)  NOT NULL,
@@ -47,7 +46,7 @@ CREATE TABLE manager
 
 CREATE TABLE product_category
 (
-    category_id   INT         NOT NULL AUTO_INCREMENT,
+    category_id   MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
     category_name VARCHAR(20) NOT NULL UNIQUE,
     category_type VARCHAR(10) NOT NULL,
 
@@ -56,50 +55,47 @@ CREATE TABLE product_category
 
 CREATE TABLE additional_option
 (
-    option_id    INT         NOT NULL AUTO_INCREMENT,
-    option_name  VARCHAR(10) NOT NULL,
-    option_price INT         NOT NULL,
-    max_quantity INT         NOT NULL,
+    option_id    INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    option_name  VARCHAR(10) NOT NULL UNIQUE,
+    option_price SMALLINT UNSIGNED NOT NULL,
+    max_quantity TINYINT UNSIGNED NOT NULL,
 
     PRIMARY KEY (option_id)
 );
 
-CREATE TABLE product_option
-(
-    product_option_id BIGINT NOT NULL AUTO_INCREMENT,
-    product_id        BIGINT NOT NULL,
-    option_id         INT    NOT NULL,
-    quantity          INT    NOT NULL,
-
-    PRIMARY KEY (product_option_id),
-    FOREIGN KEY (option_id) REFERENCES additional_option (option_id)
-);
-
 CREATE TABLE product
 (
-    product_id   BIGINT       NOT NULL AUTO_INCREMENT,
-    product_name VARCHAR(20)  NOT NULL,
-    category_id  INT          NOT NULL,
-    price        INT          NOT NULL,
-    option_id    BIGINT       NOT NULL,
+    product_id   INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    product_name VARCHAR(20)  NOT NULL UNIQUE,
+    category_id  MEDIUMINT UNSIGNED NOT NULL,
+    price        MEDIUMINT UNSIGNED NOT NULL,
     description  VARCHAR(255) NOT NULL,
     image        VARCHAR(255) NOT NULL,
-    is_active    VARCHAR(1)   NOT NULL,
+    is_active    BOOLEAN      NOT NULL,
     created_at   DATE,
 
     PRIMARY KEY (product_id),
-    FOREIGN KEY (category_id) REFERENCES product_category (category_id),
-    FOREIGN KEY (product_id) REFERENCES product_option (product_option_id)
+    FOREIGN KEY (category_id) REFERENCES product_category (category_id)
+);
+
+CREATE TABLE product_option
+(
+    product_id INT UNSIGNED NOT NULL,
+    option_id  INT UNSIGNED NOT NULL,
+    quantity   TINYINT UNSIGNED NOT NULL,
+
+    PRIMARY KEY (product_id, option_id),
+    FOREIGN KEY (option_id) REFERENCES additional_option (option_id),
+    FOREIGN KEY (product_id) REFERENCES product (product_id)
 );
 
 CREATE TABLE office_stock
 (
-    stock_id    BIGINT NOT NULL AUTO_INCREMENT,
-    office_id   INT    NOT NULL,
-    product_id  BIGINT NOT NULL,
-    stock_value INT    NOT NULL,
+    office_id   MEDIUMINT UNSIGNED NOT NULL,
+    product_id  INT UNSIGNED NOT NULL,
+    stock_value SMALLINT UNSIGNED NOT NULL,
 
-    PRIMARY KEY (stock_id),
+    PRIMARY KEY (office_id, product_id),
     FOREIGN KEY (office_id) REFERENCES office (office_id),
     FOREIGN KEY (product_id) REFERENCES product (product_id)
 );
@@ -108,11 +104,11 @@ CREATE TABLE my_menu
 (
     my_menu_id   BIGINT      NOT NULL AUTO_INCREMENT,
     my_menu_name VARCHAR(10) NOT NULL,
-    product_id   BIGINT      NOT NULL,
+    product_id   INT UNSIGNED NOT NULL,
     member_id    BIGINT      NOT NULL,
     option_info  JSON        NOT NULL,
 
     PRIMARY KEY (my_menu_id),
-    FOREIGN KEY (member_id) REFERENCES members (member_id),
+    FOREIGN KEY (member_id) REFERENCES member (member_id),
     FOREIGN KEY (product_id) REFERENCES product (product_id)
 );

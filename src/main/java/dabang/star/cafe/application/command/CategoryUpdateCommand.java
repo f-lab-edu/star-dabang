@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -18,6 +19,7 @@ public class CategoryUpdateCommand {
     private Integer id;
 
     @NotNull(message = "invalid name")
+    @Size(max = 20, message = "invalid name")
     private String name;
 
     @NotNull(message = "invalid category name")

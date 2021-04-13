@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 public class ManagerCreateCommand {
 
     @NotBlank(message = "invalid name")
+    @Size(max = 20, message = "invalid name")
     private String name;
 
     @NotBlank(message = "invalid password")
