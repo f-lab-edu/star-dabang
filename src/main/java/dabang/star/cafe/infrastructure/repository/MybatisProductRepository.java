@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
@@ -24,14 +25,27 @@ public class MybatisProductRepository implements ProductRepository {
     @Transactional
     @Override
     public void save(Product product) {
+
         if (product.getId() == null) {
             productMapper.insert(product);
+            saveProductOption(product.getId(), product.getOptions());
+        } else {
+            productMapper.update(product);
+            updateProductOption(product.getId(), product.getOptions());
+        }
+    }
 
-            List<ProductOption> options = product.getOptions();
-            if (options.size() != 0) {
-                options.forEach(option -> option.setProductId(product.getId()));
-                productOptionMapper.insertList(product.getOptions());
-            }
+    private void saveProductOption(long productId, List<ProductOption> options) {
+        if (options.size() != 0) {
+            options.forEach(option -> option.setProductId(productId));
+            productOptionMapper.insertList(options);
+        }
+    }
+
+    private void updateProductOption(long productId, List<ProductOption> options) {
+        if (options.size() != 0) {
+            options.forEach(option -> option.setProductId(productId));
+            productOptionMapper.updateList(options);
         }
     }
 
@@ -51,6 +65,26 @@ public class MybatisProductRepository implements ProductRepository {
         int totalCount = productMapper.getAllProductCount();
 
         return new Page<>(productDataList, totalCount, size, page);
+    }
+
+    @Override
+    public Optional<ProductData> findById(long productId) {
+        return productMapper.getById(productId);
+    }
+
+    @Override
+    public long deleteOptionById(long productId, List<Long> deleteOptions) {
+        if (deleteOptions.size() != 0) {
+            return productOptionMapper.removeById(productId, deleteOptions);
+        }
+        return 0;
+    }
+
+    @Override
+    public void saveOption(long productId, List<ProductOption> options) {
+        if (options.size() != 0) {
+            saveProductOption(productId, options);
+        }
     }
 
 }

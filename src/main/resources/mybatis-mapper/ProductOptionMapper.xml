@@ -10,4 +10,20 @@
         </foreach>
     </insert>
 
+    <update id="updateList">
+        <foreach collection="productOptions" item="productOption" separator=";">
+            UPDATE product_option
+            SET quantity = #{productOption.quantity}
+            WHERE product_id = #{productOption.productId} AND option_id = #{productOption.optionId}
+        </foreach>
+    </update>
+
+    <delete id="removeById">
+        DELETE
+        FROM product_option
+        WHERE product_id = #{productId} AND option_id IN (
+        <foreach collection="deleteOptions" item="optionId" separator=",">#{optionId}</foreach>
+        )
+    </delete>
+
 </mapper>

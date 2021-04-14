@@ -7,6 +7,19 @@
         VALUES (#{name}, #{categoryId}, #{price}, #{description}, #{image}, #{isActive}, #{createAt});
     </insert>
 
+    <update id="update" keyProperty="id">
+        UPDATE product
+        <set>
+            <if test="name != null">product_name=#{name},</if>
+            <if test="categoryId != null">category_id=#{categoryId},</if>
+            <if test="price != null">price=#{price},</if>
+            <if test="description != null">description=#{description},</if>
+            <if test="image != null">image=#{image},</if>
+            <if test="isActive != null">is_active=#{isActive},</if>
+        </set>
+        WHERE product_id=#{id}
+    </update>
+
     <delete id="removeById">
         DELETE
         FROM product
@@ -55,6 +68,18 @@
         FROM product_option po
                  JOIN additional_option ao on ao.option_id = po.option_id
         WHERE po.product_id = #{product_id}
+    </select>
+
+    <select id="getById" resultMap="productResult">
+        SELECT product_id,
+               product_name,
+               category_id,
+               price,
+               description,
+               image,
+               is_active
+        FROM product
+        WHERE product_id = #{id}
     </select>
 
 </mapper>

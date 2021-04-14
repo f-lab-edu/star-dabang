@@ -3,6 +3,7 @@ package dabang.star.cafe.api;
 import dabang.star.cafe.api.aop.LoginCheck;
 import dabang.star.cafe.application.ProductAdminService;
 import dabang.star.cafe.application.command.ProductCreateCommand;
+import dabang.star.cafe.application.command.ProductUpdateCommand;
 import dabang.star.cafe.application.data.ProductData;
 import dabang.star.cafe.domain.manager.Role;
 import dabang.star.cafe.domain.product.Product;
@@ -68,6 +69,19 @@ public class ProductAdminApi {
     @GetMapping
     public Page<ProductData> getAllOption(Pagination pagination) {
         return productAdminService.getAllProduct(pagination);
+    }
+
+    /**
+     * 상품에 대한 정보를 업데이트 하며 새로운 옵션을 추가하거나 삭제
+     *
+     * @param productUpdateCommand (name, categoryId, price, description, image, options, deleteOptions, addOptions)
+     * @param productId            (업데이트 상품의 id)
+     */
+    @LoginCheck(role = Role.ADMIN)
+    @PatchMapping("/{productId}")
+    public void updateProduct(@Valid @RequestBody ProductUpdateCommand productUpdateCommand,
+                              @PathVariable long productId) {
+        productAdminService.updateProduct(productUpdateCommand, productId);
     }
 
 }
