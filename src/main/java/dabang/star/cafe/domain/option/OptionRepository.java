@@ -14,8 +14,9 @@ public interface OptionRepository {
 
     List<Option> findByName(String optionName);
 
-    Optional<Option> findById(int id);
+    Optional<Option> findById(long id);
 
-    int deleteById(int id);
+    int deleteById(long id);
 
+    boolean existsById(long id);
 }

@@ -6,9 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -16,17 +14,20 @@ import javax.validation.constraints.PositiveOrZero;
 public class OptionUpdateCommand {
 
     @NotNull(message = "blank option id")
-    private Integer id;
+    private Long id;
 
-    @NotNull(message = "blank option name")
+    @NotBlank(message = "blank option name")
+    @Size(max = 10, message = "not valid name")
     private String name;
 
     @NotNull(message = "blank option price")
     @PositiveOrZero(message = "not valid option price")
+    @Max(value = 65535)
     private Integer price;
 
     @NotNull(message = "blank option max quantity")
     @Positive(message = "not valid option max quantity")
+    @Max(value = 255)
     private Integer maxQuantity;
 
     public Option toOption() {

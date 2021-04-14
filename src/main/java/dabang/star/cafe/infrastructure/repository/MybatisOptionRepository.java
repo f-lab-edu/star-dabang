@@ -46,15 +46,19 @@ public class MybatisOptionRepository implements OptionRepository {
     }
 
     @Override
-    public Optional<Option> findById(int id) {
+    public Optional<Option> findById(long id) {
 
         return optionMapper.getById(id);
     }
 
     @Override
-    public int deleteById(int id) {
+    public int deleteById(long id) {
 
         return optionMapper.removeById(id);
     }
 
+    @Override
+    public boolean existsById(long id) {
+        return optionMapper.containsKey(id);
+    }
 }

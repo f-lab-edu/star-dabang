@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @Getter
@@ -19,6 +20,7 @@ public class OfficeUpdateCommand {
     private Integer id;
 
     @NotBlank(message = "blank office name")
+    @Size(max = 50, message = "invalid office name")
     private String name;
 
     @NotBlank(message = "blank office address")

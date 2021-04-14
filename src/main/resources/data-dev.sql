@@ -1,12 +1,12 @@
-INSERT INTO members(email, passwd, nickName, phone, birth)
+INSERT INTO member(email, passwd, nickName, phone, birth)
 VALUES ('test1@naver.com', SHA2('12345', 256), '테스트', '01012345678', '20201010');
-INSERT INTO members(email, passwd, nickName, phone, birth)
+INSERT INTO member(email, passwd, nickName, phone, birth)
 VALUES ('test2@naver.com', SHA2('12345', 256), '테스트', '01012345678', '20201010');
-INSERT INTO members(email, passwd, nickName, phone, birth)
+INSERT INTO member(email, passwd, nickName, phone, birth)
 VALUES ('test3@naver.com', SHA2('12345', 256), '테스트', '01012345678', '20201010');
-INSERT INTO members(email, passwd, nickName, phone, birth)
+INSERT INTO member(email, passwd, nickName, phone, birth)
 VALUES ('test4@naver.com', SHA2('12345', 256), '테스트', '01012345678', '20201010');
-INSERT INTO members(email, passwd, nickName, phone, birth)
+INSERT INTO member(email, passwd, nickName, phone, birth)
 VALUES ('test5@naver.com', SHA2('12345', 256), '테스트', '01012345678', '20201010');
 
 INSERT INTO office(office_name, address, latitude, longitude)
