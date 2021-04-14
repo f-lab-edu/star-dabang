@@ -130,7 +130,7 @@ public class ProductAdminService {
             productRepository.saveOption(productId, addOptions);
             productRepository.save(product);
         } catch (DuplicateKeyException e) {
-            throw new DuplicatedException(e);
+            throw new DuplicatedException(e.getCause().getMessage());
         }
     }
 

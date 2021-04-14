@@ -6,8 +6,4 @@ public class DuplicatedException extends RuntimeException {
         super(message);
     }
 
-    public DuplicatedException(Throwable e) {
-        super(e);
-    }
-    
 }
