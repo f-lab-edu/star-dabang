@@ -7,7 +7,6 @@ import dabang.star.cafe.domain.product.ProductRepository;
 import dabang.star.cafe.infrastructure.mapper.ProductMapper;
 import dabang.star.cafe.infrastructure.mapper.ProductOptionMapper;
 import dabang.star.cafe.utils.page.Page;
-import dabang.star.cafe.utils.page.PageFactory;
 import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -51,7 +50,7 @@ public class MybatisProductRepository implements ProductRepository {
         List<ProductData> productDataList = productMapper.selectAllProduct(size, offset);
         int totalCount = productMapper.getAllProductCount();
 
-        return PageFactory.create(productDataList, totalCount, size, page);
+        return Page.from(productDataList, totalCount, size, page);
     }
 
 }

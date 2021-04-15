@@ -5,7 +5,6 @@ import dabang.star.cafe.domain.office.Office;
 import dabang.star.cafe.domain.office.OfficeRepository;
 import dabang.star.cafe.infrastructure.mapper.OfficeMapper;
 import dabang.star.cafe.utils.page.Page;
-import dabang.star.cafe.utils.page.PageFactory;
 import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -52,6 +51,6 @@ public class MybatisOfficeRepository implements OfficeRepository {
         int totalCount = officeMapper.getCountAll();
         List<OfficeData> officeDataList = officeMapper.getByPagination(size, pagination.getOffset());
 
-        return PageFactory.create(officeDataList, totalCount, size, pagination.getPage());
+        return Page.from(officeDataList, totalCount, size, pagination.getPage());
     }
 }

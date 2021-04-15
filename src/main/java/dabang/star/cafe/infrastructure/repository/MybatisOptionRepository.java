@@ -4,7 +4,6 @@ import dabang.star.cafe.domain.option.Option;
 import dabang.star.cafe.domain.option.OptionRepository;
 import dabang.star.cafe.infrastructure.mapper.OptionMapper;
 import dabang.star.cafe.utils.page.Page;
-import dabang.star.cafe.utils.page.PageFactory;
 import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -37,7 +36,7 @@ public class MybatisOptionRepository implements OptionRepository {
         List<Option> options = optionMapper.selectAllOption(size, offset);
         int totalCount = optionMapper.getAllOptionCount();
 
-        return PageFactory.create(options, totalCount, size, page);
+        return Page.from(options, totalCount, size, page);
     }
 
     @Override

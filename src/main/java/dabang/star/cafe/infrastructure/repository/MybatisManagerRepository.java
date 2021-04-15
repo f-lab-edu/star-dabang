@@ -5,7 +5,6 @@ import dabang.star.cafe.domain.manager.Manager;
 import dabang.star.cafe.domain.manager.ManagerRepository;
 import dabang.star.cafe.infrastructure.mapper.ManagerMapper;
 import dabang.star.cafe.utils.page.Page;
-import dabang.star.cafe.utils.page.PageFactory;
 import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -52,7 +51,7 @@ public class MybatisManagerRepository implements ManagerRepository {
         int totalCount = managerMapper.getCountAll();
         List<ManagerData> managerDataList = managerMapper.getByPagination(size, pagination.getOffset());
 
-        return PageFactory.create(managerDataList, totalCount, size, pagination.getPage());
+        return Page.from(managerDataList, totalCount, size, pagination.getPage());
     }
 
     @Override
