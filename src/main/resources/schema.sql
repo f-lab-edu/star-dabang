@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS order_product;
+DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS my_menu;
 DROP TABLE IF EXISTS office_stock;
 DROP TABLE IF EXISTS product_option;
@@ -111,4 +113,33 @@ CREATE TABLE my_menu
     PRIMARY KEY (my_menu_id),
     FOREIGN KEY (member_id) REFERENCES member (member_id),
     FOREIGN KEY (product_id) REFERENCES product (product_id)
+);
+
+CREATE TABLE orders
+(
+    order_id        BIGINT             NOT NULL AUTO_INCREMENT,
+    member_id       BIGINT             NOT NULL,
+    office_id       MEDIUMINT UNSIGNED NOT NULL,
+    order_time      DATETIME           NOT NULL,
+    approve_time    DATETIME,
+    completion_time DATETIME,
+
+    PRIMARY KEY (order_id),
+    FOREIGN KEY (member_id) REFERENCES member (member_id) ON DELETE CASCADE,
+    FOREIGN KEY (office_id) REFERENCES office (office_id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE order_product
+(
+    order_product_id BIGINT             NOT NULL AUTO_INCREMENT,
+    order_id         BIGINT             NOT NULL,
+    product_id       INT UNSIGNED       NOT NULL,
+    quantity         TINYINT UNSIGNED   NOT NULL,
+    option_info      JSON               NOT NULL,
+    price            MEDIUMINT UNSIGNED NOT NULL,
+
+    PRIMARY KEY (order_product_id),
+    FOREIGN KEY (order_id) REFERENCES orders (order_id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES product (product_id) ON DELETE CASCADE
 );
