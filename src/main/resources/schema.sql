@@ -117,11 +117,12 @@ CREATE TABLE my_menu
 
 CREATE TABLE orders
 (
-    order_id     BIGINT             NOT NULL AUTO_INCREMENT,
-    member_id    BIGINT             NOT NULL,
-    office_id    MEDIUMINT UNSIGNED NOT NULL,
-    order_date   DATE               NOT NULL,
-    order_status VARCHAR(10)        NOT NULL,
+    order_id        BIGINT             NOT NULL AUTO_INCREMENT,
+    member_id       BIGINT             NOT NULL,
+    office_id       MEDIUMINT UNSIGNED NOT NULL,
+    order_time      DATETIME           NOT NULL,
+    approve_time    DATETIME,
+    completion_time DATETIME,
 
     PRIMARY KEY (order_id),
     FOREIGN KEY (member_id) REFERENCES member (member_id) ON DELETE CASCADE,
