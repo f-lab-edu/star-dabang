@@ -76,7 +76,7 @@ public class ProductAdminService {
         try {
             productRepository.save(product);
         } catch (DuplicateKeyException e) {
-            throw new DuplicatedException(e.getCause().getMessage());
+            throw new DuplicatedException(e);
         }
 
         return product;
