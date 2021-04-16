@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/admin/products")
 public class ProductAdminApi {
 
     private final ProductAdminService productAdminService;

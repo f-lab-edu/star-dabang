@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/offices")
+@RequestMapping("/admin/offices")
 public class OfficeAdminApi {
 
     private final OfficeAdminService officeAdminService;
