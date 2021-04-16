@@ -14,6 +14,11 @@ public class MemberFunctionApi {
 
     private final MemberFunctionService memberFunctionService;
 
+    /**
+     * 사용자가 주문을 하기전 카테고리를 조회
+     *
+     * @return HttpStatus.OK (타입, 하위 카테고리들)목록 반환
+     */
     @GetMapping("/categories")
     public List<TypeCategoryData> getCategories() {
         return memberFunctionService.getCategories();
