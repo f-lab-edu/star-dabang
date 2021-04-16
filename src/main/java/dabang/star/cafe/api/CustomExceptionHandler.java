@@ -44,13 +44,14 @@ public class CustomExceptionHandler {
     /**
      * 중복된 값에 대한 예외를 처리하며 Http Status 409를 반환한다.
      */
-    @ExceptionHandler(DuplicatedException.class)
+    @ExceptionHandler({DuplicatedException.class})
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleDuplicatedException(DuplicatedException e) {
 
+        String message = e.getCause() == null ? e.getMessage() : e.getCause().getCause().getMessage();
         ErrorResponse response = ErrorResponse.builder()
                 .status(HttpStatus.CONFLICT.value())
-                .message(e.getMessage())
+                .message(message)
                 .build();
 
         log.warn("The requested value is duplicated", e);
