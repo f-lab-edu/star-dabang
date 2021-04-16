@@ -11,11 +11,10 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/star_dabang?serverTimezone=UTC&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
-    #    url: jdbc:mysql://172.17.0.2:3306/yslocaldb?allowMultiQueries=true
-    username: root
-    password: root
-    initialization-mode: always
+    url: jdbc:mysql://132.226.18.96:16033/stardabangdb?alloMultiQueries=true&characterEncoding=utf8
+    username: appuser
+    password: apppass
+    initialization-mode: never
     data: classpath:data-dev.sql
 
   session:
