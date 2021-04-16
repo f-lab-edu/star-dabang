@@ -1,9 +1,11 @@
 package dabang.star.cafe.application;
 
 import dabang.star.cafe.application.data.CategoryData;
+import dabang.star.cafe.application.data.ProductData;
 import dabang.star.cafe.application.data.TypeCategoryData;
 import dabang.star.cafe.domain.category.CategoryRepository;
 import dabang.star.cafe.domain.category.CategoryType;
+import dabang.star.cafe.domain.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import java.util.List;
 public class MemberFunctionService {
 
     private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
 
     public List<TypeCategoryData> getCategories() {
         List<TypeCategoryData> typeCategories = new ArrayList<>();
@@ -26,6 +29,10 @@ public class MemberFunctionService {
         }
 
         return typeCategories;
+    }
+
+    public List<ProductData> getProducts(int categoryId) {
+        return productRepository.findAllByCategoryId(categoryId);
     }
 
 }

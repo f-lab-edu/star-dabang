@@ -21,4 +21,6 @@ public interface ProductRepository {
 
     void saveOption(long productId, List<ProductOption> option);
 
+    List<ProductData> findAllByCategoryId(int categoryId);
+
 }
