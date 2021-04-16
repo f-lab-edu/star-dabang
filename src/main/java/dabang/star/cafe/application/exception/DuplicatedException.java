@@ -7,6 +7,6 @@ public class DuplicatedException extends RuntimeException {
     }
 
     public DuplicatedException(Exception cause) {
-        super(cause);
+        super(cause.getCause().getMessage(), cause);
     }
 }

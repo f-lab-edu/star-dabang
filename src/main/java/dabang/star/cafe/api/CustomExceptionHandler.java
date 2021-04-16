@@ -48,10 +48,9 @@ public class CustomExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleDuplicatedException(DuplicatedException e) {
 
-        String message = e.getCause() == null ? e.getMessage() : e.getCause().getCause().getMessage();
         ErrorResponse response = ErrorResponse.builder()
                 .status(HttpStatus.CONFLICT.value())
-                .message(message)
+                .message(e.getMessage())
                 .build();
 
         log.warn("The requested value is duplicated", e);
