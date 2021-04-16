@@ -49,4 +49,12 @@
         WHERE category_id = #{id}
     </delete>
 
+    <select id="getAllByType" resultType="CategoryData">
+        SELECT category_id,
+               category_name,
+               category_type
+        FROM product_category
+        WHERE category_type = #{type}
+    </select>
+
 </mapper>

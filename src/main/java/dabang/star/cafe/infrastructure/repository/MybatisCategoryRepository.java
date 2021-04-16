@@ -33,7 +33,6 @@ public class MybatisCategoryRepository implements CategoryRepository {
 
     @Override
     public Optional<Category> findById(int id) {
-
         return categoryMapper.getById(id);
     }
 
@@ -52,7 +51,12 @@ public class MybatisCategoryRepository implements CategoryRepository {
 
     @Override
     public int deleteById(int categoryId) {
-
         return categoryMapper.removeById(categoryId);
     }
+
+    @Override
+    public List<CategoryData> findAllByType(String type) {
+        return categoryMapper.getAllByType(type);
+    }
+
 }

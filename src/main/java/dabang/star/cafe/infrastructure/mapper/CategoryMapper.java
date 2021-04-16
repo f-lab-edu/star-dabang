@@ -21,5 +21,7 @@ public interface CategoryMapper {
     int getAllCount();
 
     int removeById(int id);
+
+    List<CategoryData> getAllByType(String type);
     
 }
