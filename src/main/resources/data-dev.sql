@@ -38,3 +38,27 @@ INSERT INTO product_category(category_name, category_type)
 VALUES ('라떼4', 'DRINK');
 INSERT INTO product_category(category_name, category_type)
 VALUES ('라떼5', 'DRINK');
+
+INSERT INTO product(product_name, category_id, price, description, image, is_active, created_at)
+VALUES ('아메리카노', 1, 9000, '제품 설명', 'image_url', 1, '2020-10-10');
+INSERT INTO product(product_name, category_id, price, description, image, is_active, created_at)
+VALUES ('녹차라떼', 2, 8000, '제품 설명', 'image_url', 1, '2020-10-10');
+INSERT INTO product(product_name, category_id, price, description, image, is_active, created_at)
+VALUES ('민트초코라떼', 3, 1000, '제품 설명', 'image_url', 1, '2020-10-10');
+INSERT INTO product(product_name, category_id, price, description, image, is_active, created_at)
+VALUES ('딸기우유', 4, 150000, '제품 설명', 'image_url', 1, '2020-10-10');
+INSERT INTO product(product_name, category_id, price, description, image, is_active, created_at)
+VALUES ('초코우유', 5, 200000, '제품 설명', 'image_url', 1, '2020-10-10');
+
+INSERT INTO product_option(product_id, option_id, quantity)
+VALUES (1, 2, 3);
+INSERT INTO product_option(product_id, option_id, quantity)
+VALUES (1, 3, 5);
+INSERT INTO product_option(product_id, option_id, quantity)
+VALUES (2, 1, 3);
+INSERT INTO product_option(product_id, option_id, quantity)
+VALUES (2, 4, 4);
+INSERT INTO product_option(product_id, option_id, quantity)
+VALUES (3, 3, 3);
+INSERT INTO product_option(product_id, option_id, quantity)
+VALUES (4, 1, 4);
