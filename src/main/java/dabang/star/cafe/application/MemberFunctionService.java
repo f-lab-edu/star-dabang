@@ -19,7 +19,7 @@ public class MemberFunctionService {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
 
-    public List<TypeCategoryData> getCategories() {
+    public List<TypeCategoryData> getAllCategories() {
         List<TypeCategoryData> typeCategories = new ArrayList<>();
         CategoryType[] types = CategoryType.values();
 
@@ -31,7 +31,7 @@ public class MemberFunctionService {
         return typeCategories;
     }
 
-    public List<ProductData> getProducts(int categoryId) {
+    public List<ProductData> getProductsByCategoryId(int categoryId) {
         return productRepository.findAllByCategoryId(categoryId);
     }
 

@@ -22,8 +22,8 @@ public class MemberFunctionApi {
      * @return HttpStatus.OK (타입, 하위 카테고리들)목록 반환
      */
     @GetMapping("/categories")
-    public List<TypeCategoryData> getCategories() {
-        return memberFunctionService.getCategories();
+    public List<TypeCategoryData> getAllCategories() {
+        return memberFunctionService.getAllCategories();
     }
 
     /**
@@ -33,8 +33,8 @@ public class MemberFunctionApi {
      * @return HttpStatus.OK (상품 목록)반환
      */
     @GetMapping("/categories/{categoryId}/products")
-    public List<ProductData> getProducts(@PathVariable int categoryId) {
-        return memberFunctionService.getProducts(categoryId);
+    public List<ProductData> getProductsByCategoryId(@PathVariable int categoryId) {
+        return memberFunctionService.getProductsByCategoryId(categoryId);
     }
 
 }
