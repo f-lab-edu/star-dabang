@@ -11,7 +11,7 @@ public interface ProductMapper {
 
     void insert(Product product);
 
-    long removeById(long id);
+    long removeById(int categoryId, long productId);
 
     List<ProductData> selectAllProduct(int limit, int offset);
 

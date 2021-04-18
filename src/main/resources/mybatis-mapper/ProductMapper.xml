@@ -10,7 +10,8 @@
     <delete id="removeById">
         DELETE
         FROM product
-        WHERE product_id = #{id}
+        WHERE product_id = #{productId}
+          AND category_id = #{categoryId}
     </delete>
 
     <select id="selectAllProduct" resultMap="productResult">

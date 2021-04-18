@@ -1,8 +1,8 @@
 package dabang.star.cafe.application;
 
 import dabang.star.cafe.application.command.ProductCreateCommand;
-import dabang.star.cafe.application.exception.DuplicatedException;
 import dabang.star.cafe.application.data.ProductData;
+import dabang.star.cafe.application.exception.DuplicatedException;
 import dabang.star.cafe.application.exception.FileUploadException;
 import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.category.CategoryRepository;
@@ -84,9 +84,9 @@ public class ProductAdminService {
         return product;
     }
 
-    public void deleteProduct(long productId) {
-        if (productRepository.deleteById(productId) == 0) {
-            throw new ResourceNotFoundException("product id does not exist : " + productId);
+    public void deleteProduct(int categoryId, long productId) {
+        if (productRepository.deleteById(categoryId, productId) == 0) {
+            throw new ResourceNotFoundException("product id : " + productId + " does not exist in category id : " + categoryId);
         }
     }
 

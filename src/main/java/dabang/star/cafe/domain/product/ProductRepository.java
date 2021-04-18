@@ -8,8 +8,8 @@ public interface ProductRepository {
 
     void save(Product product);
 
-    long deleteById(long productId);
+    long deleteById(int categoryId, long productId);
 
     Page<ProductData> findAll(Pagination pagination);
-    
+
 }

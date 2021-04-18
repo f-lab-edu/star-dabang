@@ -49,24 +49,25 @@ public class ProductAdminApi {
     }
 
     /**
-     * 상품을 포함하여 관련 옵션 설정까지 삭제
+     * 해당 카테고리의 상품을 삭제
      *
-     * @param productId (삭제할 상품 id)
+     * @param categoryId (카테고리 아이디)
+     * @param productId  (상품 아이디)
      */
     @LoginCheck(role = Role.ADMIN)
-    @DeleteMapping("/{productId}")
-    public void deleteProduct(@PathVariable long productId) {
-        productAdminService.deleteProduct(productId);
+    @DeleteMapping("/categories/{categoryId}/products/{productId}")
+    public void deleteProduct(@PathVariable int categoryId, @PathVariable long productId) {
+        productAdminService.deleteProduct(categoryId, productId);
     }
 
     /**
-     * 상품을 관리하기 위해 상품 리스트를 모두 조회
+     * 상품을 관리하기 위해 상품 목록을 페이징으로 조회
      *
      * @param pagination (page, size)
      * @return 조회 완료시 HttpStatus.OK (Page<ProductData>) 반환
      */
     @LoginCheck(role = Role.ADMIN)
-    @GetMapping
+    @GetMapping("/products")
     public Page<ProductData> getAllOption(Pagination pagination) {
         return productAdminService.getAllProduct(pagination);
     }
