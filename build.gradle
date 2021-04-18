@@ -9,6 +9,11 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
+    all {
+        // 스프링 부트 기본 로거인 logback 대신 lo4j2 를 사용하기 위해 제외한다.
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+
     compileOnly {
         extendsFrom annotationProcessor
     }
@@ -32,6 +37,13 @@ dependencies {
 
     // 스프링 부트 2.3부터 spring-boot-starter-web 에서 제외된 validation 의존성 추가
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // logback 보다 처리량이 뛰어난 log4j2 의존성 추가
+    // https://logging.apache.org/log4j/2.x/performance.html
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+
+    // lo4j2 설정 파일을 yaml 파일로 작성하기 위한 의존성 추가 (설정 파일 형식은 XML, JSON, YAML, Properties 로 작성 가능)
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
 
     // AWS 관련 의존성 추가 (S3 관련 Bean 자동 생성)
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
