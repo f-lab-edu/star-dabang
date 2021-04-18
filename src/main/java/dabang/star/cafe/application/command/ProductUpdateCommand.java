@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Max;
-import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -22,10 +21,6 @@ public class ProductUpdateCommand {
 
     @Size(max = 20, message = "not valid name")
     private String name;
-
-    @Positive(message = "not valid category id")
-    @Max(value = 65535)
-    private Integer categoryId;
 
     @PositiveOrZero(message = "not valid price")
     @Max(value = 65535)
@@ -45,7 +40,7 @@ public class ProductUpdateCommand {
     // 기존 옵션에서 삭제할 옵션
     private final List<Long> deleteOptions = new ArrayList<>();
 
-    public Product toProduct(long productId) {
+    public Product toProduct(int categoryId, long productId) {
 
         List<ProductOption> options = this.options.stream()
                 .map(ProductOptionCommand::toProductOption)

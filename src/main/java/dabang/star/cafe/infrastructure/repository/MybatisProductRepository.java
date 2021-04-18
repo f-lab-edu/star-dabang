@@ -50,8 +50,8 @@ public class MybatisProductRepository implements ProductRepository {
     }
 
     @Override
-    public long deleteById(long productId) {
-        return productMapper.removeById(productId);
+    public long deleteByIdAndCategoryId(int categoryId, long productId) {
+        return productMapper.removeByIdAndCategoryId(categoryId, productId);
     }
 
     @Override
@@ -64,12 +64,12 @@ public class MybatisProductRepository implements ProductRepository {
         List<ProductData> productDataList = productMapper.selectAllProduct(size, offset);
         int totalCount = productMapper.getAllProductCount();
 
-        return new Page<>(productDataList, totalCount, size, page);
+        return Page.from(productDataList, totalCount, size, page);
     }
 
     @Override
-    public Optional<ProductData> findById(long productId) {
-        return productMapper.getById(productId);
+    public Optional<ProductData> findByIdAndCategoryId(int categoryId, long productId) {
+        return productMapper.getByIdAndCategoryId(categoryId, productId);
     }
 
     @Override

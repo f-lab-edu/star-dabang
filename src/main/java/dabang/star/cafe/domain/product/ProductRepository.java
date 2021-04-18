@@ -11,11 +11,11 @@ public interface ProductRepository {
 
     void save(Product product);
 
-    long deleteById(long productId);
+    long deleteByIdAndCategoryId(int categoryId, long productId);
 
     Page<ProductData> findAll(Pagination pagination);
 
-    Optional<ProductData> findById(long productId);
+    Optional<ProductData> findByIdAndCategoryId(int categoryId, long productId);
 
     long deleteOptionById(long productId, List<Long> deleteOptions);
 

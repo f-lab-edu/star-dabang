@@ -12,15 +12,15 @@ public interface ProductMapper {
 
     void insert(Product product);
 
-    void update(Product product);
+    long removeByIdAndCategoryId(int categoryId, long productId);
 
-    long removeById(long id);
+    void update(Product product);
 
     List<ProductData> selectAllProduct(int limit, int offset);
 
     int getAllProductCount();
 
-    Optional<ProductData> getById(long productId);
+    Optional<ProductData> getByIdAndCategoryId(int categoryId, long productId);
 
     List<ProductData> getAllByCategoryId(int categoryId);
     

@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/admin/products")
+@RequestMapping("/admin")
 public class ProductAdminApi {
 
     private final ProductAdminService productAdminService;
@@ -27,61 +27,66 @@ public class ProductAdminApi {
      * 상품 이미지 업로드
      *
      * @param file (상품 이미지 파일)
-     * @return 업로드 성공시 HttpStatus.Ok (이미지 파일 저장 경로) 반환
+     * @return HttpStatus.Ok (이미지 파일 저장 경로) 반환
      */
     @LoginCheck(role = Role.ADMIN)
-    @PostMapping("/images")
+    @PostMapping("/products/images")
     public String uploadProductImage(@RequestParam MultipartFile file) {
         return productAdminService.uploadProductImage(file);
     }
 
     /**
-     * 상품 등록
+     * 새로운 상품을 등록
      *
-     * @param productCreateCommand (name, categoryId, price, description, image, options)
-     * @return 상품 등록 완료시 HttpStatus.CREATED (Product) 반환
+     * @param productCreateCommand (카테고리 이름, 상품 가격, 상품 설명, 이미지 URL, 상품의 옵션목록)
+     * @param categoryId           (카테고리 아이디)
+     * @return HttpStatus.CREATED (저장된 상품) 반환
      */
     @LoginCheck(role = Role.ADMIN)
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public Product createProduct(@Valid @RequestBody ProductCreateCommand productCreateCommand) {
-        return productAdminService.createProduct(productCreateCommand);
+    @PostMapping("/categories/{categoryId}/products")
+    public Product createProduct(@Valid @RequestBody ProductCreateCommand productCreateCommand,
+                                 @PathVariable int categoryId) {
+        return productAdminService.createProduct(categoryId, productCreateCommand);
     }
 
     /**
-     * 상품을 포함하여 관련 옵션 설정까지 삭제
+     * 해당 카테고리의 상품을 삭제
      *
-     * @param productId (삭제할 상품 id)
+     * @param categoryId (카테고리 아이디)
+     * @param productId  (상품 아이디)
      */
     @LoginCheck(role = Role.ADMIN)
-    @DeleteMapping("/{productId}")
-    public void deleteProduct(@PathVariable long productId) {
-        productAdminService.deleteProduct(productId);
+    @DeleteMapping("/categories/{categoryId}/products/{productId}")
+    public void deleteProduct(@PathVariable int categoryId, @PathVariable long productId) {
+        productAdminService.deleteProduct(categoryId, productId);
     }
 
     /**
-     * 상품을 관리하기 위해 상품 리스트를 모두 조회
+     * 상품을 관리하기 위해 상품 목록을 페이징으로 조회
      *
      * @param pagination (page, size)
-     * @return 조회 완료시 HttpStatus.OK (Page<ProductData>) 반환
+     * @return HttpStatus.OK (상품 목록 페이지) 반환
      */
     @LoginCheck(role = Role.ADMIN)
-    @GetMapping
+    @GetMapping("/products")
     public Page<ProductData> getAllOption(Pagination pagination) {
         return productAdminService.getAllProduct(pagination);
     }
 
     /**
-     * 상품에 대한 정보를 업데이트 하며 새로운 옵션을 추가하거나 삭제
+     * 상품에 대한 정보를 업데이트
      *
-     * @param productUpdateCommand (name, categoryId, price, description, image, options, deleteOptions, addOptions)
-     * @param productId            (업데이트 상품의 id)
+     * @param productUpdateCommand (상품 이름, 상품 가격, 상품 설명, 이미지 URL, 변경 옵션 목록, 삭제 옵션 목록, 추가 옵션 목록)
+     * @param categoryId           (카테고리 아이디)
+     * @param productId            (상품 아이디)
      */
     @LoginCheck(role = Role.ADMIN)
-    @PatchMapping("/{productId}")
+    @PatchMapping("/categories/{categoryId}/products/{productId}")
     public void updateProduct(@Valid @RequestBody ProductUpdateCommand productUpdateCommand,
+                              @PathVariable int categoryId,
                               @PathVariable long productId) {
-        productAdminService.updateProduct(productUpdateCommand, productId);
+        productAdminService.updateProduct(categoryId, productId, productUpdateCommand);
     }
 
 }
