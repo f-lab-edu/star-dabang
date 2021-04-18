@@ -22,7 +22,7 @@ public class ProductAdminApi {
      * 상품 이미지 업로드
      *
      * @param file (상품 이미지 파일)
-     * @return 업로드 성공시 HttpStatus.Ok (이미지 파일 저장 경로) 반환
+     * @return HttpStatus.Ok (이미지 파일 저장 경로) 반환
      */
     @LoginCheck(role = Role.ADMIN)
     @PostMapping("/products/images")
@@ -31,10 +31,11 @@ public class ProductAdminApi {
     }
 
     /**
-     * 상품 등록
+     * 새로운 상품을 등록
      *
-     * @param productCreateCommand (name, categoryId, price, description, image, options)
-     * @return 상품 등록 완료시 HttpStatus.CREATED (Product) 반환
+     * @param productCreateCommand (카테고리 이름, 상품 가격, 상품 설명, 이미지 URL, 상품의 옵션목록)
+     * @param categoryId           (카테고리 아이디)
+     * @return HttpStatus.CREATED (저장된 상품) 반환
      */
     @LoginCheck(role = Role.ADMIN)
     @ResponseStatus(HttpStatus.CREATED)
