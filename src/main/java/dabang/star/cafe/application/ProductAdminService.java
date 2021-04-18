@@ -1,6 +1,7 @@
 package dabang.star.cafe.application;
 
 import dabang.star.cafe.application.command.ProductCreateCommand;
+import dabang.star.cafe.application.exception.DuplicatedException;
 import dabang.star.cafe.application.data.ProductData;
 import dabang.star.cafe.application.exception.FileUploadException;
 import dabang.star.cafe.application.exception.ResourceNotFoundException;
@@ -14,6 +15,7 @@ import dabang.star.cafe.domain.service.UploadService;
 import dabang.star.cafe.utils.page.Page;
 import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -53,10 +55,9 @@ public class ProductAdminService {
         throw new ValidationException("upload file extension is not " + Arrays.toString(EXTENSIONS));
     }
 
-    public Product createProduct(ProductCreateCommand productCreateCommand) {
-        Product product = productCreateCommand.toProduct();
+    public Product createProduct(int categoryId, ProductCreateCommand productCreateCommand) {
+        Product product = productCreateCommand.toProduct(categoryId);
 
-        int categoryId = product.getCategoryId();
         categoryRepository.findById(categoryId).orElseThrow(
                 () -> new ResourceNotFoundException("category id does not exist : " + categoryId)
         );
@@ -74,7 +75,12 @@ public class ProductAdminService {
             }
         }
 
-        productRepository.save(product);
+        try {
+            productRepository.save(product);
+        } catch (DuplicateKeyException e) {
+            throw new DuplicatedException(e);
+        }
+
         return product;
     }
 
