@@ -65,25 +65,27 @@ public class ProductAdminApi {
      * 상품을 관리하기 위해 상품 목록을 페이징으로 조회
      *
      * @param pagination (page, size)
-     * @return 조회 완료시 HttpStatus.OK (Page<ProductData>) 반환
+     * @return HttpStatus.OK (상품 목록 페이지) 반환
      */
     @LoginCheck(role = Role.ADMIN)
     @GetMapping("/products")
     public Page<ProductData> getAllOption(Pagination pagination) {
         return productAdminService.getAllProduct(pagination);
     }
-
+    
     /**
-     * 상품에 대한 정보를 업데이트 하며 새로운 옵션을 추가하거나 삭제
+     * 상품에 대한 정보를 업데이트
      *
-     * @param productUpdateCommand (name, categoryId, price, description, image, options, deleteOptions, addOptions)
-     * @param productId            (업데이트 상품의 id)
+     * @param productUpdateCommand (상품 이름, 상품 가격, 상품 설명, 이미지 URL, 변경 옵션 목록, 삭제 옵션 목록, 추가 옵션 목록)
+     * @param categoryId           (카테고리 아이디)
+     * @param productId            (상품 아이디)
      */
     @LoginCheck(role = Role.ADMIN)
-    @PatchMapping("/{productId}")
+    @PatchMapping("/categories/{categoryId}/products/{productId}")
     public void updateProduct(@Valid @RequestBody ProductUpdateCommand productUpdateCommand,
+                              @PathVariable int categoryId,
                               @PathVariable long productId) {
-        productAdminService.updateProduct(productUpdateCommand, productId);
+        productAdminService.updateProduct(categoryId, productId, productUpdateCommand);
     }
 
 }

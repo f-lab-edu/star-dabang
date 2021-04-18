@@ -68,8 +68,8 @@ public class MybatisProductRepository implements ProductRepository {
     }
 
     @Override
-    public Optional<ProductData> findById(long productId) {
-        return productMapper.getById(productId);
+    public Optional<ProductData> findByIdAndCategoryId(int categoryId, long productId) {
+        return productMapper.getByIdAndCategoryId(categoryId, productId);
     }
 
     @Override

@@ -20,6 +20,6 @@ public interface ProductMapper {
 
     int getAllProductCount();
 
-    Optional<ProductData> getById(long productId);
+    Optional<ProductData> getByIdAndCategoryId(int categoryId, long productId);
 
 }

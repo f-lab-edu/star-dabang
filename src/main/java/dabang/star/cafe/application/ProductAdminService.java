@@ -105,14 +105,14 @@ public class ProductAdminService {
     }
 
     @Transactional
-    public void updateProduct(ProductUpdateCommand productUpdateCommand, long productId) {
+    public void updateProduct(int categoryId, long productId, ProductUpdateCommand productUpdateCommand) {
         // 존재하는 상품인지 확인
-        ProductData productData = productRepository.findById(productId).orElseThrow(
-                () -> new ResourceNotFoundException("product id does not exist : " + productId)
+        ProductData productData = productRepository.findByIdAndCategoryId(categoryId, productId).orElseThrow(
+                () -> new ResourceNotFoundException("product id : " + productId + " does not exist in category id : " + categoryId)
         );
 
         // 상품에 존재하는 옵션인지 확인
-        Product product = productUpdateCommand.toProduct(productId);
+        Product product = productUpdateCommand.toProduct(categoryId, productId);
         List<Long> optionId = productData.getOptions().stream().map(ProductOptionData::getOptionId).collect(Collectors.toList());
         product.getOptions().forEach(option -> {
             long id = option.getOptionId();
@@ -120,6 +120,7 @@ public class ProductAdminService {
                 throw new ResourceNotFoundException("option id does not exist for update : " + id);
             }
         });
+
         // 카테고리와 옵션에 대한 유효성 검증
         validProduct(product);
 
