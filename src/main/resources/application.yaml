@@ -37,6 +37,9 @@ mybatis:
   mapper-locations: classpath:mybatis-mapper/**/*.xml
   type-aliases-package: dabang.star.cafe.domain, dabang.star.cafe.application.data
 
+logging:
+  config: classpath:log4j2.yaml
+
 ---
 spring:
   config:

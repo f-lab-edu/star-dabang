@@ -59,11 +59,16 @@ public class ProductAdminService {
         throw new ValidationException("upload file extension is not " + Arrays.toString(EXTENSIONS));
     }
 
-    public Product createProduct(ProductCreateCommand productCreateCommand) {
-        Product product = productCreateCommand.toProduct();
+    public Product createProduct(int categoryId, ProductCreateCommand productCreateCommand) {
+        Product product = productCreateCommand.toProduct(categoryId);
         validProduct(product);
 
-        productRepository.save(product);
+        try {
+            productRepository.save(product);
+        } catch (DuplicateKeyException e) {
+            throw new DuplicatedException(e);
+        }
+
         return product;
     }
 
@@ -89,9 +94,9 @@ public class ProductAdminService {
         }
     }
 
-    public void deleteProduct(long productId) {
-        if (productRepository.deleteById(productId) == 0) {
-            throw new ResourceNotFoundException("product id does not exist : " + productId);
+    public void deleteProduct(int categoryId, long productId) {
+        if (productRepository.deleteById(categoryId, productId) == 0) {
+            throw new ResourceNotFoundException("product id : " + productId + " does not exist in category id : " + categoryId);
         }
     }
 

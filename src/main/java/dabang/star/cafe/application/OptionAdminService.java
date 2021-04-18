@@ -27,7 +27,7 @@ public class OptionAdminService {
         try {
             optionRepository.save(option);
         } catch (DuplicateKeyException e) {
-            throw new DuplicatedException(e.getCause().getMessage());
+            throw new DuplicatedException(e);
         }
 
         return option;

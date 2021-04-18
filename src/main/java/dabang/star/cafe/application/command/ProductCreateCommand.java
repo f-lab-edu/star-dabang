@@ -42,7 +42,7 @@ public class ProductCreateCommand {
     // FOOD 같은 경우는 옵션이 존재하지 않을 수 있다.
     private final List<ProductOptionCommand> options = new ArrayList<>();
 
-    public Product toProduct() {
+    public Product toProduct(int categoryId) {
 
         List<ProductOption> options = this.options.stream()
                 .map(ProductOptionCommand::toProductOption)
