@@ -14,9 +14,11 @@ import dabang.star.cafe.domain.product.Product;
 import dabang.star.cafe.domain.product.ProductOption;
 import dabang.star.cafe.domain.product.ProductRepository;
 import dabang.star.cafe.domain.service.UploadService;
+import dabang.star.cafe.utils.CacheName;
 import dabang.star.cafe.utils.page.Page;
 import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,6 +61,7 @@ public class ProductAdminService {
         throw new ValidationException("upload file extension is not " + Arrays.toString(EXTENSIONS));
     }
 
+    @CacheEvict(value = CacheName.PRODUCT, key = "#categoryId")
     public Product createProduct(int categoryId, ProductCreateCommand productCreateCommand) {
         Product product = productCreateCommand.toProduct(categoryId);
         validProduct(product);
@@ -94,6 +97,7 @@ public class ProductAdminService {
         }
     }
 
+    @CacheEvict(value = CacheName.PRODUCT, key = "#categoryId")
     public void deleteProduct(int categoryId, long productId) {
         if (productRepository.deleteByIdAndCategoryId(categoryId, productId) == 0) {
             throw new ResourceNotFoundException("product id : " + productId + " does not exist in category id : " + categoryId);
@@ -104,6 +108,7 @@ public class ProductAdminService {
         return productRepository.findAll(pagination);
     }
 
+    @CacheEvict(value = CacheName.PRODUCT, key = "#categoryId")
     @Transactional
     public void updateProduct(int categoryId, long productId, ProductUpdateCommand productUpdateCommand) {
         // 존재하는 상품인지 확인
