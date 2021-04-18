@@ -23,6 +23,9 @@ spring:
     redis:
       namespace: star_dabang:session
 
+  cache:
+    type: redis
+
 cloud:
   aws:
     s3:
