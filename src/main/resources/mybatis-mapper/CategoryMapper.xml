@@ -50,9 +50,9 @@
     </delete>
 
     <select id="getAllByType" resultType="CategoryData">
-        SELECT category_id,
-               category_name,
-               category_type
+        SELECT category_id   AS id,
+               category_name AS name,
+               category_type AS categoryType
         FROM product_category
         WHERE category_type = #{type}
     </select>
