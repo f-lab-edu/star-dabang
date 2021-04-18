@@ -7,7 +7,7 @@
         VALUES (#{name}, #{categoryId}, #{price}, #{description}, #{image}, #{isActive}, #{createAt});
     </insert>
 
-    <delete id="removeById">
+    <delete id="removeByIdAndCategoryId">
         DELETE
         FROM product
         WHERE product_id = #{productId}

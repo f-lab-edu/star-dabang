@@ -85,7 +85,7 @@ public class ProductAdminService {
     }
 
     public void deleteProduct(int categoryId, long productId) {
-        if (productRepository.deleteById(categoryId, productId) == 0) {
+        if (productRepository.deleteByIdAndCategoryId(categoryId, productId) == 0) {
             throw new ResourceNotFoundException("product id : " + productId + " does not exist in category id : " + categoryId);
         }
     }
