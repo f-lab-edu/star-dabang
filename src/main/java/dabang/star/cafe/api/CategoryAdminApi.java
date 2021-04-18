@@ -49,15 +49,17 @@ public class CategoryAdminApi {
     }
 
     /**
-     * Admin이 카테고리의 이름과 유형을 수정
+     * Admin이 카테고리 업데이트
      *
      * @param categoryUpdateCommand (id, name, categoryType)
+     * @param categoryId
      */
     @LoginCheck(role = Role.ADMIN)
-    @PatchMapping
-    public void updateCategory(@Valid @RequestBody CategoryUpdateCommand categoryUpdateCommand) {
+    @PatchMapping("/{categoryId}")
+    public void updateCategory(@Valid @RequestBody CategoryUpdateCommand categoryUpdateCommand,
+                               @PathVariable int categoryId) {
 
-        categoryAdminService.updateCategory(categoryUpdateCommand);
+        categoryAdminService.updateCategory(categoryId, categoryUpdateCommand);
     }
 
     /**

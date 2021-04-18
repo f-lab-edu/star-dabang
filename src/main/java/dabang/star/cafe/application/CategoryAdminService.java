@@ -22,7 +22,6 @@ public class CategoryAdminService {
     private final CategoryRepository categoryRepository;
 
     public CategoryType[] getCategoryTypes() {
-
         return CategoryType.values();
     }
 
@@ -40,13 +39,12 @@ public class CategoryAdminService {
     }
 
     @Transactional
-    public void updateCategory(CategoryUpdateCommand categoryUpdateCommand) {
-
-        categoryRepository.findById(categoryUpdateCommand.getId()).orElseThrow(
-                () -> new ResourceNotFoundException("category not found by id : " + categoryUpdateCommand.getId())
+    public void updateCategory(int categoryId, CategoryUpdateCommand categoryUpdateCommand) {
+        categoryRepository.findById(categoryId).orElseThrow(
+                () -> new ResourceNotFoundException("category not found by id : " + categoryId)
         );
 
-        categoryRepository.save(categoryUpdateCommand.toCategory());
+        categoryRepository.save(categoryUpdateCommand.toCategory(categoryId));
     }
 
     public Page<CategoryData> getCategories(Pagination pagination) {

@@ -15,9 +15,6 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class CategoryUpdateCommand {
 
-    @NotNull(message = "invalid id")
-    private Integer id;
-
     @NotNull(message = "invalid name")
     @Size(max = 20, message = "invalid name")
     private String name;
@@ -25,10 +22,10 @@ public class CategoryUpdateCommand {
     @NotNull(message = "invalid category name")
     private CategoryType categoryType;
 
-    public Category toCategory() {
+    public Category toCategory(int categoryId) {
 
         return Category.builder()
-                .id(id)
+                .id(categoryId)
                 .name(name)
                 .categoryType(categoryType)
                 .build();
