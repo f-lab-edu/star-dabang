@@ -14,7 +14,6 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/products")
 public class ProductAdminApi {
 
     private final ProductAdminService productAdminService;
@@ -26,7 +25,7 @@ public class ProductAdminApi {
      * @return 업로드 성공시 HttpStatus.Ok (이미지 파일 저장 경로) 반환
      */
     @LoginCheck(role = Role.ADMIN)
-    @PostMapping("/images")
+    @PostMapping("/products/images")
     public String uploadProductImage(@RequestParam MultipartFile file) {
         return productAdminService.uploadProductImage(file);
     }
@@ -39,9 +38,10 @@ public class ProductAdminApi {
      */
     @LoginCheck(role = Role.ADMIN)
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public Product createProduct(@Valid @RequestBody ProductCreateCommand productCreateCommand) {
-        return productAdminService.createProduct(productCreateCommand);
+    @PostMapping("/categories/{categoryId}/products")
+    public Product createProduct(@Valid @RequestBody ProductCreateCommand productCreateCommand,
+                                 @PathVariable int categoryId) {
+        return productAdminService.createProduct(categoryId, productCreateCommand);
     }
 
 }

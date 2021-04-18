@@ -52,10 +52,9 @@ public class ProductAdminService {
         throw new ValidationException("upload file extension is not " + Arrays.toString(EXTENSIONS));
     }
 
-    public Product createProduct(ProductCreateCommand productCreateCommand) {
-        Product product = productCreateCommand.toProduct();
+    public Product createProduct(int categoryId, ProductCreateCommand productCreateCommand) {
+        Product product = productCreateCommand.toProduct(categoryId);
 
-        int categoryId = product.getCategoryId();
         categoryRepository.findById(categoryId).orElseThrow(
                 () -> new ResourceNotFoundException("category id does not exist : " + categoryId)
         );
