@@ -12,7 +12,7 @@ public interface ProductMapper {
 
     void insert(Product product);
 
-    long removeById(int categoryId, long productId);
+    long removeByIdAndCategoryId(int categoryId, long productId);
 
     void update(Product product);
 

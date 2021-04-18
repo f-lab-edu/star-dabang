@@ -50,8 +50,8 @@ public class MybatisProductRepository implements ProductRepository {
     }
 
     @Override
-    public long deleteById(int categoryId, long productId) {
-        return productMapper.removeById(categoryId, productId);
+    public long deleteByIdAndCategoryId(int categoryId, long productId) {
+        return productMapper.removeByIdAndCategoryId(categoryId, productId);
     }
 
     @Override

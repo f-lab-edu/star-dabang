@@ -7,7 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +24,6 @@ public class ProductCreateCommand {
     @NotNull(message = "blank name")
     @Size(max = 20, message = "not valid name")
     private String name;
-
-    @NotNull(message = "blank category id")
-    @Positive(message = "not valid category id")
-    @Max(value = 65535)
-    private Integer categoryId;
 
     @NotNull(message = "blank price")
     @PositiveOrZero(message = "not valid price")

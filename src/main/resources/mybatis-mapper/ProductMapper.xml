@@ -20,7 +20,7 @@
         WHERE product_id=#{id}
     </update>
 
-    <delete id="removeById">
+    <delete id="removeByIdAndCategoryId">
         DELETE
         FROM product
         WHERE product_id = #{productId}

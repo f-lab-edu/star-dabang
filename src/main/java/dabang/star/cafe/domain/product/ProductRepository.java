@@ -11,7 +11,7 @@ public interface ProductRepository {
 
     void save(Product product);
 
-    long deleteById(int categoryId, long productId);
+    long deleteByIdAndCategoryId(int categoryId, long productId);
 
     Page<ProductData> findAll(Pagination pagination);
 
