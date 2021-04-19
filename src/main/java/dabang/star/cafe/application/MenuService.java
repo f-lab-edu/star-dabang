@@ -17,7 +17,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class MemberFunctionService {
+public class MenuService {
 
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
