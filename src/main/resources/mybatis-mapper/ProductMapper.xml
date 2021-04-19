@@ -96,4 +96,17 @@
         WHERE category_id = #{categoryId}
     </select>
 
+    <select id="getAllByCategoryIdAndActive" resultMap="productResult">
+        SELECT product_id,
+               product_name,
+               category_id,
+               price,
+               description,
+               image,
+               is_active
+        FROM product
+        WHERE category_id = #{categoryId}
+          AND is_active = true
+    </select>
+
 </mapper>

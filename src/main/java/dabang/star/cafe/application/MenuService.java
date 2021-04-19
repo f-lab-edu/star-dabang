@@ -37,7 +37,7 @@ public class MenuService {
 
     @Cacheable(value = CacheName.PRODUCT, key = "#categoryId")
     public List<ProductData> getProductsByCategoryId(int categoryId) {
-        return productRepository.findAllByCategoryId(categoryId);
+        return productRepository.findAllByCategoryIdAndActive(categoryId);
     }
 
 }

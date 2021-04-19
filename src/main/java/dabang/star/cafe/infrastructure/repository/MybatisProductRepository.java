@@ -92,4 +92,9 @@ public class MybatisProductRepository implements ProductRepository {
         return productMapper.getAllByCategoryId(categoryId);
     }
 
+    @Override
+    public List<ProductData> findAllByCategoryIdAndActive(int categoryId) {
+        return productMapper.getAllByCategoryIdAndActive(categoryId);
+    }
+
 }
