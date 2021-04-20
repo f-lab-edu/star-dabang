@@ -19,20 +19,20 @@ import static org.locationtech.spatial4j.distance.DistanceUtils.KM_TO_DEG;
 @AllArgsConstructor
 public class Location {
 
-    private String longitude;
+    private double longitude;
 
-    private String latitude;
+    private double latitude;
 
     private final double NEAR_RADIUS = 3;
 
     public Location(BigDecimal lng, BigDecimal lat) {
-        longitude = lng.toString();
-        latitude = lat.toString();
+        longitude = lng.doubleValue();
+        latitude = lat.doubleValue();
     }
 
-    public Location(double lng, double lat) {
-        longitude = String.valueOf(lng);
-        latitude = String.valueOf(lat);
+    public Location(String lng, String lat) {
+        longitude = Double.parseDouble(lng);
+        latitude = Double.parseDouble(lat);
     }
 
     public static Location parseFrom(String pointString) {
@@ -50,7 +50,7 @@ public class Location {
     }
 
     public String nearLineString() {
-        Point curPoint = new PointImpl(Double.parseDouble(longitude), Double.parseDouble(latitude), SpatialContext.GEO);
+        Point curPoint = new PointImpl(longitude, latitude, SpatialContext.GEO);
 
         // 왼쪽 아래(서쪽 경도, 남쪽 위도)와 오른쪽 위(동쪽 경도, 북쪽 위도)를 활용.
         DistanceCalculator vincenty = new GeodesicSphereDistCalc.Vincenty();
