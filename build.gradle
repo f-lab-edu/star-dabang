@@ -52,6 +52,9 @@ dependencies {
     // https://github.com/aws/aws-sdk-java/blob/6a086cfd3e26f74592cf3a7cb96f43e51654a926/aws-java-sdk-core/src/main/java/com/amazonaws/util/Base64.java#L67
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
 
+    // WGS-84 기반 지리 공간 계산 라이브러리 의존성 추가
+    implementation 'org.locationtech.spatial4j:spatial4j:0.8'
+
     // MySQL 의존성 추가
     runtimeOnly 'mysql:mysql-connector-java'
 
