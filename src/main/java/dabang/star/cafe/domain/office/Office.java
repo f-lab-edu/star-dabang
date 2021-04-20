@@ -17,7 +17,5 @@ public class Office {
 
     private String address;
 
-    private BigDecimal latitude;
-
-    private BigDecimal longitude;
+    private Location location;
 }
