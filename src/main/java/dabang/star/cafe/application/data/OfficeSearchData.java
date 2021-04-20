@@ -7,6 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class OfficeSearchData {
 
+    private Integer id;
+
     private String name;
 
     private String address;

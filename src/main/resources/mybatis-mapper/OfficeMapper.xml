@@ -62,7 +62,8 @@
     </delete>
 
     <select id="getByLineString" resultType="OfficeSearchData">
-        SELECT o.office_name                                                                                                              AS name,
+        SELECT o.office_id                                                                                                                AS id,
+               o.office_name                                                                                                              AS name,
                o.address                                                                                                                  AS address,
                ST_Distance_Sphere(o.location, ST_GeomFromText(
                        #{curLoc,jdbcType=VARCHAR,javaType=Location,typeHandler=dabang.star.cafe.infrastructure.mybatis.LocationHandler})) AS distance
