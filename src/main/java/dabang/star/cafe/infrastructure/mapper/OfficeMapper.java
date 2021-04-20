@@ -27,5 +27,5 @@ public interface OfficeMapper {
 
     List<OfficeData> getByPagination(int limit, int offset);
 
-    List<OfficeSearchData> getByLineString(Location curLoc, double minX, double minY, double maxX, double maxY);
+    List<OfficeSearchData> getByLineString(Location curLoc, String lineString);
 }

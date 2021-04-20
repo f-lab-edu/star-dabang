@@ -57,7 +57,7 @@ public class MybatisOfficeRepository implements OfficeRepository {
     }
 
     @Override
-    public List<OfficeSearchData> findNearByLineString(Location curLoc, double minX, double minY, double maxX, double maxY) {
-        return officeMapper.getByLineString(curLoc, minX, minY, maxX, maxY);
+    public List<OfficeSearchData> findNearByLineString(Location curLoc, String lineString) {
+        return officeMapper.getByLineString(curLoc, lineString);
     }
 }

@@ -67,8 +67,7 @@
                ST_Distance_Sphere(o.location, ST_GeomFromText(
                        #{curLoc,jdbcType=VARCHAR,javaType=Location,typeHandler=dabang.star.cafe.infrastructure.mybatis.LocationHandler})) AS distance
         FROM office o
-        WHERE ST_Within(o.location, ST_Envelope(ST_GeomFromText(
-                CONCAT('LINESTRING(', #{minX}, ' ', #{minY}, ', ', #{maxX}, ' ', #{maxY}, ')'))))
+        WHERE ST_Within(o.location, ST_Envelope(ST_GeomFromText(#{lineString,jdbcType=VARCHAR})))
         ORDER BY distance;
     </select>
 

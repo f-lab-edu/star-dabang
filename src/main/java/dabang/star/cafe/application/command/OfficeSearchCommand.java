@@ -1,5 +1,6 @@
 package dabang.star.cafe.application.command;
 
+import dabang.star.cafe.domain.office.Location;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,4 +19,8 @@ public class OfficeSearchCommand {
 
     @NotNull(message = "blank current longitude")
     private BigDecimal curLongitude;
+
+    public Location toLocation() {
+        return new Location(curLongitude.doubleValue(), curLatitude.doubleValue());
+    }
 }

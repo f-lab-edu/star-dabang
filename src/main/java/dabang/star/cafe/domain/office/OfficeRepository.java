@@ -20,5 +20,5 @@ public interface OfficeRepository {
 
     Page<OfficeData> findAll(Pagination pagination);
 
-    List<OfficeSearchData> findNearByLineString(Location curLoc, double minX, double minY, double maxX, double maxY);
+    List<OfficeSearchData> findNearByLineString(Location curLoc, String lineString);
 }
