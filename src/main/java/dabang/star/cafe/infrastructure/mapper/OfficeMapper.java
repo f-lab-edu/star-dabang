@@ -1,5 +1,7 @@
 package dabang.star.cafe.infrastructure.mapper;
 
+import dabang.star.cafe.application.data.OfficeSearchData;
+import dabang.star.cafe.domain.office.Location;
 import dabang.star.cafe.domain.office.Office;
 import dabang.star.cafe.application.data.OfficeData;
 import org.apache.ibatis.annotations.Mapper;
@@ -24,4 +26,6 @@ public interface OfficeMapper {
     int getCountAll();
 
     List<OfficeData> getByPagination(int limit, int offset);
+
+    List<OfficeSearchData> getByLineString(Location curLoc, double minX, double minY, double maxX, double maxY);
 }
