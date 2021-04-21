@@ -1,7 +1,7 @@
 package dabang.star.cafe.infrastructure.repository;
 
-import dabang.star.cafe.domain.manager.Manager;
 import dabang.star.cafe.application.data.ManagerData;
+import dabang.star.cafe.domain.manager.Manager;
 import dabang.star.cafe.domain.manager.ManagerRepository;
 import dabang.star.cafe.infrastructure.mapper.ManagerMapper;
 import dabang.star.cafe.utils.page.Page;
@@ -51,7 +51,7 @@ public class MybatisManagerRepository implements ManagerRepository {
         int totalCount = managerMapper.getCountAll();
         List<ManagerData> managerDataList = managerMapper.getByPagination(size, pagination.getOffset());
 
-        return new Page<>(managerDataList, totalCount, size, pagination.getPage());
+        return Page.from(managerDataList, totalCount, size, pagination.getPage());
     }
 
     @Override

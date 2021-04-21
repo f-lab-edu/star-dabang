@@ -7,9 +7,9 @@ import dabang.star.cafe.application.exception.DuplicatedException;
 import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.category.Category;
 import dabang.star.cafe.domain.category.CategoryRepository;
+import dabang.star.cafe.domain.category.CategoryType;
 import dabang.star.cafe.utils.page.Page;
 import dabang.star.cafe.utils.page.Pagination;
-import dabang.star.cafe.domain.category.CategoryType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class CategoryAdminService {
         try {
             categoryRepository.save(category);
         } catch (DuplicateKeyException e) {
-            throw new DuplicatedException(e.getCause().getMessage());
+            throw new DuplicatedException(e);
         }
 
         return CategoryData.from(category);

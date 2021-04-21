@@ -1,19 +1,19 @@
 package dabang.star.cafe.api;
 
-import dabang.star.cafe.application.exception.DuplicatedException;
-import dabang.star.cafe.application.exception.NoAuthenticationException;
-import dabang.star.cafe.application.exception.NoAuthorizationException;
-import dabang.star.cafe.application.exception.ResourceNotFoundException;
+import dabang.star.cafe.application.exception.*;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@Log4j2
+import javax.validation.ValidationException;
+
+@Slf4j
 @RestControllerAdvice
 public class CustomExceptionHandler {
 
@@ -106,6 +106,40 @@ public class CustomExceptionHandler {
                 .build();
 
         log.warn("No Authentication", e);
+
+        return response;
+    }
+
+    /**
+     * 서비스 로직중 유효하지 않은 값에 대한 예외를 처리하며 Http Status 400을 반환한다.
+     */
+    @ExceptionHandler({ValidationException.class, FileSizeLimitExceededException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleValidationException(Exception e) {
+
+        ErrorResponse response = ErrorResponse.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(e.getMessage())
+                .build();
+
+        log.warn("The requested value is not valid", e);
+
+        return response;
+    }
+
+    /**
+     * 파일 업로드중 예외발생에 대한 처리를 하며 Http Status 500을 반환한다.
+     */
+    @ExceptionHandler(FileUploadException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleFileUploadException(Exception e) {
+
+        ErrorResponse response = ErrorResponse.builder()
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .message(e.getMessage())
+                .build();
+
+        log.warn("File upload is failed", e);
 
         return response;
     }

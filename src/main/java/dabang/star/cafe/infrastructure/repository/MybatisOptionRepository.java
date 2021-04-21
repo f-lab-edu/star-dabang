@@ -36,7 +36,7 @@ public class MybatisOptionRepository implements OptionRepository {
         List<Option> options = optionMapper.selectAllOption(size, offset);
         int totalCount = optionMapper.getAllOptionCount();
 
-        return new Page<>(options, totalCount, size, page);
+        return Page.from(options, totalCount, size, page);
     }
 
     @Override
