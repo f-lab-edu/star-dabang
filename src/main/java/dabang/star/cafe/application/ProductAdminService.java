@@ -1,6 +1,7 @@
 package dabang.star.cafe.application;
 
 import dabang.star.cafe.application.command.ProductCreateCommand;
+import dabang.star.cafe.application.data.ProductData;
 import dabang.star.cafe.application.exception.DuplicatedException;
 import dabang.star.cafe.application.exception.FileUploadException;
 import dabang.star.cafe.application.exception.ResourceNotFoundException;
@@ -11,6 +12,8 @@ import dabang.star.cafe.domain.product.Product;
 import dabang.star.cafe.domain.product.ProductOption;
 import dabang.star.cafe.domain.product.ProductRepository;
 import dabang.star.cafe.domain.service.UploadService;
+import dabang.star.cafe.utils.page.Page;
+import dabang.star.cafe.utils.page.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -81,4 +84,13 @@ public class ProductAdminService {
         return product;
     }
 
+    public void deleteProduct(int categoryId, long productId) {
+        if (productRepository.deleteByIdAndCategoryId(categoryId, productId) == 0) {
+            throw new ResourceNotFoundException("product id : " + productId + " does not exist in category id : " + categoryId);
+        }
+    }
+
+    public Page<ProductData> getAllProduct(Pagination pagination) {
+        return productRepository.findAll(pagination);
+    }
 }

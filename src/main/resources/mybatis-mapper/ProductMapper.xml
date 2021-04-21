@@ -7,4 +7,55 @@
         VALUES (#{name}, #{categoryId}, #{price}, #{description}, #{image}, #{isActive}, #{createAt});
     </insert>
 
+    <delete id="removeByIdAndCategoryId">
+        DELETE
+        FROM product
+        WHERE product_id = #{productId}
+          AND category_id = #{categoryId}
+    </delete>
+
+    <select id="selectAllProduct" resultMap="productResult">
+        SELECT p.*
+        FROM (
+                 SELECT product_id,
+                        product_name,
+                        category_id,
+                        price,
+                        description,
+                        image,
+                        is_active
+                 FROM product
+                 ORDER BY product_id
+             ) p
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="getAllProductCount" resultType="int">
+        SELECT COUNT(*)
+        FROM product
+    </select>
+
+    <resultMap id="productResult" type="ProductData">
+        <result property="id" column="product_id"/>
+        <result property="name" column="product_name"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="price" column="price"/>
+        <result property="description" column="description"/>
+        <result property="image" column="image"/>
+        <result property="isActive" column="is_active"/>
+        <collection property="options" column="product_id" select="getProductOptionById"/>
+    </resultMap>
+
+    <select id="getProductOptionById" resultType="ProductOptionData">
+        SELECT po.product_id   AS productId,
+               po.option_id    AS optionId,
+               po.quantity     AS quantity,
+               ao.option_name  AS optionName,
+               ao.max_quantity AS maxQuantity,
+               ao.option_price AS optionPrice
+        FROM product_option po
+                 JOIN additional_option ao on ao.option_id = po.option_id
+        WHERE po.product_id = #{product_id}
+    </select>
+
 </mapper>

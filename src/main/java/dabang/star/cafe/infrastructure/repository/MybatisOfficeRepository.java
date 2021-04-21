@@ -1,7 +1,7 @@
 package dabang.star.cafe.infrastructure.repository;
 
-import dabang.star.cafe.domain.office.Office;
 import dabang.star.cafe.application.data.OfficeData;
+import dabang.star.cafe.domain.office.Office;
 import dabang.star.cafe.domain.office.OfficeRepository;
 import dabang.star.cafe.infrastructure.mapper.OfficeMapper;
 import dabang.star.cafe.utils.page.Page;
@@ -51,6 +51,6 @@ public class MybatisOfficeRepository implements OfficeRepository {
         int totalCount = officeMapper.getCountAll();
         List<OfficeData> officeDataList = officeMapper.getByPagination(size, pagination.getOffset());
 
-        return new Page<>(officeDataList, totalCount, size, pagination.getPage());
+        return Page.from(officeDataList, totalCount, size, pagination.getPage());
     }
 }
