@@ -10,4 +10,8 @@ public interface ProductOptionMapper {
 
     void insertList(List<ProductOption> productOptions);
 
+    void updateList(List<ProductOption> productOptions);
+
+    long removeById(long productId, List<Long> deleteOptions);
+
 }

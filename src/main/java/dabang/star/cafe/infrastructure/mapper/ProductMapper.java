@@ -5,6 +5,7 @@ import dabang.star.cafe.domain.product.Product;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface ProductMapper {
@@ -13,8 +14,12 @@ public interface ProductMapper {
 
     long removeByIdAndCategoryId(int categoryId, long productId);
 
+    void update(Product product);
+
     List<ProductData> selectAllProduct(int limit, int offset);
 
     int getAllProductCount();
+
+    Optional<ProductData> getByIdAndCategoryId(int categoryId, long productId);
 
 }
