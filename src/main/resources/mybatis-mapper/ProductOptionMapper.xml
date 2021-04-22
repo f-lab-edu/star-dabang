@@ -10,13 +10,14 @@
         </foreach>
     </insert>
 
-    <update id="updateList">
-        <foreach collection="productOptions" item="productOption" separator=";">
-            UPDATE product_option
-            SET quantity = #{productOption.quantity}
-            WHERE product_id = #{productOption.productId} AND option_id = #{productOption.optionId}
+    <insert id="updateList">
+        INSERT INTO product_option (product_id, option_id, quantity) VALUES
+        <foreach collection="productOptions" item="productOption" separator=",">
+            (#{productOption.productId}, #{productOption.optionId}, #{productOption.quantity})
         </foreach>
-    </update>
+        ON DUPLICATE KEY UPDATE
+        product_id = VALUES(product_id), option_id = VALUES(option_id)
+    </insert>
 
     <delete id="removeById">
         DELETE
