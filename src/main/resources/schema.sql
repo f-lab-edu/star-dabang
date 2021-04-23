@@ -28,10 +28,10 @@ CREATE TABLE office
     office_id   MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
     office_name VARCHAR(50)        NOT NULL,
     address     VARCHAR(255)       NOT NULL,
-    latitude    DECIMAL(16, 14)    NOT NULL,
-    longitude   DECIMAL(17, 14)    NOT NULL,
+    location    POINT              NOT NULL,
 
-    PRIMARY KEY (office_id)
+    PRIMARY KEY (office_id),
+    SPATIAL INDEX OFFICE_LOC (location)
 );
 
 CREATE TABLE manager

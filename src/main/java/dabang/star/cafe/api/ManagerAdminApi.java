@@ -16,7 +16,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/managers")
+@RequestMapping("/admin/managers")
 @RequiredArgsConstructor
 public class ManagerAdminApi {
 

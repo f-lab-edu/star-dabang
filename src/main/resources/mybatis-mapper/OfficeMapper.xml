@@ -2,24 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dabang.star.cafe.infrastructure.mapper.OfficeMapper">
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO office (office_name, address, latitude, longitude)
-        VALUES (#{name}, #{address}, #{latitude}, #{longitude})
+    <resultMap id="OfficeResultMap" type="dabang.star.cafe.domain.office.Office">
+        <id column="office_id" property="id" jdbcType="INTEGER"/>
+        <id column="office_name" property="name" jdbcType="VARCHAR"/>
+        <id column="address" property="address" jdbcType="VARCHAR"/>
+        <id column="location" property="location" jdbcType="VARCHAR"
+            typeHandler="dabang.star.cafe.infrastructure.mybatis.LocationHandler"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="dabang.star.cafe.domain.office.Office">
+        INSERT INTO office (office_name, address, location)
+        VALUES (#{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+                ST_GeomFromText(#{location,jdbcType=VARCHAR,javaType=Location,
+                        typeHandler=dabang.star.cafe.infrastructure.mybatis.LocationHandler}))
     </insert>
 
-    <update id="update" keyProperty="id">
+    <update id="update" keyProperty="id" parameterType="dabang.star.cafe.domain.office.Office">
         UPDATE office
         <set>
             <if test="name != null">office_name=#{name},</if>
             <if test="address != null">address=#{address},</if>
-            <if test="latitude != null">latitude=#{latitude},</if>
-            <if test="longitude != null">longitude=#{longitude},</if>
         </set>
         WHERE office_id=#{id}
     </update>
 
-    <select id="getById" resultType="Office" parameterType="map">
-        SELECT o.office_id, o.office_name, o.address, o.latitude, o.longitude
+    <select id="getById" resultMap="OfficeResultMap">
+        SELECT o.office_id, o.office_name, o.address, ST_AsText(location) AS location
         FROM office o
         WHERE o.office_id = #{id}
     </select>
@@ -52,5 +60,16 @@
         FROM office
         WHERE office_id = #{id}
     </delete>
+
+    <select id="getByLineString" resultType="OfficeSearchData">
+        SELECT o.office_id                                                                                                                AS id,
+               o.office_name                                                                                                              AS name,
+               o.address                                                                                                                  AS address,
+               ST_Distance_Sphere(o.location, ST_GeomFromText(
+                       #{curLoc,jdbcType=VARCHAR,javaType=Location,typeHandler=dabang.star.cafe.infrastructure.mybatis.LocationHandler})) AS distance
+        FROM office o
+        WHERE ST_Within(o.location, ST_Envelope(ST_GeomFromText(#{lineString,jdbcType=VARCHAR})))
+        ORDER BY distance;
+    </select>
 
 </mapper>

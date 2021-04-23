@@ -18,6 +18,7 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/admin")
 public class ProductAdminApi {
 
     private final ProductAdminService productAdminService;
@@ -72,7 +73,7 @@ public class ProductAdminApi {
     public Page<ProductData> getAllOption(Pagination pagination) {
         return productAdminService.getAllProduct(pagination);
     }
-    
+
     /**
      * 상품에 대한 정보를 업데이트
      *

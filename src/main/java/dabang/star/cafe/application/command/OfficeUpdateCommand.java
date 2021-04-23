@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -26,20 +25,12 @@ public class OfficeUpdateCommand {
     @NotBlank(message = "blank office address")
     private String address;
 
-    @NotNull(message = "blank office latitude")
-    private BigDecimal latitude;
-
-    @NotNull(message = "blank office latitude")
-    private BigDecimal longitude;
-
     public Office toOffice() {
 
         return Office.builder()
                 .id(id)
                 .name(name)
                 .address(address)
-                .latitude(latitude)
-                .longitude(longitude)
                 .build();
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/options")
+@RequestMapping("/admin/options")
 public class OptionAdminApi {
 
     private final OptionAdminService optionAdminService;

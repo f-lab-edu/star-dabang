@@ -22,4 +22,8 @@ public interface ProductMapper {
 
     Optional<ProductData> getByIdAndCategoryId(int categoryId, long productId);
 
+    List<ProductData> getAllByCategoryId(int categoryId);
+
+    List<ProductData> getAllByCategoryIdAndActive(int categoryId);
+
 }
