@@ -23,4 +23,6 @@ public interface ProductRepository {
 
     List<ProductData> findAllByCategoryId(int categoryId);
 
+    List<ProductData> findAllByCategoryIdAndActive(int categoryId);
+
 }

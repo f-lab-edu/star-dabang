@@ -51,7 +51,7 @@
     <resultMap id="productResult" type="ProductData">
         <result property="id" column="product_id"/>
         <result property="name" column="product_name"/>
-        <result property="categoryId" column="categoryId"/>
+        <result property="categoryId" column="category_id"/>
         <result property="price" column="price"/>
         <result property="description" column="description"/>
         <result property="image" column="image"/>
@@ -94,6 +94,19 @@
                is_active
         FROM product
         WHERE category_id = #{categoryId}
+    </select>
+
+    <select id="getAllByCategoryIdAndActive" resultMap="productResult">
+        SELECT product_id,
+               product_name,
+               category_id,
+               price,
+               description,
+               image,
+               is_active
+        FROM product
+        WHERE category_id = #{categoryId}
+          AND is_active = true
     </select>
 
 </mapper>

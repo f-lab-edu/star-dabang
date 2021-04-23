@@ -17,7 +17,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class MemberFunctionService {
+public class MenuService {
 
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
@@ -37,7 +37,7 @@ public class MemberFunctionService {
 
     @Cacheable(value = CacheName.PRODUCT, key = "#categoryId")
     public List<ProductData> getProductsByCategoryId(int categoryId) {
-        return productRepository.findAllByCategoryId(categoryId);
+        return productRepository.findAllByCategoryIdAndActive(categoryId);
     }
 
 }

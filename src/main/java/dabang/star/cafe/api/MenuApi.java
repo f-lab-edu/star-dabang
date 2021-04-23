@@ -1,6 +1,6 @@
 package dabang.star.cafe.api;
 
-import dabang.star.cafe.application.MemberFunctionService;
+import dabang.star.cafe.application.MenuService;
 import dabang.star.cafe.application.data.ProductData;
 import dabang.star.cafe.application.data.TypeCategoryData;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +12,9 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-public class MemberFunctionApi {
+public class MenuApi {
 
-    private final MemberFunctionService memberFunctionService;
+    private final MenuService menuService;
 
     /**
      * 사용자가 주문을 하기전 카테고리를 조회
@@ -23,7 +23,7 @@ public class MemberFunctionApi {
      */
     @GetMapping("/categories")
     public List<TypeCategoryData> getAllCategories() {
-        return memberFunctionService.getAllCategories();
+        return menuService.getAllCategories();
     }
 
     /**
@@ -34,7 +34,7 @@ public class MemberFunctionApi {
      */
     @GetMapping("/categories/{categoryId}/products")
     public List<ProductData> getProductsByCategoryId(@PathVariable int categoryId) {
-        return memberFunctionService.getProductsByCategoryId(categoryId);
+        return menuService.getProductsByCategoryId(categoryId);
     }
 
 }

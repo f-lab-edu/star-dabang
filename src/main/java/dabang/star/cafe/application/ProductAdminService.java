@@ -28,6 +28,7 @@ import javax.validation.ValidationException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -118,10 +119,10 @@ public class ProductAdminService {
 
         // 상품에 존재하는 옵션인지 확인
         Product product = productUpdateCommand.toProduct(categoryId, productId);
-        List<Long> optionId = productData.getOptions().stream().map(ProductOptionData::getOptionId).collect(Collectors.toList());
+        Set<Long> optionIdSet = productData.getOptions().stream().map(ProductOptionData::getOptionId).collect(Collectors.toSet());
         product.getOptions().forEach(option -> {
             long id = option.getOptionId();
-            if (!optionId.contains(id)) {
+            if (!optionIdSet.contains(id)) {
                 throw new ResourceNotFoundException("option id does not exist for update : " + id);
             }
         });
