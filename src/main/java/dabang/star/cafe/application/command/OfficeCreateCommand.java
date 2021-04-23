@@ -1,5 +1,6 @@
 package dabang.star.cafe.application.command;
 
+import dabang.star.cafe.domain.office.Location;
 import dabang.star.cafe.domain.office.Office;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -32,9 +33,8 @@ public class OfficeCreateCommand {
         return Office.builder()
                 .name(name)
                 .address(address)
-                .latitude(latitude)
-                .longitude(longitude)
+                .location(new Location(longitude, latitude))
                 .build();
     }
-    
+
 }

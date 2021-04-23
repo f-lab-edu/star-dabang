@@ -1,6 +1,8 @@
 package dabang.star.cafe.infrastructure.repository;
 
 import dabang.star.cafe.application.data.OfficeData;
+import dabang.star.cafe.application.data.OfficeSearchData;
+import dabang.star.cafe.domain.office.Location;
 import dabang.star.cafe.domain.office.Office;
 import dabang.star.cafe.domain.office.OfficeRepository;
 import dabang.star.cafe.infrastructure.mapper.OfficeMapper;
@@ -52,5 +54,10 @@ public class MybatisOfficeRepository implements OfficeRepository {
         List<OfficeData> officeDataList = officeMapper.getByPagination(size, pagination.getOffset());
 
         return Page.from(officeDataList, totalCount, size, pagination.getPage());
+    }
+
+    @Override
+    public List<OfficeSearchData> findNearByLineString(Location curLoc, String lineString) {
+        return officeMapper.getByLineString(curLoc, lineString);
     }
 }
