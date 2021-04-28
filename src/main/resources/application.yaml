@@ -26,10 +26,12 @@ spring:
   cache:
     type: redis
 
-cloud:
-  aws:
-    s3:
-      bucket: star-dabang
+  cloud:
+    gcp:
+      credentials:
+        location: classpath:gcp-credentials.json
+      storage:
+        bucket: star-dabang
 
   redis:
     host: localhost

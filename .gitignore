@@ -6,6 +6,8 @@ build/
 !**/src/test/**/build/
 
 aws.yaml
+gcp-credentials.json
+!upload/.keep
 
 ### STS ###
 .apt_generated
