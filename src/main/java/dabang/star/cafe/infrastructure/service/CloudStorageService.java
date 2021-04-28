@@ -43,7 +43,7 @@ public class CloudStorageService implements UploadService {
     private String putStorage(Path uploadFilePath, String fileName) throws IOException {
         BlobId blobId = BlobId.of(bucket, fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
-                .setAcl(List.of(Acl.of(Acl.User.ofAllUsers(),Acl.Role.READER)))
+                .setAcl(List.of(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER)))
                 .build();
 
         Blob createdBlob = storage.create(blobInfo, Files.readAllBytes(uploadFilePath));
