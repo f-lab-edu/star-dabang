@@ -58,19 +58,17 @@ public class MenuService {
                 .map(ProductOptionData::getOptionId)
                 .collect(Collectors.toSet());
 
-        Set<String> optionIds = myMenuCreateCommand.getOptionInfo().keySet();
+        Set<Long> optionIds = myMenuCreateCommand.getOptionInfo().keySet();
 
         if (findOptionIds.size() != optionIds.size()) {
             throw new ResourceNotFoundException("options not match");
         }
 
-        optionIds.stream()
-                .mapToLong(Long::parseLong)
-                .forEach(optionId -> {
-                    if (!findOptionIds.contains(optionId)) {
-                        throw new ResourceNotFoundException("option id does not exist : " + optionId);
-                    }
-                });
+        for (long optionId : optionIds) {
+            if (!findOptionIds.contains(optionId)) {
+                throw new ResourceNotFoundException("option id does not exist : " + optionId);
+            }
+        }
 
         MyMenu myMenu = myMenuCreateCommand.toMyMenu(memberId);
         myMenuRepository.save(myMenu);

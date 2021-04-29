@@ -19,7 +19,7 @@ public class MyMenu {
 
     private Long memberId;
 
-    private Map<String, Integer> optionInfo;
+    private Map<Long, Integer> optionInfo;
 
 }
 

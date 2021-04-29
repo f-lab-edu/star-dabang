@@ -25,7 +25,7 @@ public class MyMenuCreateCommand {
     @Positive(message = "invalid product id")
     private Long productId;
 
-    private final Map<String, Integer> optionInfo = new HashMap<>();
+    private final Map<Long, Integer> optionInfo = new HashMap<>();
 
     public MyMenu toMyMenu(long memberId) {
         return MyMenu.builder()
