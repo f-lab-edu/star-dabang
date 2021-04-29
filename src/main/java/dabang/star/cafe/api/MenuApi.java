@@ -40,15 +40,19 @@ public class MenuApi {
         return menuService.getProductsByCategoryId(categoryId);
     }
 
+    /**
+     * 나의 메뉴 등록
+     *
+     * @param myMenuCreateCommand (나의 메뉴 이름, 상품, 상품 옵션)
+     * @param memberId            (현재 요청하는 회원의 ID)
+     */
     @LoginCheck
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/members/my-menu")
+    @PostMapping("/members/my-menus")
     public void registerMyMenu(@Valid @RequestBody MyMenuCreateCommand myMenuCreateCommand,
                                @SessionId Long memberId) {
 
-        System.out.println(myMenuCreateCommand);
         menuService.createMyMenu(memberId, myMenuCreateCommand);
-
     }
 
 }
