@@ -57,12 +57,6 @@ spring:
     redis:
       namespace: star_dabang:session
 
-cloud:
-  aws:
-    s3:
-      bucket: star-dabang
-
-
 mybatis:
   mapper-locations: classpath:mybatis-mapper/**/*.xml
   type-aliases-package: dabang.star.cafe.domain, dabang.star.cafe.application.data
