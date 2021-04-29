@@ -16,6 +16,7 @@ import dabang.star.cafe.utils.CacheName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,7 @@ public class MenuService {
         return productRepository.findAllByCategoryIdAndActive(categoryId);
     }
 
+    @Transactional
     public void createMyMenu(long memberId, MyMenuCreateCommand myMenuCreateCommand) {
         Long productId = myMenuCreateCommand.getProductId();
         ProductData productData = productRepository.findById(productId).orElseThrow(
