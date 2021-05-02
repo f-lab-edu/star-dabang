@@ -1,6 +1,7 @@
 package dabang.star.cafe.infrastructure.mybatis;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dabang.star.cafe.application.exception.ParseException;
 import org.apache.ibatis.type.BaseTypeHandler;
@@ -10,34 +11,35 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
-public class MapJsonTypeHandler extends BaseTypeHandler<Map<Long, Integer>> {
+public class MapJsonTypeHandler extends BaseTypeHandler<Object> {
 
     private static final ObjectMapper mapper = new ObjectMapper();
+    private static final TypeReference<Map<Long, Integer>> mapTypeReference = new TypeReference<>() {
+    };
 
     @Override
-    public void setNonNullParameter(PreparedStatement ps, int i, Map<Long, Integer> parameter, JdbcType jdbcType) throws SQLException {
-        ps.setString(i, mapToJson(parameter));
+    public void setNonNullParameter(PreparedStatement ps, int i, Object parameter, JdbcType jdbcType) throws SQLException {
+        ps.setString(i, toJson(parameter));
     }
 
     @Override
     public Map<Long, Integer> getNullableResult(ResultSet rs, String columnName) throws SQLException {
-        return jsonToMap(rs.getString(columnName));
+        return toMap(rs.getString(columnName));
     }
 
     @Override
     public Map<Long, Integer> getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
-        return jsonToMap(rs.getString(columnIndex));
+        return toMap(rs.getString(columnIndex));
     }
 
     @Override
     public Map<Long, Integer> getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
-        return jsonToMap(cs.getString(columnIndex));
+        return toMap(cs.getString(columnIndex));
     }
 
-    private String mapToJson(Map<Long, Integer> object) {
+    private String toJson(Object object) {
         try {
             return mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
@@ -45,10 +47,10 @@ public class MapJsonTypeHandler extends BaseTypeHandler<Map<Long, Integer>> {
         }
     }
 
-    private Map<Long, Integer> jsonToMap(String content) {
+    private Map<Long, Integer> toMap(String content) {
         if (content != null && !content.isEmpty()) {
             try {
-                return mapper.readValue(content, HashMap.class);
+                return mapper.readValue(content, mapTypeReference);
             } catch (JsonProcessingException e) {
                 throw new ParseException(e);
             }
