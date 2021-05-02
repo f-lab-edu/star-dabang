@@ -22,4 +22,15 @@ public class ProductOptionData {
 
     private Integer maxQuantity;
 
+    public int calcOptionPrice(int quantity) {
+        int optionPrice = 0;
+        int diffQuantity = quantity - this.originQuantity;
+        if (diffQuantity > 0) {
+            optionPrice = diffQuantity * this.optionPrice;
+        }
+        this.presentQuantity = quantity;
+
+        return optionPrice;
+    }
+
 }
