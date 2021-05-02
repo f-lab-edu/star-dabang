@@ -28,6 +28,8 @@ public class ProductData {
     private List<ProductOptionData> options;
 
     public void calcPrice(Map<Long, Integer> myMenuOptions) {
+        if (this.options == null || myMenuOptions == null) return;
+
         int additionOptionPrice = 0;
         for (ProductOptionData option : this.options) {
             int myMenuOptionQuantity = myMenuOptions.get(option.getOptionId());
