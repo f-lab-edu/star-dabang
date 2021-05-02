@@ -62,9 +62,10 @@
     <select id="getProductOptionById" resultType="ProductOptionData">
         SELECT po.product_id   AS productId,
                po.option_id    AS optionId,
-               po.quantity     AS quantity,
-               ao.option_name  AS optionName,
+               po.quantity     AS presentQuantity,
+               po.quantity     AS originQuantity,
                ao.max_quantity AS maxQuantity,
+               ao.option_name  AS optionName,
                ao.option_price AS optionPrice
         FROM product_option po
                  JOIN additional_option ao on ao.option_id = po.option_id

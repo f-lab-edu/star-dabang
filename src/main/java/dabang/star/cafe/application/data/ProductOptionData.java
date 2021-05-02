@@ -16,7 +16,9 @@ public class ProductOptionData {
 
     private Integer optionPrice;
 
-    private Integer quantity;
+    private Integer originQuantity;
+
+    private Integer presentQuantity;
 
     private Integer maxQuantity;
 
