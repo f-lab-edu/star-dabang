@@ -4,6 +4,7 @@ import dabang.star.cafe.api.aop.LoginCheck;
 import dabang.star.cafe.api.aop.SessionId;
 import dabang.star.cafe.application.MenuService;
 import dabang.star.cafe.application.command.MyMenuCreateCommand;
+import dabang.star.cafe.application.data.MyMenuInfoData;
 import dabang.star.cafe.application.data.ProductData;
 import dabang.star.cafe.application.data.TypeCategoryData;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +54,18 @@ public class MenuApi {
                                @SessionId Long memberId) {
 
         menuService.createMyMenu(memberId, myMenuCreateCommand);
+    }
+
+    /**
+     * 나의 메뉴 조회
+     *
+     * @param memberId (현재 요청하는 회원의 ID)
+     * @return (나의 메뉴 목록)
+     */
+    @LoginCheck
+    @GetMapping("/members/my-menus")
+    public List<MyMenuInfoData> getMyMenu(@SessionId Long memberId) {
+        return menuService.getMyMenu(memberId);
     }
 
 }

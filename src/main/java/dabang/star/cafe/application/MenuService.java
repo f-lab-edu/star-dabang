@@ -1,10 +1,7 @@
 package dabang.star.cafe.application;
 
 import dabang.star.cafe.application.command.MyMenuCreateCommand;
-import dabang.star.cafe.application.data.CategoryData;
-import dabang.star.cafe.application.data.ProductData;
-import dabang.star.cafe.application.data.ProductOptionData;
-import dabang.star.cafe.application.data.TypeCategoryData;
+import dabang.star.cafe.application.data.*;
 import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.category.CategoryRepository;
 import dabang.star.cafe.domain.category.CategoryType;
@@ -74,6 +71,31 @@ public class MenuService {
 
         MyMenu myMenu = myMenuCreateCommand.toMyMenu(memberId);
         myMenuRepository.save(myMenu);
+    }
+
+    @Transactional(readOnly = true)
+    public List<MyMenuInfoData> getMyMenu(long memberId) {
+        List<MyMenuInfoData> myMenuInfoData = new ArrayList<>();
+        List<MyMenuData> myMenus = myMenuRepository.findAllByMemberId(memberId);
+
+        if (!myMenus.isEmpty()) {
+            List<Long> productIds = myMenus.stream()
+                    .map(MyMenuData::getProductId)
+                    .collect(Collectors.toList());
+            List<ProductData> productData = productRepository.findByIds(productIds);
+
+            for (MyMenuData myMenu : myMenus) {
+                for (ProductData product : productData) {
+                    if (myMenu.getProductId() == product.getId()) {
+                        product.calcPrice(myMenu.getOptionInfo());
+                        myMenuInfoData.add(new MyMenuInfoData(myMenu.getId(), myMenu.getName(), product));
+                        break;
+                    }
+                }
+            }
+        }
+
+        return myMenuInfoData;
     }
 
 }
