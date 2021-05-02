@@ -28,4 +28,6 @@ public interface ProductMapper {
 
     Optional<ProductData> getById(long productId);
 
+    List<ProductData> getByIds(List<Long> productIds);
+
 }

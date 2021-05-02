@@ -122,4 +122,20 @@
         WHERE product_id = #{productId}
     </select>
 
+    <select id="getByIds" resultMap="productResult">
+        SELECT product_id,
+        product_name,
+        category_id,
+        price,
+        description,
+        image,
+        is_active
+        FROM product
+        WHERE product_id IN (
+        <foreach collection="productIds" item="productId" separator=",">
+            #{productId}
+        </foreach>
+        )
+    </select>
+
 </mapper>
