@@ -33,7 +33,7 @@ public class ProductOptionData implements Cloneable {
         try {
             return (ProductOptionData) super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new RuntimeException("ProductOptionData failed clone");
+            throw new RuntimeException(e);
         }
     }
 

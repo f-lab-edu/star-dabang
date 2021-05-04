@@ -44,7 +44,7 @@ public class ProductData implements Cloneable {
         try {
             productData = (ProductData) super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new RuntimeException("ProductData failed clone");
+            throw new RuntimeException(e);
         }
 
         if (this.options != null) {
