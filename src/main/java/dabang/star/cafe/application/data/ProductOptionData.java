@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ProductOptionData {
+public class ProductOptionData implements Cloneable {
 
     private Long productId;
 
@@ -23,14 +23,18 @@ public class ProductOptionData {
     private Integer maxQuantity;
 
     public int calcOptionPrice(int quantity) {
-        int optionPrice = 0;
-        int diffQuantity = quantity - this.originQuantity;
-        if (diffQuantity > 0) {
-            optionPrice = diffQuantity * this.optionPrice;
-        }
         this.presentQuantity = quantity;
+        int diffQuantity = quantity - this.originQuantity;
+        return diffQuantity > 0 ? diffQuantity * this.optionPrice : 0;
+    }
 
-        return optionPrice;
+    @Override
+    public ProductOptionData clone() {
+        try {
+            return (ProductOptionData) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("ProductOptionData failed clone");
+        }
     }
 
 }

@@ -3,13 +3,15 @@ package dabang.star.cafe.application.data;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ProductData {
+public class ProductData implements Cloneable {
 
     private Long id;
 
@@ -25,17 +27,33 @@ public class ProductData {
 
     private Boolean isActive;
 
+    @Setter
     private List<ProductOptionData> options;
 
     public void calcPrice(Map<Long, Integer> myMenuOptions) {
-        if (this.options == null || myMenuOptions == null) return;
-
-        int additionOptionPrice = 0;
-        for (ProductOptionData option : this.options) {
-            int myMenuOptionQuantity = myMenuOptions.get(option.getOptionId());
-            additionOptionPrice += option.calcOptionPrice(myMenuOptionQuantity);
+        if (this.options != null && myMenuOptions != null) {
+            this.price += this.options.stream()
+                    .mapToInt(o -> o.calcOptionPrice(myMenuOptions.get(o.getOptionId())))
+                    .sum();
         }
-        this.price += additionOptionPrice;
     }
 
+    @Override
+    public ProductData clone() {
+        ProductData productData;
+        try {
+            productData = (ProductData) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("ProductData failed clone");
+        }
+
+        if (this.options != null) {
+            List<ProductOptionData> copyOptions = this.options.stream()
+                    .map(ProductOptionData::clone)
+                    .collect(Collectors.toList());
+            productData.setOptions(copyOptions);
+        }
+
+        return productData;
+    }
 }

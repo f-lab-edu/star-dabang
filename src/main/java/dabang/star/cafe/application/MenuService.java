@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -80,19 +81,20 @@ public class MenuService {
 
         if (!myMenus.isEmpty()) {
             List<Long> productIds = myMenus.stream()
-                    .map(MyMenuData::getProductId)
+                    .map(MyMenuData::getId)
+                    .distinct()
                     .collect(Collectors.toList());
-            List<ProductData> productData = productRepository.findByIds(productIds);
 
-            for (MyMenuData myMenu : myMenus) {
-                for (ProductData product : productData) {
-                    if (myMenu.getProductId() == product.getId()) {
-                        product.calcPrice(myMenu.getOptionInfo());
-                        myMenuInfoData.add(new MyMenuInfoData(myMenu.getId(), myMenu.getName(), product));
-                        break;
-                    }
-                }
-            }
+            Map<Long, ProductData> productDataMap = productRepository.findByIds(productIds)
+                    .stream()
+                    .collect(Collectors.toMap(ProductData::getId, productData -> productData));
+
+
+            myMenus.stream().map(myMenu -> {
+                ProductData product = productDataMap.get(myMenu.getProductId()).clone();
+                product.calcPrice(myMenu.getOptionInfo());
+                return new MyMenuInfoData(myMenu.getId(), myMenu.getName(), product);
+            }).forEach(myMenuInfoData::add);
         }
 
         return myMenuInfoData;
