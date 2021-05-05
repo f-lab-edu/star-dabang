@@ -1,10 +1,10 @@
 package dabang.star.cafe.application.data;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProductOptionData implements Cloneable {
 
@@ -28,13 +28,16 @@ public class ProductOptionData implements Cloneable {
         return diffQuantity > 0 ? diffQuantity * this.optionPrice : 0;
     }
 
-    @Override
-    public ProductOptionData clone() {
-        try {
-            return (ProductOptionData) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
-        }
+    public ProductOptionData copy() {
+        return ProductOptionData.builder()
+                .productId(this.productId)
+                .optionId(this.optionId)
+                .optionName(this.optionName)
+                .optionPrice(this.optionPrice)
+                .originQuantity(this.originQuantity)
+                .presentQuantity(this.presentQuantity)
+                .maxQuantity(this.maxQuantity)
+                .build();
     }
 
 }

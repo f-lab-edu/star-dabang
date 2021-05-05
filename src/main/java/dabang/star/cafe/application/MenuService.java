@@ -81,7 +81,7 @@ public class MenuService {
 
         if (!myMenus.isEmpty()) {
             List<Long> productIds = myMenus.stream()
-                    .map(MyMenuData::getId)
+                    .map(MyMenuData::getProductId)
                     .distinct()
                     .collect(Collectors.toList());
 
@@ -91,7 +91,7 @@ public class MenuService {
 
 
             myMenus.stream().map(myMenu -> {
-                ProductData product = productDataMap.get(myMenu.getProductId()).clone();
+                ProductData product = productDataMap.get(myMenu.getProductId()).copy();
                 product.calcPrice(myMenu.getOptionInfo());
                 return new MyMenuInfoData(myMenu.getId(), myMenu.getName(), product);
             }).forEach(myMenuInfoData::add);
