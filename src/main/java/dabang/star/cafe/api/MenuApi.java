@@ -1,13 +1,16 @@
 package dabang.star.cafe.api;
 
+import dabang.star.cafe.api.aop.LoginCheck;
+import dabang.star.cafe.api.aop.SessionId;
 import dabang.star.cafe.application.MenuService;
+import dabang.star.cafe.application.command.MyMenuCreateCommand;
 import dabang.star.cafe.application.data.ProductData;
 import dabang.star.cafe.application.data.TypeCategoryData;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -35,6 +38,21 @@ public class MenuApi {
     @GetMapping("/categories/{categoryId}/products")
     public List<ProductData> getProductsByCategoryId(@PathVariable int categoryId) {
         return menuService.getProductsByCategoryId(categoryId);
+    }
+
+    /**
+     * 나의 메뉴 등록
+     *
+     * @param myMenuCreateCommand (나의 메뉴 이름, 상품, 상품 옵션)
+     * @param memberId            (현재 요청하는 회원의 ID)
+     */
+    @LoginCheck
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/members/my-menus")
+    public void registerMyMenu(@Valid @RequestBody MyMenuCreateCommand myMenuCreateCommand,
+                               @SessionId Long memberId) {
+
+        menuService.createMyMenu(memberId, myMenuCreateCommand);
     }
 
 }

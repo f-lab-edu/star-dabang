@@ -144,6 +144,23 @@ public class CustomExceptionHandler {
         return response;
     }
 
+    /**
+     * 데이터 변환중 예외발생에 대한 처리를 하며 Http Status 500을 반환한다.
+     */
+    @ExceptionHandler(ParseException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleParseException(ParseException e) {
+
+        ErrorResponse response = ErrorResponse.builder()
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .message(e.getMessage())
+                .build();
+
+        log.warn("Data parsing error", e);
+
+        return response;
+    }
+
     @Getter
     @Builder
     public static class ErrorResponse {

@@ -109,4 +109,16 @@
           AND is_active = true
     </select>
 
+    <select id="getById" resultMap="productResult">
+        SELECT product_id,
+               product_name,
+               category_id,
+               price,
+               description,
+               image,
+               is_active
+        FROM product
+        WHERE product_id = #{productId}
+    </select>
+
 </mapper>
