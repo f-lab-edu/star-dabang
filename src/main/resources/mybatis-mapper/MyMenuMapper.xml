@@ -8,7 +8,18 @@
                 #{optionInfo, typeHandler=dabang.star.cafe.infrastructure.mybatis.MapJsonTypeHandler})
     </insert>
 
-    <select id="getAllByMemberId" resultMap="myMenuResult">
+    <update id="update" keyProperty="id">
+        UPDATE my_menu
+        <set>
+            <if test="name != null">my_menu_name = #{name},</if>
+            <if test="optionInfo != null">
+                option_info = #{optionInfo, typeHandler=dabang.star.cafe.infrastructure.mybatis.MapJsonTypeHandler},
+            </if>
+        </set>
+        WHERE my_menu_id = #{id}
+    </update>
+
+    <select id="getAllByMemberId" resultMap="myMenuDataResult">
         SELECT my_menu_id,
                my_menu_name,
                product_id,
@@ -17,10 +28,29 @@
         WHERE member_id = #{memberId}
     </select>
 
-    <resultMap id="myMenuResult" type="MyMenuData">
+    <resultMap id="myMenuDataResult" type="MyMenuData">
         <result property="id" column="my_menu_id"/>
         <result property="name" column="my_menu_name"/>
         <result property="productId" column="product_id"/>
+        <result property="optionInfo" column="option_info" javaType="Map"
+                typeHandler="dabang.star.cafe.infrastructure.mybatis.MapJsonTypeHandler"/>
+    </resultMap>
+
+    <select id="getById" resultMap="myMenuResult">
+        SELECT my_menu_id,
+               my_menu_name,
+               product_id,
+               member_id,
+               option_info
+        FROM my_menu
+        WHERE my_menu_id = #{myMenuId}
+    </select>
+
+    <resultMap id="myMenuResult" type="MyMenu">
+        <result property="id" column="my_menu_id"/>
+        <result property="name" column="my_menu_name"/>
+        <result property="productId" column="product_id"/>
+        <result property="memberId" column="member_id"/>
         <result property="optionInfo" column="option_info" javaType="Map"
                 typeHandler="dabang.star.cafe.infrastructure.mybatis.MapJsonTypeHandler"/>
     </resultMap>
