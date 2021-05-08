@@ -96,13 +96,13 @@ public class MenuService {
         if (findMyMenu.getMemberId() != memberId) {
             throw new NoAuthorizationException("no authorization");
         }
-        ProductData productData = productRepository.findById(findMyMenu.getProductId()).orElseThrow(
-                () -> new ResourceNotFoundException("product does not exist : " + findMyMenu.getProductId())
-        );
-
         if (myMenuUpdateCommand.getOptionInfo() != null) {
+            ProductData productData = productRepository.findById(findMyMenu.getProductId()).orElseThrow(
+                    () -> new ResourceNotFoundException("product does not exist : " + findMyMenu.getProductId())
+            );
             validMyMenuOptions(productData.getOptions(), myMenuUpdateCommand.getOptionInfo());
         }
+
         MyMenu myMenu = myMenuUpdateCommand.toMyMenu(findMyMenu.getId(), findMyMenu.getMemberId(), findMyMenu.getProductId());
         myMenuRepository.save(myMenu);
     }
