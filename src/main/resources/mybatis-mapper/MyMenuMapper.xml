@@ -55,4 +55,11 @@
                 typeHandler="dabang.star.cafe.infrastructure.mybatis.MapJsonTypeHandler"/>
     </resultMap>
 
+    <delete id="deleteByIdAndMemberId">
+        DELETE
+        FROM my_menu
+        WHERE my_menu_id = #{myMenuId}
+          AND member_id = #{memberId}
+    </delete>
+
 </mapper>

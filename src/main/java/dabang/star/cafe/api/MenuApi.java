@@ -84,4 +84,17 @@ public class MenuApi {
         menuService.updateMyMenu(myMenuUpdateCommand, myMenuId, memberId);
     }
 
+    /**
+     * 나의 메뉴 삭제
+     *
+     * @param myMenuId (삭제할 나의 메뉴 ID)
+     * @param memberId (현재 요청하는 회원의 ID)
+     */
+    @LoginCheck
+    @DeleteMapping("/members/my-menus/{myMenuId}")
+    public void deleteMyMenu(@PathVariable long myMenuId,
+                             @SessionId Long memberId) {
+        menuService.deleteMyMenu(myMenuId, memberId);
+    }
+
 }

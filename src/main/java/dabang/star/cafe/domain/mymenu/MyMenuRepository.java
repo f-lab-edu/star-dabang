@@ -13,4 +13,6 @@ public interface MyMenuRepository {
 
     Optional<MyMenu> findById(long myMenuId);
 
+    int deleteByIdAndMemberId(long myMenuId, long memberId);
+
 }

@@ -36,4 +36,9 @@ public class MybatisMyMenuRepository implements MyMenuRepository {
         return myMenuMapper.getById(myMenuId);
     }
 
+    @Override
+    public int deleteByIdAndMemberId(long myMenuId, long memberId) {
+        return myMenuMapper.deleteByIdAndMemberId(myMenuId, memberId);
+    }
+
 }

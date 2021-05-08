@@ -123,4 +123,10 @@ public class MenuService {
         }
     }
 
+    public void deleteMyMenu(long myMenuId, long memberId) {
+        if (myMenuRepository.deleteByIdAndMemberId(myMenuId, memberId) == 0) {
+            throw new ResourceNotFoundException("my menu id does not exists : " + myMenuId);
+        }
+    }
+
 }

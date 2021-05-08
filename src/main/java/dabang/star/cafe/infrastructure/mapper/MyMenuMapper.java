@@ -17,4 +17,7 @@ public interface MyMenuMapper {
     List<MyMenuData> getAllByMemberId(long memberId);
 
     Optional<MyMenu> getById(long myMenuId);
+
+    int deleteByIdAndMemberId(long myMenuId, long memberId);
+
 }
