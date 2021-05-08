@@ -88,6 +88,7 @@ public class MenuService {
         return myMenuInfoData;
     }
 
+    @Transactional
     public void updateMyMenu(MyMenuUpdateCommand myMenuUpdateCommand, long myMenuId, long memberId) {
         MyMenu findMyMenu = myMenuRepository.findById(myMenuId).orElseThrow(
                 () -> new ResourceNotFoundException("my menu does not exist : " + myMenuId)
