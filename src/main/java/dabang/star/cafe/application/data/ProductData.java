@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ProductData implements Cloneable {
+public class ProductData {
 
     private Long id;
 

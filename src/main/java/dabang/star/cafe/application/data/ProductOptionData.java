@@ -6,7 +6,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ProductOptionData implements Cloneable {
+public class ProductOptionData {
 
     private Long productId;
 
