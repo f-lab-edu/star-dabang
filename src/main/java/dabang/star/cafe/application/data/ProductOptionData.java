@@ -18,13 +18,13 @@ public class ProductOptionData {
 
     private Integer originQuantity;
 
+    @Setter
     private Integer presentQuantity;
 
     private Integer maxQuantity;
 
-    public int calcOptionPrice(int quantity) {
-        this.presentQuantity = quantity;
-        int diffQuantity = quantity - this.originQuantity;
+    public int calcOptionPrice() {
+        int diffQuantity = this.presentQuantity - this.originQuantity;
         return diffQuantity > 0 ? diffQuantity * this.optionPrice : 0;
     }
 

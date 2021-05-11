@@ -31,8 +31,10 @@ public class ProductData {
     public void calcPrice(Map<Long, Integer> myMenuOptions) {
         if (this.options != null && myMenuOptions != null) {
             this.price += this.options.stream()
-                    .mapToInt(o -> o.calcOptionPrice(myMenuOptions.get(o.getOptionId())))
-                    .sum();
+                    .mapToInt(o -> {
+                        o.setPresentQuantity(myMenuOptions.get(o.getOptionId()));
+                        return o.calcOptionPrice();
+                    }).sum();
         }
     }
 
