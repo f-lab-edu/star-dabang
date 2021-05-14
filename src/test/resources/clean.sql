@@ -1,3 +1,5 @@
+DELETE FROM order_product;
+DELETE FROM orders;
 DELETE FROM my_menu;
 DELETE FROM office_stock;
 DELETE FROM product_option;
