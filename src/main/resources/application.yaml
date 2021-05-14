@@ -50,6 +50,20 @@ spring:
     activate:
       on-profile: test
 
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=MySQL;
+    username: sa
+    schema: classpath:schema-h2.sql
+    data: classpath:data-test.sql
+    initialization-mode: always
+
+  cloud:
+    gcp:
+      credentials:
+        location: classpath:gcp-credentials.json
+      storage:
+        bucket: star-dabang
+
   session:
     store-type: redis
     redis:
