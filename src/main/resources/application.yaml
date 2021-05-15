@@ -91,6 +91,7 @@ spring:
     gcp:
       storage:
         bucket: star-dabang
+      project-id: turnkey-energy-312111
 
 mybatis:
   mapper-locations: classpath:mybatis-mapper/**/*.xml
