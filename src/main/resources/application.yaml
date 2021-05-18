@@ -60,7 +60,7 @@ spring:
   cloud:
     gcp:
       credentials:
-        location: classpath:gcp-credentials.json
+        location: file:/home/zw/.config/gcloud/application_default_credentials.json
       storage:
         bucket: star-dabang
 
