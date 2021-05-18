@@ -1,0 +1,36 @@
+spring:
+  profiles:
+    active: dev
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  cloud:
+    gcp:
+      secretmanager:
+        enabled: false
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  cloud:
+    gcp:
+      secretmanager:
+        enabled: false
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  cloud:
+    gcp:
+      secretmanager:
+        enabled: true
+
