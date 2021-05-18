@@ -79,6 +79,17 @@ spring:
     activate:
       on-profile: prod
 
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://10.174.0.10:3306/stardabangdb?characterEncoding=utf8
+    username: ${sm://db-username/1}
+    password: ${sm://db-password/1}
+
+  redis:
+    host: 10.174.0.21
+    port: 6379
+    password: ${sm://redis-password/1}
+
   session:
     store-type: redis
     redis:
