@@ -1,12 +1,14 @@
 package dabang.star.cafe.application.data;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProductData {
 
@@ -25,5 +27,32 @@ public class ProductData {
     private Boolean isActive;
 
     private List<ProductOptionData> options;
+
+    public void calcPrice(Map<Long, Integer> myMenuOptions) {
+        if (this.options != null && myMenuOptions != null) {
+            this.price += this.options.stream()
+                    .mapToInt(o -> {
+                        o.setPresentQuantity(myMenuOptions.get(o.getOptionId()));
+                        return o.calcOptionPrice();
+                    }).sum();
+        }
+    }
+
+    public ProductData copy() {
+        List<ProductOptionData> copyOptions = this.options.stream()
+                .map(ProductOptionData::copy)
+                .collect(Collectors.toList());
+
+        return ProductData.builder()
+                .id(this.id)
+                .name(this.name)
+                .categoryId(this.categoryId)
+                .price(this.price)
+                .description(this.description)
+                .image(this.image)
+                .isActive(this.isActive)
+                .options(copyOptions)
+                .build();
+    }
 
 }

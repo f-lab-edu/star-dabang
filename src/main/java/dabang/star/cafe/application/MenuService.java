@@ -1,10 +1,7 @@
 package dabang.star.cafe.application;
 
 import dabang.star.cafe.application.command.MyMenuCreateCommand;
-import dabang.star.cafe.application.data.CategoryData;
-import dabang.star.cafe.application.data.ProductData;
-import dabang.star.cafe.application.data.ProductOptionData;
-import dabang.star.cafe.application.data.TypeCategoryData;
+import dabang.star.cafe.application.data.*;
 import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.category.CategoryRepository;
 import dabang.star.cafe.domain.category.CategoryType;
@@ -20,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -74,6 +72,32 @@ public class MenuService {
 
         MyMenu myMenu = myMenuCreateCommand.toMyMenu(memberId);
         myMenuRepository.save(myMenu);
+    }
+
+    @Transactional(readOnly = true)
+    public List<MyMenuInfoData> getMyMenu(long memberId) {
+        List<MyMenuInfoData> myMenuInfoData = new ArrayList<>();
+        List<MyMenuData> myMenus = myMenuRepository.findAllByMemberId(memberId);
+
+        if (!myMenus.isEmpty()) {
+            List<Long> productIds = myMenus.stream()
+                    .map(MyMenuData::getProductId)
+                    .distinct()
+                    .collect(Collectors.toList());
+
+            Map<Long, ProductData> productDataMap = productRepository.findByIds(productIds)
+                    .stream()
+                    .collect(Collectors.toMap(ProductData::getId, productData -> productData));
+
+
+            myMenus.stream().map(myMenu -> {
+                ProductData product = productDataMap.get(myMenu.getProductId()).copy();
+                product.calcPrice(myMenu.getOptionInfo());
+                return new MyMenuInfoData(myMenu.getId(), myMenu.getName(), product);
+            }).forEach(myMenuInfoData::add);
+        }
+
+        return myMenuInfoData;
     }
 
 }
