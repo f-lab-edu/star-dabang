@@ -5,8 +5,12 @@ import dabang.star.cafe.application.command.OptionCreateCommand;
 import dabang.star.cafe.application.command.OptionUpdateCommand;
 import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.option.Option;
+import dabang.star.cafe.utils.SessionKey;
 import dabang.star.cafe.utils.page.Page;
 import dabang.star.cafe.utils.page.Pagination;
+import io.restassured.RestAssured;
+import io.restassured.config.RestAssuredConfig;
+import io.restassured.config.SessionConfig;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -44,6 +48,8 @@ class OptionAdminApiTest {
 
     @BeforeEach
     void setUp() {
+//        SessionConfig sessionConfig = new SessionConfig(SessionKey.LOGIN_ID, "root");
+//        RestAssured.config().sessionConfig(sessionConfig);
         RestAssuredMockMvc.mockMvc(mockMvc);
     }
 
@@ -52,17 +58,17 @@ class OptionAdminApiTest {
     void successfulCreateOptionTest() {
 
         OptionCreateCommand optionCreateCommand = new OptionCreateCommand(OPTION_NAME, PRICE, MAX_QUANTITY);
-        Option newOption = new Option(1, OPTION_NAME, PRICE, MAX_QUANTITY);
+        Option newOption = new Option(1L, OPTION_NAME, PRICE, MAX_QUANTITY);
 
         when(optionAdminService.createOption(any(OptionCreateCommand.class))).thenReturn(newOption);
 
         RestAssuredMockMvc
-                .given()
+                .given().log().all()
                 .contentType(APPLICATION_JSON_VALUE)
                 .body(optionCreateCommand, JACKSON_2)
                 .when()
-                .post("/options")
-                .then()
+                .post("/admin/options")
+                .then().log().all()
                 .body("id", equalTo(1))
                 .body("name", equalTo("새로운 옵션"))
                 .body("price", equalTo(100))
@@ -81,7 +87,7 @@ class OptionAdminApiTest {
                 .contentType(APPLICATION_JSON_VALUE)
                 .body(optionCreateCommand, JACKSON_2)
                 .when()
-                .post("/options")
+                .post("/admin/options")
                 .then()
                 .statusCode(UNPROCESSABLE_ENTITY.value())
                 .body("message", equalTo("not valid price"))
@@ -98,7 +104,7 @@ class OptionAdminApiTest {
                 .contentType(APPLICATION_JSON_VALUE)
                 .body(optionCreateCommand, JACKSON_2)
                 .when()
-                .post("/options")
+                .post("/admin/options")
                 .then()
                 .statusCode(UNPROCESSABLE_ENTITY.value())
                 .body("message", equalTo("blank price"))
@@ -115,7 +121,7 @@ class OptionAdminApiTest {
                 .contentType(APPLICATION_JSON_VALUE)
                 .body(optionCreateCommand, JACKSON_2)
                 .when()
-                .post("/options")
+                .post("/admin/options")
                 .then()
                 .statusCode(UNPROCESSABLE_ENTITY.value())
                 .body("message", equalTo("not valid max quantity"))
@@ -132,7 +138,7 @@ class OptionAdminApiTest {
                 .contentType(APPLICATION_JSON_VALUE)
                 .body(optionCreateCommand, JACKSON_2)
                 .when()
-                .post("/options")
+                .post("/admin/options")
                 .then()
                 .statusCode(UNPROCESSABLE_ENTITY.value())
                 .body("message", equalTo("blank max quantity"))
@@ -147,7 +153,7 @@ class OptionAdminApiTest {
                 .thenThrow(new ResourceNotFoundException("No options were found"));
 
         RestAssuredMockMvc.when()
-                .get("/options")
+                .get("/admin/options")
                 .then()
                 .statusCode(NOT_FOUND.value())
                 .body("message", equalTo("No options were found"))
@@ -159,14 +165,14 @@ class OptionAdminApiTest {
     void successGetOptionTest() {
 
         List<Option> response = new ArrayList<>();
-        response.add(new Option(1, OPTION_NAME, PRICE, MAX_QUANTITY));
+        response.add(new Option(1L, OPTION_NAME, PRICE, MAX_QUANTITY));
         Page<Option> page = new Page<>(response, response.size(), DEFAULT_SIZE, DEFAULT_PAGE);
 
         when(optionAdminService.getAllOption(any(Pagination.class)))
                 .thenReturn(page);
 
         RestAssuredMockMvc.when()
-                .get("/options")
+                .get("/admin/options")
                 .then()
                 .statusCode(OK.value())
                 .body("content[0].id", equalTo(1))
@@ -179,13 +185,13 @@ class OptionAdminApiTest {
     @Test
     void successUpdateOptionTest() {
 
-        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(1, OPTION_NAME, PRICE, MAX_QUANTITY);
+        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(1L, OPTION_NAME, PRICE, MAX_QUANTITY);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
                 .body(optionUpdateCommand, JACKSON_2)
                 .when()
-                .patch("/options")
+                .patch("/admin/options")
                 .then()
                 .statusCode(OK.value());
 
@@ -202,7 +208,7 @@ class OptionAdminApiTest {
                 .contentType(APPLICATION_JSON_VALUE)
                 .body(optionUpdateCommand, JACKSON_2)
                 .when()
-                .patch("/options")
+                .patch("/admin/options")
                 .then()
                 .statusCode(UNPROCESSABLE_ENTITY.value())
                 .body("message", equalTo("blank option id"))
@@ -213,13 +219,13 @@ class OptionAdminApiTest {
     @Test
     void notBlankNameUpdateOptionTest() {
 
-        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(1, null, PRICE, MAX_QUANTITY);
+        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(1L, null, PRICE, MAX_QUANTITY);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
                 .body(optionUpdateCommand, JACKSON_2)
                 .when()
-                .patch("/options")
+                .patch("/admin/options")
                 .then()
                 .statusCode(UNPROCESSABLE_ENTITY.value())
                 .body("message", equalTo("blank option name"))
@@ -230,13 +236,13 @@ class OptionAdminApiTest {
     @Test
     void notNullPriceUpdateOptionTest() {
 
-        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(1, OPTION_NAME, null, MAX_QUANTITY);
+        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(1L, OPTION_NAME, null, MAX_QUANTITY);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
                 .body(optionUpdateCommand, JACKSON_2)
                 .when()
-                .patch("/options")
+                .patch("/admin/options")
                 .then()
                 .statusCode(UNPROCESSABLE_ENTITY.value())
                 .body("message", equalTo("blank option price"))
@@ -247,13 +253,13 @@ class OptionAdminApiTest {
     @Test
     void notPositivePriceUpdateOptionTest() {
 
-        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(1, OPTION_NAME, -100, MAX_QUANTITY);
+        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(1L, OPTION_NAME, -100, MAX_QUANTITY);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
                 .body(optionUpdateCommand, JACKSON_2)
                 .when()
-                .patch("/options")
+                .patch("/admin/options")
                 .then()
                 .statusCode(UNPROCESSABLE_ENTITY.value())
                 .body("message", equalTo("not valid option price"))
@@ -264,13 +270,13 @@ class OptionAdminApiTest {
     @Test
     void notPositiveMaxQuantityUpdateOptionTest() {
 
-        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(1, OPTION_NAME, PRICE, -10);
+        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(1L, OPTION_NAME, PRICE, -10);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
                 .body(optionUpdateCommand, JACKSON_2)
                 .when()
-                .patch("/options")
+                .patch("/admin/options")
                 .then()
                 .statusCode(UNPROCESSABLE_ENTITY.value())
                 .body("message", equalTo("not valid option max quantity"))
@@ -281,13 +287,13 @@ class OptionAdminApiTest {
     @Test
     void notNullMaxQuantityUpdateOptionTest() {
 
-        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(1, OPTION_NAME, PRICE, null);
+        OptionUpdateCommand optionUpdateCommand = new OptionUpdateCommand(1L, OPTION_NAME, PRICE, null);
 
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
                 .body(optionUpdateCommand, JACKSON_2)
                 .when()
-                .patch("/options")
+                .patch("/admin/options")
                 .then()
                 .statusCode(UNPROCESSABLE_ENTITY.value())
                 .body("message", equalTo("blank option max quantity"))
@@ -307,7 +313,7 @@ class OptionAdminApiTest {
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
                 .when()
-                .delete("/options/1")
+                .delete("/admin/options/1")
                 .then()
                 .statusCode(NOT_FOUND.value())
                 .body("message", equalTo("option not found"))
@@ -323,7 +329,7 @@ class OptionAdminApiTest {
         RestAssuredMockMvc.given()
                 .contentType(APPLICATION_JSON_VALUE)
                 .when()
-                .delete("/options/1")
+                .delete("/admin/options/1")
                 .then()
                 .statusCode(OK.value());
 

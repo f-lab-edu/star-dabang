@@ -45,11 +45,11 @@ dependencies {
     // lo4j2 설정 파일을 yaml 파일로 작성하기 위한 의존성 추가 (설정 파일 형식은 XML, JSON, YAML, Properties 로 작성 가능)
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
 
-    // GCP 관련 의존성 추가
-    implementation 'com.google.cloud:spring-cloud-gcp-starter:2.0.2'
-
     // GCP Storage 관련 의존성 추가
-    implementation 'com.google.cloud:spring-cloud-gcp-storage:2.0.2'
+    implementation 'com.google.cloud:spring-cloud-gcp-starter-storage:2.0.2'
+
+    // GCP Secret Manager 관련 의존성 추가
+    implementation 'com.google.cloud:spring-cloud-gcp-starter-secretmanager:2.0.2'
 
     // JDK 9+ SE 에서 제외된 JAXB 의존성 추가 (URL 참고)
     // https://github.com/aws/aws-sdk-java/blob/6a086cfd3e26f74592cf3a7cb96f43e51654a926/aws-java-sdk-core/src/main/java/com/amazonaws/util/Base64.java#L67

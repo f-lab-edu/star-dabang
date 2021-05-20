@@ -7,7 +7,6 @@ spring:
   config:
     activate:
       on-profile: dev
-    import: optional:aws.yaml
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -50,7 +49,20 @@ spring:
   config:
     activate:
       on-profile: test
-    import: optional:aws.yaml
+
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=MySQL;
+    username: sa
+    schema: classpath:schema-h2.sql
+    data: classpath:data-test.sql
+    initialization-mode: always
+
+  cloud:
+    gcp:
+      credentials:
+        location: file:/home/zw/.config/gcloud/application_default_credentials.json
+      storage:
+        bucket: star-dabang
 
   session:
     store-type: redis
@@ -70,9 +82,13 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://10.174.0.10:3306/stardabangdb?characterEncoding=utf8
-    username: appuser
-    password: apppass
-    initialization-mode: never
+    username: ${sm://db-username/1}
+    password: ${sm://db-password/1}
+
+  redis:
+    host: 10.174.0.21
+    port: 6379
+    password: ${sm://redis-password/1}
 
   session:
     store-type: redis
@@ -84,15 +100,9 @@ spring:
 
   cloud:
     gcp:
-      credentials:
-        location: classpath:gcp-credentials.json
       storage:
         bucket: star-dabang
-
-  redis:
-    host: localhost
-    #    host: 172.18.0.2
-    port: 6379
+      project-id: turnkey-energy-312111
 
 mybatis:
   mapper-locations: classpath:mybatis-mapper/**/*.xml
