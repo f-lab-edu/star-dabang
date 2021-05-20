@@ -15,10 +15,10 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.ValidationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -54,21 +54,7 @@ public class MenuService {
                 () -> new ResourceNotFoundException("product id does not exist : " + productId)
         );
 
-        Set<Long> findOptionIds = productData.getOptions().stream()
-                .map(ProductOptionData::getOptionId)
-                .collect(Collectors.toSet());
-
-        Set<Long> optionIds = myMenuCreateCommand.getOptionInfo().keySet();
-
-        if (findOptionIds.size() != optionIds.size()) {
-            throw new ResourceNotFoundException("options not match");
-        }
-
-        for (long optionId : optionIds) {
-            if (!findOptionIds.contains(optionId)) {
-                throw new ResourceNotFoundException("option id does not exist : " + optionId);
-            }
-        }
+        validMyMenuOptions(productData.getOptions(), myMenuCreateCommand.getOptionInfo());
 
         MyMenu myMenu = myMenuCreateCommand.toMyMenu(memberId);
         myMenuRepository.save(myMenu);
@@ -89,7 +75,6 @@ public class MenuService {
                     .stream()
                     .collect(Collectors.toMap(ProductData::getId, productData -> productData));
 
-
             myMenus.stream().map(myMenu -> {
                 ProductData product = productDataMap.get(myMenu.getProductId()).copy();
                 product.calcPrice(myMenu.getOptionInfo());
@@ -98,6 +83,28 @@ public class MenuService {
         }
 
         return myMenuInfoData;
+    }
+
+    private void validMyMenuOptions(List<ProductOptionData> productOptions, Map<Long, Integer> myMenuOptionInfo) {
+        if (myMenuOptionInfo.size() != productOptions.size()) {
+            throw new ResourceNotFoundException("options not match");
+        }
+
+        for (ProductOptionData option : productOptions) {
+            long optionId = option.getOptionId();
+            if (!myMenuOptionInfo.containsKey(optionId)) {
+                throw new ResourceNotFoundException("option id does not exist : " + optionId);
+            }
+            if (option.getMaxQuantity() < myMenuOptionInfo.get(optionId)) {
+                throw new ValidationException("not valid quantity by option id : " + optionId + " max quantity : " + option.getMaxQuantity());
+            }
+        }
+    }
+
+    public void deleteMyMenu(long myMenuId, long memberId) {
+        if (myMenuRepository.deleteByIdAndMemberId(myMenuId, memberId) == 0) {
+            throw new ResourceNotFoundException("my menu id does not exists : " + myMenuId);
+        }
     }
 
 }

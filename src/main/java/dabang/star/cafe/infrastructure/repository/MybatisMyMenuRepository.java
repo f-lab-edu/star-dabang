@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
@@ -20,12 +21,24 @@ public class MybatisMyMenuRepository implements MyMenuRepository {
 
         if (myMenu.getId() == null) {
             myMenuMapper.insert(myMenu);
+        } else {
+            myMenuMapper.update(myMenu);
         }
     }
 
     @Override
     public List<MyMenuData> findAllByMemberId(long memberId) {
         return myMenuMapper.getAllByMemberId(memberId);
+    }
+
+    @Override
+    public Optional<MyMenu> findById(long myMenuId) {
+        return myMenuMapper.getById(myMenuId);
+    }
+
+    @Override
+    public int deleteByIdAndMemberId(long myMenuId, long memberId) {
+        return myMenuMapper.deleteByIdAndMemberId(myMenuId, memberId);
     }
 
 }

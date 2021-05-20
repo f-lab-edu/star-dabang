@@ -49,7 +49,7 @@ public class MenuApi {
      */
     @LoginCheck
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/members/my-menus")
+    @PostMapping("/my-menus")
     public void registerMyMenu(@Valid @RequestBody MyMenuCreateCommand myMenuCreateCommand,
                                @SessionId Long memberId) {
 
@@ -63,9 +63,22 @@ public class MenuApi {
      * @return (나의 메뉴 목록)
      */
     @LoginCheck
-    @GetMapping("/members/my-menus")
+    @GetMapping("/my-menus")
     public List<MyMenuInfoData> getMyMenu(@SessionId Long memberId) {
         return menuService.getMyMenu(memberId);
+    }
+
+    /**
+     * 나의 메뉴 삭제
+     *
+     * @param myMenuId (삭제할 나의 메뉴 ID)
+     * @param memberId (현재 요청하는 회원의 ID)
+     */
+    @LoginCheck
+    @DeleteMapping("/my-menus/{myMenuId}")
+    public void deleteMyMenu(@PathVariable long myMenuId,
+                             @SessionId Long memberId) {
+        menuService.deleteMyMenu(myMenuId, memberId);
     }
 
 }
