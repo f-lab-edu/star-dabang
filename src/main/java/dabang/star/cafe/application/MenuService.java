@@ -1,9 +1,7 @@
 package dabang.star.cafe.application;
 
 import dabang.star.cafe.application.command.MyMenuCreateCommand;
-import dabang.star.cafe.application.command.MyMenuUpdateCommand;
 import dabang.star.cafe.application.data.*;
-import dabang.star.cafe.application.exception.NoAuthorizationException;
 import dabang.star.cafe.application.exception.ResourceNotFoundException;
 import dabang.star.cafe.domain.category.CategoryRepository;
 import dabang.star.cafe.domain.category.CategoryType;
@@ -77,7 +75,6 @@ public class MenuService {
                     .stream()
                     .collect(Collectors.toMap(ProductData::getId, productData -> productData));
 
-
             myMenus.stream().map(myMenu -> {
                 ProductData product = productDataMap.get(myMenu.getProductId()).copy();
                 product.calcPrice(myMenu.getOptionInfo());
@@ -86,26 +83,6 @@ public class MenuService {
         }
 
         return myMenuInfoData;
-    }
-
-    @Transactional
-    public void updateMyMenu(MyMenuUpdateCommand myMenuUpdateCommand, long myMenuId, long memberId) {
-        MyMenu findMyMenu = myMenuRepository.findById(myMenuId).orElseThrow(
-                () -> new ResourceNotFoundException("my menu does not exist : " + myMenuId)
-        );
-
-        if (findMyMenu.getMemberId() != memberId) {
-            throw new NoAuthorizationException("no authorization");
-        }
-        if (myMenuUpdateCommand.getOptionInfo() != null) {
-            ProductData productData = productRepository.findById(findMyMenu.getProductId()).orElseThrow(
-                    () -> new ResourceNotFoundException("product does not exist : " + findMyMenu.getProductId())
-            );
-            validMyMenuOptions(productData.getOptions(), myMenuUpdateCommand.getOptionInfo());
-        }
-
-        MyMenu myMenu = myMenuUpdateCommand.toMyMenu(findMyMenu.getId(), findMyMenu.getMemberId(), findMyMenu.getProductId());
-        myMenuRepository.save(myMenu);
     }
 
     private void validMyMenuOptions(List<ProductOptionData> productOptions, Map<Long, Integer> myMenuOptionInfo) {

@@ -4,7 +4,6 @@ import dabang.star.cafe.api.aop.LoginCheck;
 import dabang.star.cafe.api.aop.SessionId;
 import dabang.star.cafe.application.MenuService;
 import dabang.star.cafe.application.command.MyMenuCreateCommand;
-import dabang.star.cafe.application.command.MyMenuUpdateCommand;
 import dabang.star.cafe.application.data.MyMenuInfoData;
 import dabang.star.cafe.application.data.ProductData;
 import dabang.star.cafe.application.data.TypeCategoryData;
@@ -67,21 +66,6 @@ public class MenuApi {
     @GetMapping("/my-menus")
     public List<MyMenuInfoData> getMyMenu(@SessionId Long memberId) {
         return menuService.getMyMenu(memberId);
-    }
-
-    /**
-     * 나의 메뉴 수정
-     *
-     * @param myMenuUpdateCommand (수정하려는 나의 메뉴 이름, 나의 메뉴 옵션 정보)
-     * @param myMenuId            (수정하려는 나의 메뉴 ID)
-     * @param memberId            (현재 요청하는 회원의 ID)
-     */
-    @LoginCheck
-    @PatchMapping("/my-menus/{myMenuId}")
-    public void updateMyMenu(@Valid @RequestBody MyMenuUpdateCommand myMenuUpdateCommand,
-                             @PathVariable long myMenuId,
-                             @SessionId Long memberId) {
-        menuService.updateMyMenu(myMenuUpdateCommand, myMenuId, memberId);
     }
 
     /**
