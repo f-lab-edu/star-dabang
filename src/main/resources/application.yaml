@@ -81,7 +81,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://10.174.0.10:3306/stardabangdb?characterEncoding=utf8
+    url: jdbc:mysql://10.174.0.10:16033/stardabangdb?characterEncoding=utf8
     username: ${sm://db-username/1}
     password: ${sm://db-password/1}
 
