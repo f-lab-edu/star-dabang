@@ -44,6 +44,9 @@ mybatis:
 logging:
   config: classpath:log4j2.yaml
 
+firebase:
+  config: star-dabang-firebase-adminsdk.json
+
 ---
 spring:
   config:

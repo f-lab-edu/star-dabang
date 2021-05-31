@@ -8,6 +8,7 @@ build/
 aws.yaml
 gcp-credentials.json
 !upload/.keep
+star-dabang-firebase-adminsdk.json
 
 ### STS ###
 .apt_generated
