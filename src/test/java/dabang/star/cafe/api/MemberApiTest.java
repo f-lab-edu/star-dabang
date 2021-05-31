@@ -1,11 +1,12 @@
 package dabang.star.cafe.api;
 
-import dabang.star.cafe.application.exception.DuplicatedException;
 import dabang.star.cafe.application.MemberService;
 import dabang.star.cafe.application.command.SignUpCommand;
 import dabang.star.cafe.application.data.MemberData;
+import dabang.star.cafe.application.exception.DuplicatedException;
 import dabang.star.cafe.domain.authentication.MemberLoginService;
 import dabang.star.cafe.domain.member.Member;
+import dabang.star.cafe.domain.push.PushService;
 import io.restassured.mapper.ObjectMapperType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,6 +45,9 @@ class MemberApiTest {
 
     @MockBean
     MemberLoginService memberLoginService;
+
+    @MockBean
+    PushService pushService;
 
     @BeforeEach
     void before() {

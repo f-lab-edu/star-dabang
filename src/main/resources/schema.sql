@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS token;
 DROP TABLE IF EXISTS order_product;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS my_menu;
@@ -129,7 +130,6 @@ CREATE TABLE orders
     FOREIGN KEY (office_id) REFERENCES office (office_id) ON DELETE CASCADE
 );
 
-
 CREATE TABLE order_product
 (
     order_product_id BIGINT             NOT NULL AUTO_INCREMENT,
@@ -142,4 +142,14 @@ CREATE TABLE order_product
     PRIMARY KEY (order_product_id),
     FOREIGN KEY (order_id) REFERENCES orders (order_id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES product (product_id) ON DELETE CASCADE
+);
+
+CREATE TABLE token
+(
+    token_id   BIGINT       NOT NULL AUTO_INCREMENT,
+    member_id  BIGINT       NOT NULL,
+    token_info VARCHAR(255) NOT NULL,
+
+    PRIMARY KEY (token_id),
+    FOREIGN KEY (member_id) REFERENCES member (member_id) ON DELETE CASCADE
 );

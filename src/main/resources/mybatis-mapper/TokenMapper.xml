@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dabang.star.cafe.infrastructure.mapper.ProductOptionMapper">
+
+    <insert id="insert">
+        INSERT INTO token(member_id, token_info)
+        VALUES (#{memberId}, #{token})
+    </insert>
+
+    <update id="update">
+        UPDATE token
+        SET token_info = #{token}
+        WHERE member_id = #{memberId}
+    </update>
+
+    <select id="getTokenByMemberId">
+        SELECT token_info
+        FROM token
+        WHERE member_id = #{memberId}
+    </select>
+
+    <select id="getByMemberId">
+        SELECT token_id, member_id, token_info
+        FROM token
+        WHERE member_id = #{memberId}
+    </select>
+
+</mapper>

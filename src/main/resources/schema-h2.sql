@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS token;
 DROP TABLE IF EXISTS order_product;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS my_menu;
@@ -28,7 +29,7 @@ CREATE TABLE office
     office_id   MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
     office_name VARCHAR(50)        NOT NULL,
     address     VARCHAR(255)       NOT NULL,
-    location    GEOMETRY(POINT)              NOT NULL,
+    location    GEOMETRY( POINT) NOT NULL,
 
     PRIMARY KEY (office_id)
 );
@@ -141,4 +142,14 @@ CREATE TABLE order_product
     PRIMARY KEY (order_product_id),
     FOREIGN KEY (order_id) REFERENCES orders (order_id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES product (product_id) ON DELETE CASCADE
+);
+
+CREATE TABLE token
+(
+    token_id   BIGINT       NOT NULL AUTO_INCREMENT,
+    member_id  BIGINT       NOT NULL,
+    token_info VARCHAR(255) NOT NULL,
+
+    PRIMARY KEY (token_id),
+    FOREIGN KEY (member_id) REFERENCES member (member_id) ON DELETE CASCADE
 );
