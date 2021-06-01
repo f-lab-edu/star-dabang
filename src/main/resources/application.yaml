@@ -76,6 +76,9 @@ mybatis:
   mapper-locations: classpath:mybatis-mapper/**/*.xml
   type-aliases-package: dabang.star.cafe.domain, dabang.star.cafe.application.data
 
+firebase:
+  config: file:/home/zw/.config/gcloud/star-dabang-firebase-adminsdk.json
+
 ---
 spring:
   config:
