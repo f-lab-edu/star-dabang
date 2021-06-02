@@ -33,7 +33,7 @@ public class FCMConfig {
                 this.firebaseApp = FirebaseApp.getInstance();
             }
         } catch (IOException e) {
-            log.warn("Firebase Error", e);
+            throw new RuntimeException(e);
         }
     }
 
