@@ -110,3 +110,8 @@ mybatis:
 
 logging:
   config: classpath:log4j2.yaml
+
+iamport:
+  client:
+    api-key: ${sm://iamport-api-key/1}
+    api-secret: ${sm://iamport-api-secret/1}
