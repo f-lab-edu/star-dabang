@@ -12,6 +12,7 @@
 * OpenJDK 11
 * Spring Boot 2.4 + Gradle
 * MySQL 5.7 + MyBatis
+* ProxySQL + Orchestrator
 * Redis 5.0
 * Log4j2
 * Jenkins
