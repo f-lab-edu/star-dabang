@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dabang.star.cafe.infrastructure.mapper.OrderMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO orders (member_id, office_id, order_time, approve_time, completion_time)
+        VALUES (#{memberId}, #{officeId}, #{orderTime}, #{approveTime}, #{completionTime});
+    </insert>
+
+    <update id="update" keyProperty="id">
+        UPDATE orders
+        <set>
+            <if test="approveTime != null">approve_time=#{approveTime},</if>
+            <if test="completionTime != null">completion_time=#{completionTime},</if>
+        </set>
+        WHERE order_id=#{id}
+    </update>
+
+    <select id="getById" resultType="dabang.star.cafe.domain.order.Order">
+        SELECT order_id, member_id, office_id, order_time, approve_time, completion_time
+        FROM orders
+        where order_id = #{id}
+    </select>
+
+    <delete id="removeById">
+        DELETE
+        FROM orders
+        where order_id = #{id}
+    </delete>
+
+</mapper>

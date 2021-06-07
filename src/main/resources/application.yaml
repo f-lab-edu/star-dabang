@@ -44,6 +44,11 @@ mybatis:
 logging:
   config: classpath:log4j2.yaml
 
+iamport:
+  client:
+    api-key: 7636272751264663
+    api-secret: b7alQD4yjscAfplLxAmZe0moWxZDSu93CkpsXu1hWdRcDcXaNka1kwqh4pUWU40wopZlT0CPdu1QHZ0u
+
 ---
 spring:
   config:
@@ -72,6 +77,11 @@ spring:
 mybatis:
   mapper-locations: classpath:mybatis-mapper/**/*.xml
   type-aliases-package: dabang.star.cafe.domain, dabang.star.cafe.application.data
+
+iamport:
+  client:
+    api-key: 7636272751264663
+    api-secret: b7alQD4yjscAfplLxAmZe0moWxZDSu93CkpsXu1hWdRcDcXaNka1kwqh4pUWU40wopZlT0CPdu1QHZ0u
 
 ---
 spring:
@@ -110,3 +120,8 @@ mybatis:
 
 logging:
   config: classpath:log4j2.yaml
+
+iamport:
+  client:
+    api-key: ${sm://iamport-api-key/1}
+    api-secret: ${sm://iamport-api-secret/1}
