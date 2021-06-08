@@ -16,6 +16,8 @@ VALUES ('신논현점', '서울시 서초구 강남대로 465', GeomFromText('PO
 
 INSERT INTO manager(office_id, name, passwd, role)
 VALUES (1, 'root', SHA2('root', 256), 'ADMIN');
+INSERT INTO manager(office_id, name, passwd, role)
+VALUES (1, 'manager', SHA2('manager', 256), 'MANAGER');
 
 INSERT INTO additional_option(option_name, option_price, max_quantity)
 VALUES ('옵션1', 100, 10);

@@ -20,4 +20,7 @@ public interface ManagerRepository {
     Page<ManagerData> findAll(Pagination pagination);
 
     List<ManagerData> findByName(String name);
+
+    Optional<String> findTokenById(long id);
+
 }

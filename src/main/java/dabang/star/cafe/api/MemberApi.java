@@ -3,11 +3,12 @@ package dabang.star.cafe.api;
 import dabang.star.cafe.api.aop.LoginCheck;
 import dabang.star.cafe.api.aop.SessionId;
 import dabang.star.cafe.api.request.MemberLoginRequest;
+import dabang.star.cafe.api.request.TokenRequest;
 import dabang.star.cafe.application.MemberService;
 import dabang.star.cafe.application.command.SignUpCommand;
 import dabang.star.cafe.application.data.MemberData;
 import dabang.star.cafe.domain.authentication.MemberLoginService;
-import dabang.star.cafe.domain.push.PushService;
+import dabang.star.cafe.domain.service.PushService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -58,8 +59,8 @@ public class MemberApi {
 
     @LoginCheck
     @PostMapping("/token")
-    public void registerToken(String token, @SessionId Long id) {
-        pushService.saveToken(id, token);
+    public void registerToken(@RequestBody TokenRequest tokenRequest, @SessionId Long id) {
+        pushService.registerMemberToken(id, tokenRequest.getToken());
     }
 
 }

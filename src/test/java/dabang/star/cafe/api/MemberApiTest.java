@@ -6,7 +6,7 @@ import dabang.star.cafe.application.data.MemberData;
 import dabang.star.cafe.application.exception.DuplicatedException;
 import dabang.star.cafe.domain.authentication.MemberLoginService;
 import dabang.star.cafe.domain.member.Member;
-import dabang.star.cafe.domain.push.PushService;
+import dabang.star.cafe.domain.service.PushService;
 import io.restassured.mapper.ObjectMapperType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;

@@ -50,4 +50,10 @@ public class MybatisMemberRepository implements MemberRepository {
     public void deleteById(long id) {
         memberMapper.removeById(id);
     }
+
+    @Override
+    public Optional<String> findTokenById(long id) {
+        return memberMapper.getTokenById(id);
+    }
+
 }

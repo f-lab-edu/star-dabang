@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS token;
 DROP TABLE IF EXISTS order_product;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS my_menu;
@@ -19,6 +18,7 @@ CREATE TABLE member
     phone     VARCHAR(25)  NOT NULL,
     nickname  VARCHAR(125) NOT NULL,
     birth     VARCHAR(10)  NOT NULL,
+    token     VARCHAR(255),
 
     PRIMARY KEY (member_id),
     UNIQUE INDEX IDX_MEMBERS (email)
@@ -42,6 +42,7 @@ CREATE TABLE manager
     name       VARCHAR(20)        NOT NULL,
     passwd     VARCHAR(255)       NOT NULL,
     role       VARCHAR(10)        NOT NULL,
+    token      VARCHAR(255),
 
     PRIMARY KEY (manager_id),
     FOREIGN KEY (office_id) REFERENCES office (office_id)
@@ -142,14 +143,4 @@ CREATE TABLE order_product
     PRIMARY KEY (order_product_id),
     FOREIGN KEY (order_id) REFERENCES orders (order_id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES product (product_id) ON DELETE CASCADE
-);
-
-CREATE TABLE token
-(
-    token_id   BIGINT       NOT NULL AUTO_INCREMENT,
-    member_id  BIGINT       NOT NULL,
-    token_info VARCHAR(255) NOT NULL,
-
-    PRIMARY KEY (token_id),
-    FOREIGN KEY (member_id) REFERENCES member (member_id) ON DELETE CASCADE
 );
