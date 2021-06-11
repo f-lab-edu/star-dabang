@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dabang.star.cafe.infrastructure.mapper.OrderProductMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO order_product (order_id, product_id, quantity, option_info, price)
+        VALUES (#{orderId}, #{productId}, #{quantity}, #{optionInfo,javaType=Map,typeHandler=dabang.star.cafe.infrastructure.mybatis.MapJsonTypeHandler}, #{price});
+    </insert>
+
+    <update id="update" keyProperty="id">
+        UPDATE order_product
+        <set>
+            <if test="productId != null">product_id=#{productId},</if>
+            <if test="quantity != null">quantity=#{quantity},</if>
+            <if test="option_info != null">option_info=#{optionInfo,javaType=Map,typeHandler=dabang.star.cafe.infrastructure.mybatis.MapJsonTypeHandler},</if>
+        </set>
+        WHERE order_product_id=#{id}
+    </update>
+
+    <select id="addAllPriceByOrderId" resultType="long">
+        SELECT SUM(o.price)
+        FROM order_product o
+        WHERE o.order_id = #{orderId}
+    </select>
+
+    <select id="getById" resultType="OrderProduct">
+        SELECT order_product_id,
+               order_id,
+               product_id,
+               quantity,
+               option_info,
+               price
+        FROM order_product
+        WHERE order_product_id = ${id}
+    </select>
+
+</mapper>

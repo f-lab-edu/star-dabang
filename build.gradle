@@ -21,6 +21,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -60,6 +61,9 @@ dependencies {
 
     // WGS-84 기반 지리 공간 계산 라이브러리 의존성 추가
     implementation 'org.locationtech.spatial4j:spatial4j:0.8'
+
+    // 아임포트 결제 모듈 의존성 추가
+    implementation 'com.github.iamport:iamport-rest-client-java:0.2.15'
 
     // MySQL 의존성 추가
     runtimeOnly 'mysql:mysql-connector-java'
