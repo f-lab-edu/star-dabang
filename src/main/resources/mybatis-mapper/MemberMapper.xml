@@ -13,6 +13,7 @@
             <if test="password != null">passwd=#{password},</if>
             <if test="nickname != null">nickname=#{nickname},</if>
             <if test="telephone != null">phone=#{telephone},</if>
+            <if test="token != null">token=#{token}</if>
         </set>
         WHERE member_id=#{id}
     </update>
@@ -46,5 +47,11 @@
         FROM member
         WHERE member_id = #{id}
     </delete>
+
+    <select id="getTokenById" resultType="String">
+        SELECT m.token
+        FROM member m
+        WHERE member_id = #{id}
+    </select>
 
 </mapper>

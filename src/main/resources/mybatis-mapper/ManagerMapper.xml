@@ -10,17 +10,12 @@
     <update id="update" keyProperty="id">
         UPDATE manager
         <set>
-            <if test="officeId != null">
-                office_id=#{officeId},
-            </if>
-            <if test="password != null">
-                passwd=#{password},
-            </if>
-            <if test="role != null">
-                role=#{role,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
-            </if>
+            <if test="officeId != null">office_id=#{officeId},</if>
+            <if test="password != null">passwd=#{password},</if>
+            <if test="role != null">role=#{role,typeHandler=org.apache.ibatis.type.EnumTypeHandler},</if>
+            <if test="token!=null">token=#{token}</if>
         </set>
-        where manager_id=#{id}
+        WHERE manager_id=#{id}
     </update>
 
     <delete id="removeById">
@@ -70,6 +65,12 @@
     <select id="getCountAll" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM manager
+    </select>
+
+    <select id="getTokenById" resultType="String">
+        SELECT m.token
+        FROM manager m
+        WHERE m.manager_id = #{id}
     </select>
 
 </mapper>

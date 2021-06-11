@@ -18,6 +18,7 @@ CREATE TABLE member
     phone     VARCHAR(25)  NOT NULL,
     nickname  VARCHAR(125) NOT NULL,
     birth     VARCHAR(10)  NOT NULL,
+    token     VARCHAR(255),
 
     PRIMARY KEY (member_id),
     UNIQUE INDEX IDX_MEMBERS (email)
@@ -28,7 +29,7 @@ CREATE TABLE office
     office_id   MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
     office_name VARCHAR(50)        NOT NULL,
     address     VARCHAR(255)       NOT NULL,
-    location    GEOMETRY(POINT)              NOT NULL,
+    location    GEOMETRY( POINT) NOT NULL,
 
     PRIMARY KEY (office_id)
 );
@@ -40,6 +41,7 @@ CREATE TABLE manager
     name       VARCHAR(20)        NOT NULL,
     passwd     VARCHAR(255)       NOT NULL,
     role       VARCHAR(10)        NOT NULL,
+    token      VARCHAR(255),
 
     PRIMARY KEY (manager_id),
     FOREIGN KEY (office_id) REFERENCES office (office_id)

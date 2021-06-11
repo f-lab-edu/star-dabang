@@ -18,6 +18,7 @@ CREATE TABLE member
     phone     VARCHAR(25)  NOT NULL,
     nickname  VARCHAR(125) NOT NULL,
     birth     VARCHAR(10)  NOT NULL,
+    token     VARCHAR(255),
 
     PRIMARY KEY (member_id),
     UNIQUE INDEX IDX_MEMBERS (email)
@@ -41,6 +42,7 @@ CREATE TABLE manager
     name       VARCHAR(20)        NOT NULL,
     passwd     VARCHAR(255)       NOT NULL,
     role       VARCHAR(10)        NOT NULL,
+    token      VARCHAR(255),
 
     PRIMARY KEY (manager_id),
     FOREIGN KEY (office_id) REFERENCES office (office_id)
@@ -128,7 +130,6 @@ CREATE TABLE orders
     FOREIGN KEY (member_id) REFERENCES member (member_id) ON DELETE CASCADE,
     FOREIGN KEY (office_id) REFERENCES office (office_id) ON DELETE CASCADE
 );
-
 
 CREATE TABLE order_product
 (

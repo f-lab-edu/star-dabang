@@ -21,4 +21,6 @@ public class Member {
 
     private String birth;
 
+    private String token;
+
 }

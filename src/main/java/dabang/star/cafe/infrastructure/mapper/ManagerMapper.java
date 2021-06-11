@@ -1,7 +1,7 @@
 package dabang.star.cafe.infrastructure.mapper;
 
-import dabang.star.cafe.domain.manager.Manager;
 import dabang.star.cafe.application.data.ManagerData;
+import dabang.star.cafe.domain.manager.Manager;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,4 +26,7 @@ public interface ManagerMapper {
     List<ManagerData> getByPagination(int limit, int offset);
 
     List<ManagerData> getByName(@Param("name") String name);
+
+    Optional<String> getTokenById(long id);
+    
 }

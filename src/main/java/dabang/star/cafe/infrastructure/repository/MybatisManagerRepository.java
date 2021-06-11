@@ -58,4 +58,9 @@ public class MybatisManagerRepository implements ManagerRepository {
     public List<ManagerData> findByName(String name) {
         return managerMapper.getByName(name);
     }
+
+    @Override
+    public Optional<String> findTokenById(long id) {
+        return managerMapper.getTokenById(id);
+    }
 }

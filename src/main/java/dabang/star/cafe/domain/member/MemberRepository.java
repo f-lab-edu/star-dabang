@@ -17,4 +17,7 @@ public interface MemberRepository {
     Optional<MemberData> findById(long id);
 
     void deleteById(long id);
+
+    Optional<String> findTokenById(long id);
+
 }

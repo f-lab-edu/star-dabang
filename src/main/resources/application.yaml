@@ -49,6 +49,9 @@ iamport:
     api-key: 7636272751264663
     api-secret: b7alQD4yjscAfplLxAmZe0moWxZDSu93CkpsXu1hWdRcDcXaNka1kwqh4pUWU40wopZlT0CPdu1QHZ0u
 
+firebase:
+  config: star-dabang-firebase-adminsdk.json
+
 ---
 spring:
   config:
@@ -82,6 +85,9 @@ iamport:
   client:
     api-key: 7636272751264663
     api-secret: b7alQD4yjscAfplLxAmZe0moWxZDSu93CkpsXu1hWdRcDcXaNka1kwqh4pUWU40wopZlT0CPdu1QHZ0u
+
+firebase:
+  config: file:/home/zw/.config/gcloud/star-dabang-firebase-adminsdk.json
 
 ---
 spring:
@@ -125,3 +131,6 @@ iamport:
   client:
     api-key: ${sm://iamport-api-key/1}
     api-secret: ${sm://iamport-api-secret/1}
+
+firebase:
+  config: ${sm://firebase-admin/1}
