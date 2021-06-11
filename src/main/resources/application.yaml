@@ -131,3 +131,6 @@ iamport:
   client:
     api-key: ${sm://iamport-api-key/1}
     api-secret: ${sm://iamport-api-secret/1}
+
+firebase:
+  config: ${sm://firebase-admin/1}
