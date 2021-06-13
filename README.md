@@ -1,6 +1,6 @@
 # star-dabang
 
-![구성도](https://i.ibb.co/7KmwYNw/README.png)
+![구성도](https://i.ibb.co/QkYBVHb/README.png)
 
 ## ⚽ Project Goals
 * 스타벅스 어플리케이션을 모티브로 하여 만든 서버 API입니다.
@@ -16,4 +16,5 @@
 * Redis 5.0
 * Log4j2
 * Jenkins
+* Pinpoint, nGrinder
 * Google Cloud Platform (Compute Engine, Cloud Storge, Secret Manager)
