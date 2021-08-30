@@ -1,6 +1,6 @@
 # star-dabang
 
-![구성도](https://i.ibb.co/QkYBVHb/README.png)
+![구성도](https://github.com/f-lab-edu/star-dabang/blob/develop/README.png?raw=true)
 
 ## ⚽ Project Goals
 * 스타벅스 어플리케이션을 모티브로 하여 만든 서버 API입니다.
